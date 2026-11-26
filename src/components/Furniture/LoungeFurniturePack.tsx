@@ -23,168 +23,32 @@ import * as THREE from 'three';
  *    - Plant 3: Miniature Variegated Snake Plant in low faceted origami geometric ceramic pot
  */
 export const LoungeFurniturePack: React.FC = () => {
-  // Painting 1 Texture (Abstract Brown Oval & Balance Line on Cream)
+  const textureLoader = useMemo(() => new THREE.TextureLoader(), []);
+
+  // 1-4: 1:1 Original Sketchfab Artworks extracted from official Eli_ac model
   const painting1Texture = useMemo(() => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 340;
-    const ctx = canvas.getContext('2d')!;
+    const tex = textureLoader.load('/images/art/painting1.png');
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  }, [textureLoader]);
 
-    // Clean white inner mat border
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(0, 0, 512, 340);
-
-    // Warm parchment tan canvas background
-    ctx.fillStyle = '#E8DDD0';
-    ctx.fillRect(20, 20, 472, 300);
-
-    // Off-white soft background backing box
-    ctx.fillStyle = '#F5EFE6';
-    ctx.fillRect(50, 40, 412, 260);
-
-    // Architectural fine balance lines
-    ctx.strokeStyle = '#2B231D';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(170, 30);
-    ctx.lineTo(170, 310);
-    ctx.stroke();
-
-    ctx.strokeStyle = '#6B5444';
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-    ctx.moveTo(100, 170);
-    ctx.lineTo(430, 170);
-    ctx.stroke();
-
-    // Dark earthy brown organic ellipse in center
-    ctx.fillStyle = '#4D3425';
-    ctx.beginPath();
-    ctx.ellipse(220, 170, 95, 48, 0, 0, Math.PI * 2);
-    ctx.fill();
-
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    return texture;
-  }, []);
-
-  // Painting 2 Texture (Minimalist Continuous Looping Line Art)
   const painting2Texture = useMemo(() => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 340;
-    const ctx = canvas.getContext('2d')!;
+    const tex = textureLoader.load('/images/art/painting2.png');
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  }, [textureLoader]);
 
-    // White mat border
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(0, 0, 512, 340);
-
-    // Warm light tan canvas
-    ctx.fillStyle = '#E5D8C7';
-    ctx.fillRect(20, 20, 472, 300);
-
-    // Soft white rectangular backdrop in center
-    ctx.fillStyle = '#FAF7F2';
-    ctx.fillRect(80, 50, 352, 240);
-
-    // Delicate looping continuous line art (curved scribbles matching original)
-    ctx.strokeStyle = '#1F1B18';
-    ctx.lineWidth = 3.5;
-    ctx.beginPath();
-    ctx.moveTo(130, 230);
-    ctx.bezierCurveTo(110, 80, 240, 70, 260, 160);
-    ctx.bezierCurveTo(280, 250, 180, 260, 190, 140);
-    ctx.bezierCurveTo(200, 70, 370, 80, 380, 190);
-    ctx.bezierCurveTo(390, 270, 300, 260, 250, 230);
-    ctx.bezierCurveTo(170, 200, 140, 120, 230, 130);
-    ctx.stroke();
-
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    return texture;
-  }, []);
-
-  // Painting 3 Texture (Vertical Sweeping Bold Black S-Ribbon Stroke)
   const painting3Texture = useMemo(() => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 340;
-    canvas.height = 512;
-    const ctx = canvas.getContext('2d')!;
+    const tex = textureLoader.load('/images/art/painting3.png');
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  }, [textureLoader]);
 
-    // White mat border
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(0, 0, 340, 512);
-
-    // Soft warm grey background
-    ctx.fillStyle = '#E6E4E0';
-    ctx.fillRect(20, 20, 300, 472);
-
-    // Background textured grey wash arch
-    ctx.strokeStyle = '#D5D1CB';
-    ctx.lineWidth = 16;
-    ctx.beginPath();
-    ctx.arc(170, 256, 110, 0, Math.PI * 1.5);
-    ctx.stroke();
-
-    // Bold dynamic calligraphic black ribbon stroke (S-loop)
-    ctx.strokeStyle = '#141416';
-    ctx.lineWidth = 26;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    ctx.beginPath();
-    ctx.moveTo(70, 90);
-    ctx.bezierCurveTo(270, 60, 290, 230, 130, 240);
-    ctx.bezierCurveTo(50, 250, 70, 430, 250, 420);
-    ctx.stroke();
-
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    return texture;
-  }, []);
-
-  // Painting 4 Texture (Vertical Bauhaus/Modern Geometric Color Blocks)
   const painting4Texture = useMemo(() => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 340;
-    canvas.height = 512;
-    const ctx = canvas.getContext('2d')!;
-
-    // White mat border
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(0, 0, 340, 512);
-
-    // Clean white canvas background
-    ctx.fillStyle = '#F8F8F7';
-    ctx.fillRect(20, 20, 300, 472);
-
-    // Deep Navy vertical block column
-    ctx.fillStyle = '#324759';
-    ctx.fillRect(60, 70, 36, 370);
-
-    // Terracotta / rust-red accent rectangle in upper right
-    ctx.fillStyle = '#A33D2D';
-    ctx.fillRect(180, 90, 76, 80);
-
-    // Soft grey rectangular cross block
-    ctx.fillStyle = '#9FAAB2';
-    ctx.fillRect(80, 260, 130, 34);
-
-    // Light parchment balance block in lower quadrant
-    ctx.fillStyle = '#E2DDD4';
-    ctx.fillRect(160, 320, 100, 85);
-
-    // Fine architectural line
-    ctx.strokeStyle = '#222222';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(110, 60);
-    ctx.lineTo(110, 450);
-    ctx.stroke();
-
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    return texture;
-  }, []);
+    const tex = textureLoader.load('/images/art/painting4.png');
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  }, [textureLoader]);
 
   // 5. Photorealistic Snake Plant (Sansevieria) Leaf Texture (Broad, Flat, Variegated)
   const snakeLeafTexture = useMemo(() => {

@@ -65,16 +65,6 @@ export const INTERACTABLES: InteractableObject[] = [
     isPortfolioItem: true,
   },
   {
-    id: 'achievements',
-    label: 'Achievement Wall',
-    promptText: 'View Achievements',
-    position: [-1.10, 0.02, -0.40], // Approach on open rug facing feature wall
-    radius: 2.3,
-    sectionId: 'achievements',
-    kind: 'panel',
-    isPortfolioItem: true,
-  },
-  {
     id: 'memories',
     label: 'Memory Wall',
     promptText: 'Relive My Journey',

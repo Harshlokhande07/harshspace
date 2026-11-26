@@ -15,7 +15,6 @@ import { Plant } from '../Furniture/Plant';
 import { Rug } from '../Furniture/Rug';
 import { WindowFrame } from '../Furniture/WindowFrame';
 import { Notebook } from '../Furniture/Notebook';
-import { CertificateWall } from '../Furniture/CertificateWall';
 import { MemoryWall } from '../Furniture/MemoryWall';
 import { ContactStation } from '../Furniture/ContactStation';
 import { CeilingFan } from '../Furniture/CeilingFan';
@@ -251,7 +250,6 @@ export const GamingRoomModel: React.FC = () => {
       {/* 10. Wall Mounted Art & Portfolios */}
       <Switchboard />
       <AirConditioner />
-      <CertificateWall />
       <MemoryWall />
 
       {/* 11. Furniture Pieces */}
