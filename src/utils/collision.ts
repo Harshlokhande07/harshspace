@@ -49,6 +49,12 @@ export const FURNITURE_COLLIDERS: Box3D[] = [
     max: [-0.45, 1.85, 2.35],
     name: 'MinecraftGirl',
   },
+  // Oppenheimer Minecraft Camera: center [4.05, 0, 2.15], size [0.55, 1.5, 0.55]
+  {
+    min: [3.80, 0, 1.90],
+    max: [4.30, 1.60, 2.40],
+    name: 'MinecraftCamera',
+  },
   // Minecraft Aquarium & Credenza Cabinet: center [2.65, 0, 2.38], size [0.92, 1.2, 0.48]
   {
     min: [2.20, 0, 2.14],

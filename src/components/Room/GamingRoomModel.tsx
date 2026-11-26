@@ -32,6 +32,7 @@ import { MinecraftTorch } from '../Furniture/MinecraftTorch';
 import { MinecraftBee } from '../Furniture/MinecraftBee';
 import { MinecraftLogo } from '../Furniture/MinecraftLogo';
 import { MinecraftGirl } from '../Furniture/MinecraftGirl';
+import { MinecraftCamera } from '../Furniture/MinecraftCamera';
 
 /**
  * Photorealistic Extended Bedroom Shell
@@ -284,6 +285,8 @@ export const GamingRoomModel: React.FC = () => {
       <Bookshelf />
       {/* Minecraft Girl Skin standing next to Bookshelf on interaction spot */}
       <MinecraftGirl />
+      {/* Oppenheimer Minecraft Camera on tripod in East-South corner */}
+      <MinecraftCamera />
       <SecretCube />
       <Lamp />
       <Plant />
