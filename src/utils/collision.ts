@@ -43,6 +43,12 @@ export const FURNITURE_COLLIDERS: Box3D[] = [
     max: [-1.20, 2.2, 2.53],
     name: 'Bookshelf',
   },
+  // Minecraft Girl Companion: center [-0.65, 0, 2.15], size [0.45, 1.8, 0.45]
+  {
+    min: [-0.85, 0, 1.95],
+    max: [-0.45, 1.85, 2.35],
+    name: 'MinecraftGirl',
+  },
   // Minecraft Aquarium & Credenza Cabinet: center [2.65, 0, 2.38], size [0.92, 1.2, 0.48]
   {
     min: [2.20, 0, 2.14],
