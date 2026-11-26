@@ -65,8 +65,8 @@ export const ThirdPersonCamera: React.FC = () => {
     const rawCamY = targetEyeY + zoomDistance * sinPitch;
     const rawCamZ = playerPos[2] + zoomDistance * cosYaw * cosPitch;
 
-    // Interior room safety boundary margins (Width 5.6m, Length 5.2m, Height 2.8m)
-    const playerCamX = Math.max(-2.65, Math.min(2.65, rawCamX));
+    // Interior room safety boundary margins (Width 7.2m, Length 5.2m, Height 2.8m)
+    const playerCamX = Math.max(-2.65, Math.min(4.25, rawCamX));
     const playerCamY = Math.max(0.40, Math.min(2.65, rawCamY));
     const playerCamZ = Math.max(-2.45, Math.min(2.45, rawCamZ));
 

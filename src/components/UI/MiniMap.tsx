@@ -4,8 +4,8 @@ import { useInteractionStore } from '../../store/useInteractionStore';
 import { useIntroStore } from '../../store/useIntroStore';
 import { PORTFOLIO_INTERACTABLES } from '../../data/interactables';
 
-// Compact luxury bedroom dimensions: Width 5.6m, Length 5.2m
-const ROOM_WIDTH = 5.6;
+// Luxury bedroom dimensions (Extended): Width 7.2m, Length 5.2m
+const ROOM_WIDTH = 7.2;
 const ROOM_LENGTH = 5.2;
 
 export const MiniMap: React.FC = () => {
@@ -103,6 +103,22 @@ export const MiniMap: React.FC = () => {
         toCanvasY(1.05),
         toCanvasX(2.20) - toCanvasX(1.50),
         toCanvasY(1.55) - toCanvasY(1.05)
+      );
+      // Lounge Couch (Eli_ac Furniture Pack)
+      ctx.fillStyle = 'rgba(91, 152, 171, 0.4)';
+      ctx.fillRect(
+        toCanvasX(3.45),
+        toCanvasY(-0.85),
+        toCanvasX(4.35) - toCanvasX(3.45),
+        toCanvasY(1.05) - toCanvasY(-0.85)
+      );
+      // Lounge Plants & Lamp
+      ctx.fillStyle = 'rgba(45, 106, 79, 0.5)';
+      ctx.fillRect(
+        toCanvasX(3.70),
+        toCanvasY(1.15),
+        toCanvasX(4.35) - toCanvasX(3.70),
+        toCanvasY(2.25) - toCanvasY(1.15)
       );
 
       // 3. Subtle room inner grid lines

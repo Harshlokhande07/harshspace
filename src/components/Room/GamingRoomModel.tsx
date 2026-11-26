@@ -24,17 +24,23 @@ import { CoffeeMug } from '../Furniture/CoffeeMug';
 import { OutdoorBackdrop } from '../Furniture/OutdoorBackdrop';
 import { SecretCube } from '../Furniture/SecretCube';
 import { DrawerNote } from '../Furniture/DrawerNote';
+import { LoungeFurniturePack } from '../Furniture/LoungeFurniturePack';
 
 /**
- * Photorealistic Luxury Modern Bedroom Shell
- * Bright, colorful & balanced architectural palette:
- * - Floor: Natural golden oak planks
- * - Ceiling: Warm white (#F2EFE8)
- * - North Wall: Warm light greige (#D5CFC3) with natural walnut acoustic slats (#68452F)
- * - South Wall: Warm ivory (#E9E2D6) with medium walnut door (#6C462C)
- * - East Wall: Soft warm greige (#D9D2C6)
- * - West Wall: Warm ivory (#EAE4D9) with architectural picture window
- * - Skirting: Warm neutral architectural trim (#C8C0B2)
+ * Photorealistic Extended Bedroom Shell
+ * Dimensions: Extended to 7.2m W (X: -2.8 to +4.4) x 5.2m D (Z: -2.6 to +2.6) x 2.8m H
+ * Features:
+ * - Natural golden oak plank flooring extending through the new lounge suite
+ * - Warm Ivory ceiling with architectural shadow gap reveals
+ * - North Wall: Warm light greige (#D5CFC3) with natural walnut acoustic slat wall
+ * - South Wall: Warm ivory (#E9E2D6) with entrance door
+ * - West Wall: Architectural picture window overlooking rainy Tokyo skyline
+ * - East Wall (Extended white wall): Features the Eli_ac Furniture Pack:
+ *   - Modern light teal-blue couch with tapered oak legs
+ *   - Standing brass floor lamp
+ *   - 4 framed abstract gallery paintings
+ *   - Hexagonal wooden honeycomb floating wall shelves
+ *   - 3 designer indoor potted plants (Snake plant, palm, succulent)
  */
 export const GamingRoomModel: React.FC = () => {
   const woodTexture = useMemo(() => getProceduralWoodTexture(), []);
@@ -42,9 +48,9 @@ export const GamingRoomModel: React.FC = () => {
 
   return (
     <group>
-      {/* 1. Floor: 5.6m x 5.2m natural warm golden oak planks */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
-        <planeGeometry args={[5.6, 5.2]} />
+      {/* 1. Extended Floor: 7.2m x 5.2m natural warm golden oak planks (Center X = 0.8) */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0.8, 0, 0]} receiveShadow>
+        <planeGeometry args={[7.2, 5.2]} />
         <meshStandardMaterial
           map={woodTexture}
           roughness={0.42}
@@ -52,9 +58,9 @@ export const GamingRoomModel: React.FC = () => {
         />
       </mesh>
 
-      {/* 2. Ceiling: 5.6m x 5.2m at height 2.8m in Warm White (#F2EFE8) */}
-      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 2.8, 0]} receiveShadow>
-        <planeGeometry args={[5.6, 5.2]} />
+      {/* 2. Extended Ceiling: 7.2m x 5.2m at height 2.8m in Warm White (#F2EFE8) */}
+      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0.8, 2.8, 0]} receiveShadow>
+        <planeGeometry args={[7.2, 5.2]} />
         <meshStandardMaterial
           color="#F2EFE8"
           roughness={0.88}
@@ -63,25 +69,25 @@ export const GamingRoomModel: React.FC = () => {
       </mesh>
 
       {/* Architectural Ceiling Shadow Gap Trim (North, South, East, West perimeters at Y = 2.785) */}
-      <mesh position={[0, 2.785, -2.58]}>
-        <boxGeometry args={[5.56, 0.03, 0.02]} />
+      <mesh position={[0.8, 2.785, -2.58]}>
+        <boxGeometry args={[7.16, 0.03, 0.02]} />
         <meshStandardMaterial color="#BDB5A8" roughness={0.6} />
       </mesh>
-      <mesh position={[0, 2.785, 2.58]}>
-        <boxGeometry args={[5.56, 0.03, 0.02]} />
+      <mesh position={[0.8, 2.785, 2.58]}>
+        <boxGeometry args={[7.16, 0.03, 0.02]} />
         <meshStandardMaterial color="#BDB5A8" roughness={0.6} />
       </mesh>
       <mesh position={[-2.78, 2.785, 0]}>
         <boxGeometry args={[0.02, 0.03, 5.16]} />
         <meshStandardMaterial color="#BDB5A8" roughness={0.6} />
       </mesh>
-      <mesh position={[2.78, 2.785, 0]}>
+      <mesh position={[4.38, 2.785, 0]}>
         <boxGeometry args={[0.02, 0.03, 5.16]} />
         <meshStandardMaterial color="#BDB5A8" roughness={0.6} />
       </mesh>
 
       {/* Flush architectural ceiling downlight bezels */}
-      {[-1.3, 1.3].map((cx, i) =>
+      {[-1.3, 1.3, 3.1].map((cx, i) =>
         [-1.0, 1.0].map((cz, j) => (
           <group key={`${i}-${j}`} position={[cx, 2.798, cz]} rotation={[Math.PI / 2, 0, 0]}>
             <mesh>
@@ -104,8 +110,8 @@ export const GamingRoomModel: React.FC = () => {
 
       {/* 3. Baseboards / Skirting (0.08m tall) in Warm Architectural Neutral (#C8C0B2) */}
       {/* North Wall Baseboard */}
-      <mesh position={[0, 0.04, -2.575]} receiveShadow>
-        <boxGeometry args={[5.56, 0.08, 0.02]} />
+      <mesh position={[0.8, 0.04, -2.575]} receiveShadow>
+        <boxGeometry args={[7.16, 0.08, 0.02]} />
         <meshStandardMaterial color="#C8C0B2" roughness={0.4} metalness={0.1} />
       </mesh>
       {/* South Wall Baseboard Left of Door */}
@@ -113,13 +119,13 @@ export const GamingRoomModel: React.FC = () => {
         <boxGeometry args={[4.06, 0.08, 0.02]} />
         <meshStandardMaterial color="#C8C0B2" roughness={0.4} metalness={0.1} />
       </mesh>
-      {/* South Wall Baseboard Right of Door */}
-      <mesh position={[2.525, 0.04, 2.575]} receiveShadow>
-        <boxGeometry args={[0.55, 0.08, 0.02]} />
+      {/* South Wall Baseboard Right of Door (Extending to X = 4.4m) */}
+      <mesh position={[3.325, 0.04, 2.575]} receiveShadow>
+        <boxGeometry args={[2.15, 0.08, 0.02]} />
         <meshStandardMaterial color="#C8C0B2" roughness={0.4} metalness={0.1} />
       </mesh>
-      {/* East Wall Baseboard */}
-      <mesh position={[2.775, 0.04, 0]} receiveShadow>
+      {/* Extended East Wall Baseboard */}
+      <mesh position={[4.375, 0.04, 0]} receiveShadow>
         <boxGeometry args={[0.02, 0.08, 5.16]} />
         <meshStandardMaterial color="#C8C0B2" roughness={0.4} metalness={0.1} />
       </mesh>
@@ -134,9 +140,9 @@ export const GamingRoomModel: React.FC = () => {
         <meshStandardMaterial color="#C8C0B2" roughness={0.4} metalness={0.1} />
       </mesh>
 
-      {/* 4. North / Back Wall (Z = -2.60m) in Warm Light Greige (#D5CFC3) */}
-      <mesh position={[0, 1.4, -2.675]} receiveShadow>
-        <boxGeometry args={[5.6, 2.8, 0.15]} />
+      {/* 4. North / Back Wall (Z = -2.60m) extended to 7.2m in Warm Light Greige (#D5CFC3) */}
+      <mesh position={[0.8, 1.4, -2.675]} receiveShadow>
+        <boxGeometry args={[7.2, 2.8, 0.15]} />
         <meshStandardMaterial
           map={wallTexture}
           color="#D5CFC3"
@@ -158,9 +164,9 @@ export const GamingRoomModel: React.FC = () => {
           metalness={0.02}
         />
       </mesh>
-      {/* Right section (X: 2.25 to 2.80 -> center 2.525, width 0.55) */}
-      <mesh position={[2.525, 1.4, 2.675]} receiveShadow>
-        <boxGeometry args={[0.55, 2.8, 0.15]} />
+      {/* Right section (X: 2.25 to 4.40 -> center 3.325, width 2.15) */}
+      <mesh position={[3.325, 1.4, 2.675]} receiveShadow>
+        <boxGeometry args={[2.15, 2.8, 0.15]} />
         <meshStandardMaterial
           map={wallTexture}
           color="#E9E2D6"
@@ -223,12 +229,12 @@ export const GamingRoomModel: React.FC = () => {
         />
       </mesh>
 
-      {/* 7. East Wall (X = +2.80m) in Soft Warm Greige (#D9D2C6) */}
-      <mesh position={[2.875, 1.4, 0]} receiveShadow>
+      {/* 7. Extended East Wall (X = +4.40m) in Warm Ivory Plaster (#EDE8DF) */}
+      <mesh position={[4.475, 1.4, 0]} receiveShadow>
         <boxGeometry args={[0.15, 2.8, 5.2]} />
         <meshStandardMaterial
           map={wallTexture}
-          color="#D9D2C6"
+          color="#EDE8DF"
           roughness={0.85}
           metalness={0.02}
         />
@@ -263,6 +269,9 @@ export const GamingRoomModel: React.FC = () => {
       <Lamp />
       <Plant />
       <Rug />
+
+      {/* 12. Furniture Pack / Indoor Plants & Paintings (Eli_ac Sketchfab) along East Wall */}
+      <LoungeFurniturePack />
     </group>
   );
 };

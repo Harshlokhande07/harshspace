@@ -4,12 +4,12 @@ export interface Box3D {
   name?: string;
 }
 
-// Compact luxury bedroom boundaries:
-// Interior dimensions: Width 5.6m (X: -2.8 to +2.8), Length 5.2m (Z: -2.6 to +2.6)
+// Luxury bedroom boundaries (Extended along East wall for Lounge Suite):
+// Interior dimensions: Width 7.2m (X: -2.8 to +4.4), Length 5.2m (Z: -2.6 to +2.6)
 // With character capsule radius 0.35m, player center is constrained to:
 export const ROOM_BOUNDS = {
   minX: -2.45,
-  maxX: 2.45,
+  maxX: 4.05,
   minZ: -2.25,
   maxZ: 2.25,
 };
@@ -54,6 +54,23 @@ export const FURNITURE_COLLIDERS: Box3D[] = [
     min: [-2.575, 0, -2.375],
     max: [-2.125, 1.0, -1.925],
     name: 'Plant',
+  },
+  // Lounge Couch (Sketchfab Furniture Pack by Eli_ac): center [4.05, 0, 0.10], size along Z ~ 1.85, along X ~ 0.85
+  {
+    min: [3.45, 0, -0.85],
+    max: [4.35, 0.90, 1.05],
+    name: 'LoungeCouch',
+  },
+  // Lounge Plants & Standing Lamp
+  {
+    min: [3.70, 0, 1.15],
+    max: [4.35, 1.0, 2.25],
+    name: 'LoungePlants',
+  },
+  {
+    min: [3.80, 0, -1.40],
+    max: [4.35, 1.6, -0.90],
+    name: 'LoungeLamp',
   },
 ];
 
