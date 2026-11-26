@@ -123,22 +123,22 @@ export const MinecraftAquarium: React.FC = () => {
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
 
-    // Orange clownfish swimming loop
+    // Orange clownfish swimming loop (Confined safely inside water: Y = 0.16 to 0.24, X = -0.22 to +0.22, Z = -0.08 to +0.08)
     if (orangeFishRef.current) {
-      orangeFishRef.current.position.x = Math.sin(t * 0.9) * 0.22 + 0.06;
-      orangeFishRef.current.position.z = Math.cos(t * 0.9) * 0.07 - 0.02;
-      orangeFishRef.current.position.y = 0.88 + Math.sin(t * 1.8) * 0.025;
+      orangeFishRef.current.position.x = Math.sin(t * 0.9) * 0.20 + 0.04;
+      orangeFishRef.current.position.z = Math.cos(t * 0.9) * 0.06 - 0.01;
+      orangeFishRef.current.position.y = 0.18 + Math.sin(t * 1.8) * 0.025;
       orangeFishRef.current.rotation.y = Math.cos(t * 0.9) > 0 ? 0.35 : Math.PI - 0.35;
     }
     if (orangeTailRef.current) {
       orangeTailRef.current.rotation.y = Math.sin(t * 8.5) * 0.45;
     }
 
-    // Blue tropical fish swimming loop
+    // Blue tropical fish swimming loop (Confined safely inside water: Y = 0.22 to 0.30, X = -0.20 to +0.20, Z = -0.07 to +0.07)
     if (blueFishRef.current) {
-      blueFishRef.current.position.x = -Math.sin(t * 1.0 + 1.2) * 0.20 - 0.04;
-      blueFishRef.current.position.z = Math.cos(t * 1.0 + 1.2) * 0.08 + 0.02;
-      blueFishRef.current.position.y = 0.98 + Math.sin(t * 2.2 + 0.5) * 0.03;
+      blueFishRef.current.position.x = -Math.sin(t * 1.0 + 1.2) * 0.18 - 0.03;
+      blueFishRef.current.position.z = Math.cos(t * 1.0 + 1.2) * 0.06 + 0.01;
+      blueFishRef.current.position.y = 0.26 + Math.sin(t * 2.2 + 0.5) * 0.03;
       blueFishRef.current.rotation.y = -Math.cos(t * 1.0 + 1.2) > 0 ? 0.25 : Math.PI - 0.25;
     }
     if (blueTailRef.current) {
