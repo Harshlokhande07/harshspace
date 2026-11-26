@@ -28,6 +28,7 @@ import { AirConditioner } from '../Furniture/AirConditioner';
 import { IndustrialCeilingLight } from '../Furniture/IndustrialCeilingLight';
 import { MinecraftSword } from '../Furniture/MinecraftSword';
 import { MinecraftAquarium } from '../Furniture/MinecraftAquarium';
+import { MinecraftTorch } from '../Furniture/MinecraftTorch';
 
 /**
  * Photorealistic Extended Bedroom Shell
@@ -157,6 +158,9 @@ export const GamingRoomModel: React.FC = () => {
       <WalnutAcousticWall position={[-1.30, 1.40, -2.59]} width={3.0} height={2.80} />
       {/* Minecraft Diamond Sword mounted directly in the middle of the acoustic wall */}
       <MinecraftSword />
+      {/* Minecraft Torches flanking the Minecraft Sword on the acoustic slat wall */}
+      <MinecraftTorch position={[-2.25, 1.70, -2.56]} isWallMounted={true} />
+      <MinecraftTorch position={[-0.35, 1.70, -2.56]} isWallMounted={true} />
 
       {/* 5. South / Front Wall (Z = +2.60m) in Warm Ivory (#E9E2D6) */}
       {/* Left section (X: -2.80 to 1.25 -> center -0.775, width 4.05) */}
