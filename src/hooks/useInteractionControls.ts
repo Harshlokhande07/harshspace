@@ -60,6 +60,9 @@ export function useInteractionControls() {
             if (nearestObj.id === 'switchboard') {
               AudioManager.playSound('switch');
               useLivingRoomStore.getState().toggleLamp();
+            } else if (nearestObj.id === 'ac-switch') {
+              AudioManager.playSound('switch');
+              useLivingRoomStore.getState().toggleAc();
             } else if (nearestObj.id === 'coffee') {
               AudioManager.playSound('coffee');
               (window as any).__harshStartAction?.('drink-coffee');
@@ -90,6 +93,17 @@ export function useInteractionControls() {
           const nextFan = !useLivingRoomStore.getState().fanOn;
           useLivingRoomStore.getState().toggleFan();
           AudioManager.setFanLoop(nextFan);
+        }
+      }
+
+      // Handle 'T' key press for temperature adjustment on AC Thermostat
+      if (code === 'KeyT' || key === 't') {
+        if (nearestObj && nearestObj.id === 'ac-switch' && actionState === 'free') {
+          AudioManager.playSound('click');
+          const cur = useLivingRoomStore.getState().acTemp;
+          // Cycle temp: 24 -> 22 -> 20 -> 18 -> 26 -> 24
+          const next = cur <= 18 ? 26 : cur - 2;
+          useLivingRoomStore.getState().setAcTemp(next);
         }
       }
 

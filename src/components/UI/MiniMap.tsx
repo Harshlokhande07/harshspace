@@ -120,6 +120,14 @@ export const MiniMap: React.FC = () => {
         toCanvasX(4.35) - toCanvasX(3.70),
         toCanvasY(2.25) - toCanvasY(1.15)
       );
+      // Air Conditioner on South Wall
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.5)';
+      ctx.fillRect(
+        toCanvasX(-0.62),
+        toCanvasY(2.44),
+        toCanvasX(0.42) - toCanvasX(-0.62),
+        toCanvasY(2.58) - toCanvasY(2.44)
+      );
 
       // 3. Subtle room inner grid lines
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';

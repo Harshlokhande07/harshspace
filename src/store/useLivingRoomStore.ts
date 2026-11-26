@@ -6,6 +6,9 @@ interface LivingRoomState {
   lampOn: boolean;
   fanOn: boolean;
   fanSpeed: number; // 0 to 1, animated
+  acOn: boolean;
+  acTemp: number; // target temperature in °C
+  roomTemp: number; // dynamic room temperature in °C
   coffeeLevel: number; // 0 to 1
   isDrinking: boolean;
   isRefilling: boolean;
@@ -16,6 +19,10 @@ interface LivingRoomState {
   setLampOn: (on: boolean) => void;
   toggleFan: () => void;
   setFanSpeed: (speed: number) => void;
+  toggleAc: () => void;
+  setAcOn: (on: boolean) => void;
+  setAcTemp: (temp: number) => void;
+  setRoomTemp: (temp: number) => void;
   drinkCoffee: () => void;
   setCoffeeLevel: (level: number) => void;
   setTimeMode: (mode: TimeMode) => void;
@@ -26,6 +33,9 @@ export const useLivingRoomStore = create<LivingRoomState>((set, get) => ({
   lampOn: true,
   fanOn: true,
   fanSpeed: 1,
+  acOn: true,
+  acTemp: 22,
+  roomTemp: 22.4,
   coffeeLevel: 1,
   isDrinking: false,
   isRefilling: false,
@@ -37,6 +47,11 @@ export const useLivingRoomStore = create<LivingRoomState>((set, get) => ({
 
   toggleFan: () => set((state) => ({ fanOn: !state.fanOn })),
   setFanSpeed: (speed) => set({ fanSpeed: Math.max(0, Math.min(1, speed)) }),
+
+  toggleAc: () => set((state) => ({ acOn: !state.acOn })),
+  setAcOn: (on) => set({ acOn: on }),
+  setAcTemp: (temp) => set({ acTemp: Math.max(16, Math.min(30, temp)) }),
+  setRoomTemp: (temp) => set({ roomTemp: Number(temp.toFixed(1)) }),
 
   drinkCoffee: () => {
     const { isDrinking, isRefilling, coffeeLevel } = get();

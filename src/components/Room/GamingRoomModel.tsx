@@ -25,6 +25,7 @@ import { OutdoorBackdrop } from '../Furniture/OutdoorBackdrop';
 import { SecretCube } from '../Furniture/SecretCube';
 import { DrawerNote } from '../Furniture/DrawerNote';
 import { LoungeFurniturePack } from '../Furniture/LoungeFurniturePack';
+import { AirConditioner } from '../Furniture/AirConditioner';
 
 /**
  * Photorealistic Extended Bedroom Shell
@@ -249,6 +250,7 @@ export const GamingRoomModel: React.FC = () => {
 
       {/* 10. Wall Mounted Art & Portfolios */}
       <Switchboard />
+      <AirConditioner />
       <CertificateWall />
       <MemoryWall />
 

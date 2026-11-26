@@ -5,6 +5,8 @@ import { useCharacterStore } from '../../store/useCharacterStore';
 import { INTERACTABLES } from '../../data/interactables';
 import { useTouchControlsStore } from '../../store/useTouchControlsStore';
 
+import { useLivingRoomStore } from '../../store/useLivingRoomStore';
+
 export const InteractionPrompt: React.FC = () => {
   const nearestId = useInteractionStore((s) => s.nearestId);
   const activeId = useInteractionStore((s) => s.activeId);
@@ -18,6 +20,10 @@ export const InteractionPrompt: React.FC = () => {
   const isVisible = (Boolean(interactable && !activeId) && actionState === 'free') || (isSeatedOrLying && !activeId);
 
   const isSwitchboard = interactable?.id === 'switchboard';
+  const isAcSwitch = interactable?.id === 'ac-switch';
+  const acOn = useLivingRoomStore((s) => s.acOn);
+  const acTemp = useLivingRoomStore((s) => s.acTemp);
+  const roomTemp = useLivingRoomStore((s) => s.roomTemp);
 
   return (
     <AnimatePresence>
@@ -83,6 +89,53 @@ export const InteractionPrompt: React.FC = () => {
               <span style={{ color: '#94a3b8' }}>
                 <strong style={{ color: '#f8fafc' }}>{isTouch ? 'Tap Stand Up' : 'Esc or move'}</strong> to Get Up
               </span>
+            </>
+          ) : isAcSwitch ? (
+            <>
+              <span style={{ color: '#94a3b8' }}>{isTouch ? 'Tap for' : 'Press'}</span>
+              <kbd
+                style={{
+                  backgroundColor: 'rgba(30, 41, 59, 0.9)',
+                  border: '1px solid rgba(56, 189, 248, 0.5)',
+                  boxShadow: '0 0 10px rgba(56, 189, 248, 0.25)',
+                  color: '#38bdf8',
+                  padding: '2px 8px',
+                  borderRadius: '6px',
+                  fontSize: '12px',
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                }}
+              >
+                {isTouch ? 'AC' : 'E'}
+              </kbd>
+              {!isTouch && (
+                <span style={{ color: '#f8fafc', fontWeight: 600 }}>
+                  AC ({acOn ? 'ON' : 'OFF'})
+                </span>
+              )}
+
+              <span style={{ color: '#64748b', margin: '0 2px' }}>•</span>
+
+              <kbd
+                style={{
+                  backgroundColor: 'rgba(30, 41, 59, 0.9)',
+                  border: '1px solid rgba(16, 185, 129, 0.5)',
+                  boxShadow: '0 0 10px rgba(16, 185, 129, 0.25)',
+                  color: '#10b981',
+                  padding: '2px 8px',
+                  borderRadius: '6px',
+                  fontSize: '12px',
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                }}
+              >
+                {isTouch ? 'Temp' : 'T'}
+              </kbd>
+              {!isTouch && (
+                <span style={{ color: '#10b981', fontWeight: 600 }}>
+                  Temp {acTemp}°C (Room: {roomTemp}°C)
+                </span>
+              )}
             </>
           ) : isSwitchboard ? (
             <>

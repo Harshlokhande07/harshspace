@@ -38,6 +38,7 @@ export const TouchControls: React.FC = () => {
   const nearestObj = INTERACTABLES.find((item) => item.id === nearestId);
   const isSeatedOrLying = actionState === 'seated' || actionState === 'lying';
   const isSwitchboard = nearestObj?.id === 'switchboard';
+  const isAcSwitch = nearestObj?.id === 'ac-switch';
 
   // Virtual Joystick Pointer Handlers
   const handlePointerDown = (e: React.PointerEvent) => {
@@ -222,6 +223,8 @@ export const TouchControls: React.FC = () => {
                 if (nearestObj.kind === 'action') {
                   if (nearestObj.id === 'switchboard') {
                     useLivingRoomStore.getState().toggleLamp();
+                  } else if (nearestObj.id === 'ac-switch') {
+                    useLivingRoomStore.getState().toggleAc();
                   } else if (nearestObj.id === 'coffee') {
                     (window as any).__harshStartAction?.('drink-coffee');
                   } else if (nearestObj.id === 'chair') {
@@ -285,6 +288,37 @@ export const TouchControls: React.FC = () => {
             }}
           >
             Toggle Fan
+          </button>
+        )}
+
+        {/* Temp Adjust Button (T) - only when near AC switch */}
+        {isAcSwitch && actionState === 'free' && (
+          <button
+            onClick={() => {
+              AudioManager.playSound('click');
+              const cur = useLivingRoomStore.getState().acTemp;
+              const next = cur <= 18 ? 26 : cur - 2;
+              useLivingRoomStore.getState().setAcTemp(next);
+            }}
+            style={{
+              minWidth: '86px',
+              height: '44px',
+              borderRadius: '9999px',
+              backgroundColor: '#10b981',
+              color: '#ffffff',
+              border: 'none',
+              fontSize: '12px',
+              fontWeight: 700,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+              padding: '0 14px',
+              boxShadow: '0 6px 20px rgba(16, 185, 129, 0.45)',
+              cursor: 'pointer',
+            }}
+          >
+            Cycle Temp
           </button>
         )}
 

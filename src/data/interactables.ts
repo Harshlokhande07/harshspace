@@ -15,6 +15,7 @@ export interface InteractableObject {
     | 'chair'
     | 'bed'
     | 'switchboard'
+    | 'ac-switch'
     | 'coffee'
     | 'drawer-note'
     | 'secret-cube';
@@ -120,6 +121,16 @@ export const INTERACTABLES: InteractableObject[] = [
     position: [1.15, 0.02, 1.95], // Wall switch next to entrance
     radius: 1.3,
     sectionId: 'switchboard',
+    kind: 'action',
+    isPortfolioItem: false,
+  },
+  {
+    id: 'ac-switch',
+    label: 'AC Thermostat',
+    promptText: 'Control Air Conditioner',
+    position: [-0.10, 0.02, 2.05], // Approach position facing AC & Wall Thermostat
+    radius: 1.4,
+    sectionId: 'ac-switch',
     kind: 'action',
     isPortfolioItem: false,
   },
