@@ -9,12 +9,13 @@ interface MinecraftBoyProps {
 }
 
 /**
- * Procedural Rigged Minecraft Boy Character
- * Faithfully recreates the "Rigged Mine Craft Boy" aesthetic:
- * - Classic voxel proportions (Head, 3D Layered Hair, Torso, Arms, Legs)
- * - Stylish modern streetwear: Navy/cyan hoodie with front pocket & drawstrings,
- *   denim jeans, and high-top sneakers with white rubber soles
- * - Expressive anime-style eyes and layered fringe hair
+ * Original "Rigged Mine Craft Boy" by Riyan on Sketchfab (b03eee79043a464eb5d077f8da142185):
+ * - Authentic 1:1 color scheme from the original Sketchfab model:
+ *   - Head: Dark chocolate brown hair, blue eyes, open smiling mouth, peach skin
+ *   - Torso: Vibrant orange t-shirt with cream collar notch, black waist belt
+ *   - Arms: Short orange sleeves with bare peach skin forearms and hands
+ *   - Legs: Classic vibrant royal blue jeans
+ *   - Shoes: Dark graphite grey shoes
  * - Full kinematic limb articulation:
  *   - Walking: natural pendulum limb swinging matching footstep velocity
  *   - Running: wider, dynamic athletic stride with forward torso pitch
@@ -32,58 +33,54 @@ export const MinecraftBoy: React.FC<MinecraftBoyProps> = ({ speedRef }) => {
   const leftLegRef = useRef<THREE.Group>(null);
   const rightLegRef = useRef<THREE.Group>(null);
 
-  // High-quality procedural pixel skin texture for face and torso details
+  // Exact 1:1 Face texture matching the Sketchfab model
   const faceTexture = useMemo(() => {
     const canvas = document.createElement('canvas');
     canvas.width = 128;
     canvas.height = 128;
     const ctx = canvas.getContext('2d')!;
 
-    // Warm natural skin base (#E8BE9B)
-    ctx.fillStyle = '#E8BE9B';
+    // Warm peach skin base (#E8BE9B / #E5B892)
+    ctx.fillStyle = '#E5B892';
     ctx.fillRect(0, 0, 128, 128);
 
-    // Subtle skin shading around cheeks and chin
-    ctx.fillStyle = '#DCB08D';
-    ctx.fillRect(0, 96, 128, 32);
-    ctx.fillStyle = '#EFA899';
-    // Cheerful blush dots
-    ctx.fillRect(16, 76, 20, 10);
-    ctx.fillRect(92, 76, 20, 10);
+    // Dark Chocolate Brown Hair fringe across forehead (#3A2418)
+    ctx.fillStyle = '#3A2418';
+    ctx.fillRect(0, 0, 128, 28);
+    // Hair bangs stepped cuts
+    ctx.fillRect(0, 28, 36, 12);
+    ctx.fillRect(92, 28, 36, 12);
+    ctx.fillRect(36, 28, 20, 6);
+    ctx.fillRect(72, 28, 20, 6);
 
-    // Eyes (Anime Minecraft Boy style)
-    // Sclera (White)
+    // Sideburns
+    ctx.fillRect(0, 40, 16, 24);
+    ctx.fillRect(112, 40, 16, 24);
+
+    // Eyes: Classic Minecraft 2-tone Blue Eyes
+    // Left eye (from viewer perspective)
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(20, 48, 28, 24);
-    ctx.fillRect(80, 48, 28, 24);
+    ctx.fillRect(28, 52, 14, 20); // White sclera
+    ctx.fillStyle = '#1D4ED8';
+    ctx.fillRect(42, 52, 16, 20); // Royal blue iris
+    ctx.fillStyle = '#1E3A8A';
+    ctx.fillRect(48, 56, 10, 16); // Deep blue pupil
 
-    // Iris (Deep Vibrant Cyan #0284C7 / #38BDF8)
-    ctx.fillStyle = '#0284C7';
-    ctx.fillRect(28, 48, 20, 24);
-    ctx.fillRect(80, 48, 20, 24);
-
-    // Pupil (Midnight Blue)
-    ctx.fillStyle = '#0F172A';
-    ctx.fillRect(34, 52, 14, 20);
-    ctx.fillRect(80, 52, 14, 20);
-
-    // Eye Highlights (Pure White sparkle)
+    // Right eye (from viewer perspective)
+    ctx.fillStyle = '#1D4ED8';
+    ctx.fillRect(70, 52, 16, 20); // Royal blue iris
+    ctx.fillStyle = '#1E3A8A';
+    ctx.fillRect(70, 56, 10, 16); // Deep blue pupil
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(30, 50, 8, 8);
-    ctx.fillRect(82, 50, 8, 8);
-    ctx.fillRect(40, 62, 4, 4);
-    ctx.fillRect(92, 62, 4, 4);
+    ctx.fillRect(86, 52, 14, 20); // White sclera
 
-    // Eyebrows (Dark Brown #3D2619)
-    ctx.fillStyle = '#3D2619';
-    ctx.fillRect(18, 40, 32, 6);
-    ctx.fillRect(78, 40, 32, 6);
-
-    // Confident mouth line
-    ctx.fillStyle = '#B47858';
-    ctx.fillRect(52, 88, 24, 6);
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(56, 90, 16, 2);
+    // Open Smiling Mouth with maroon mouth cavity & tongue accent
+    ctx.fillStyle = '#6B1616';
+    ctx.fillRect(50, 84, 28, 16); // Dark maroon interior
+    ctx.fillStyle = '#991B1B';
+    ctx.fillRect(54, 88, 20, 12); // Tongue
+    ctx.fillStyle = '#C27C60';
+    ctx.fillRect(48, 82, 32, 2);  // Upper lip shadow
 
     const texture = new THREE.CanvasTexture(canvas);
     texture.magFilter = THREE.NearestFilter;
@@ -92,41 +89,72 @@ export const MinecraftBoy: React.FC<MinecraftBoyProps> = ({ speedRef }) => {
     return texture;
   }, []);
 
-  // Streetwear Hoodie Front Decal Texture
-  const hoodieTexture = useMemo(() => {
+  // Exact 1:1 Torso texture matching the Sketchfab model (Orange T-shirt with cream collar notch & black belt)
+  const torsoTexture = useMemo(() => {
     const canvas = document.createElement('canvas');
     canvas.width = 128;
     canvas.height = 128;
     const ctx = canvas.getContext('2d')!;
 
-    // Main Hoodie Fabric: Deep Navy Charcoal (#1E293B)
-    ctx.fillStyle = '#1E293B';
+    // Vibrant Orange T-shirt (#F97316 / #EA580C)
+    ctx.fillStyle = '#EA580C';
     ctx.fillRect(0, 0, 128, 128);
 
-    // Center Electric Cyan Geometric Accent Stripes (#38BDF8)
-    ctx.fillStyle = '#0284C7';
-    ctx.fillRect(24, 20, 80, 12);
-    ctx.fillStyle = '#38BDF8';
-    ctx.fillRect(32, 34, 64, 8);
+    // Subtle orange pixel grid variations for authentic Minecraft look
+    ctx.fillStyle = '#F97316';
+    for (let x = 0; x < 128; x += 16) {
+      for (let y = 0; y < 112; y += 16) {
+        if ((x + y) % 32 === 0) {
+          ctx.fillRect(x, y, 16, 16);
+        }
+      }
+    }
 
-    // Drawstrings (White cords hanging down)
-    ctx.fillStyle = '#F8FAFC';
-    ctx.fillRect(48, 16, 4, 44);
-    ctx.fillRect(76, 16, 4, 44);
-    // Silver drawstring aglets
-    ctx.fillStyle = '#94A3B8';
-    ctx.fillRect(47, 56, 6, 6);
-    ctx.fillRect(75, 56, 6, 6);
+    // Light Cream / White Rectangular Collar Patch below neck (#FEF3C7)
+    ctx.fillStyle = '#FEF3C7';
+    ctx.fillRect(48, 0, 32, 24);
+    ctx.fillStyle = '#FDE68A';
+    ctx.fillRect(52, 4, 24, 16);
 
-    // Kangaroo Front Pocket
-    ctx.fillStyle = '#172033';
-    ctx.fillRect(20, 72, 88, 44);
-    ctx.fillStyle = '#38BDF8';
-    ctx.fillRect(20, 72, 88, 4); // Cyan pocket rim
+    // Black Waist Belt at bottom
+    ctx.fillStyle = '#18181B';
+    ctx.fillRect(0, 116, 128, 12);
+    ctx.fillStyle = '#27272A';
+    ctx.fillRect(0, 116, 128, 3);
 
-    // Bottom ribbed hem
-    ctx.fillStyle = '#0F172A';
-    ctx.fillRect(0, 118, 128, 10);
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.magFilter = THREE.NearestFilter;
+    texture.minFilter = THREE.NearestFilter;
+    texture.colorSpace = THREE.SRGBColorSpace;
+    return texture;
+  }, []);
+
+  // Denim Jeans & Shoe Texture for Legs
+  const legFrontTexture = useMemo(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d')!;
+
+    // Royal Blue Denim Base (#1D4ED8)
+    ctx.fillStyle = '#1D4ED8';
+    ctx.fillRect(0, 0, 64, 128);
+
+    // Pixelated denim shading
+    ctx.fillStyle = '#2563EB';
+    for (let x = 0; x < 64; x += 16) {
+      for (let y = 0; y < 100; y += 16) {
+        if ((x + y) % 32 === 0) {
+          ctx.fillRect(x, y, 16, 16);
+        }
+      }
+    }
+
+    // Dark grey shoes at bottom
+    ctx.fillStyle = '#374151';
+    ctx.fillRect(0, 102, 64, 26);
+    ctx.fillStyle = '#1F2937';
+    ctx.fillRect(0, 120, 64, 8);
 
     const texture = new THREE.CanvasTexture(canvas);
     texture.magFilter = THREE.NearestFilter;
@@ -181,7 +209,6 @@ export const MinecraftBoy: React.FC<MinecraftBoyProps> = ({ speedRef }) => {
     // 3. Head articulation (idle look-around & subtle breathing bob)
     if (headGroupRef.current) {
       if (isSeated) {
-        // Slight downward tilt toward screens/keyboard
         headGroupRef.current.rotation.x = THREE.MathUtils.damp(
           headGroupRef.current.rotation.x,
           0.18,
@@ -198,7 +225,6 @@ export const MinecraftBoy: React.FC<MinecraftBoyProps> = ({ speedRef }) => {
         headGroupRef.current.rotation.x = 0;
         headGroupRef.current.rotation.y = 0;
       } else if (isMoving) {
-        // Head stays focused forward with micro-yaw sync
         const headYaw = Math.sin(clock * (isRunning ? 7 : 4.5)) * 0.04;
         headGroupRef.current.rotation.y = headYaw;
         headGroupRef.current.rotation.x = 0.02;
@@ -212,7 +238,6 @@ export const MinecraftBoy: React.FC<MinecraftBoyProps> = ({ speedRef }) => {
     // 4. Arms & Legs kinematic articulation
     if (leftArmRef.current && rightArmRef.current && leftLegRef.current && rightLegRef.current) {
       if (isLying) {
-        // Relaxed resting arms and legs on bed
         leftArmRef.current.rotation.x = THREE.MathUtils.damp(leftArmRef.current.rotation.x, 0.05, 6.0, dt);
         rightArmRef.current.rotation.x = THREE.MathUtils.damp(rightArmRef.current.rotation.x, 0.05, 6.0, dt);
         leftArmRef.current.rotation.z = THREE.MathUtils.damp(leftArmRef.current.rotation.z, -0.15, 6.0, dt);
@@ -226,10 +251,8 @@ export const MinecraftBoy: React.FC<MinecraftBoyProps> = ({ speedRef }) => {
         leftLegRef.current.rotation.y = 0;
         rightLegRef.current.rotation.y = 0;
 
-        // Seated typing reaction vs resting
         const isTyping = activeId === 'desk-pc' || animState === 'sit-typing';
         if (isTyping) {
-          // Arms reaching forward onto keyboard with rapid typing motion
           const typingL = Math.sin(clock * 16) * 0.08;
           const typingR = Math.cos(clock * 16) * 0.08;
           leftArmRef.current.rotation.x = -1.15 + typingL;
@@ -237,7 +260,6 @@ export const MinecraftBoy: React.FC<MinecraftBoyProps> = ({ speedRef }) => {
           leftArmRef.current.rotation.z = -0.18;
           rightArmRef.current.rotation.z = 0.18;
         } else {
-          // Resting on thighs / armrests
           leftArmRef.current.rotation.x = THREE.MathUtils.damp(leftArmRef.current.rotation.x, -0.75, 6.0, dt);
           rightArmRef.current.rotation.x = THREE.MathUtils.damp(rightArmRef.current.rotation.x, -0.75, 6.0, dt);
           leftArmRef.current.rotation.z = -0.15;
@@ -251,19 +273,17 @@ export const MinecraftBoy: React.FC<MinecraftBoyProps> = ({ speedRef }) => {
 
         const swing = Math.sin(clock * freq);
 
-        // Arms swing opposite to each other, matching classic Minecraft animation
         leftArmRef.current.rotation.x = -swing * armAmp;
         rightArmRef.current.rotation.x = swing * armAmp;
         leftArmRef.current.rotation.z = 0.04;
         rightArmRef.current.rotation.z = -0.04;
 
-        // Legs swing opposite to arms
         leftLegRef.current.rotation.x = swing * legAmp;
         rightLegRef.current.rotation.x = -swing * legAmp;
         leftLegRef.current.rotation.y = 0;
         rightLegRef.current.rotation.y = 0;
       } else {
-        // Idle: Subtle gentle swaying & breathing
+        // Idle
         const idleSway = Math.sin(clock * 2) * 0.04;
         leftArmRef.current.rotation.x = THREE.MathUtils.damp(leftArmRef.current.rotation.x, idleSway, 5.0, dt);
         rightArmRef.current.rotation.x = THREE.MathUtils.damp(rightArmRef.current.rotation.x, -idleSway, 5.0, dt);
@@ -279,185 +299,115 @@ export const MinecraftBoy: React.FC<MinecraftBoyProps> = ({ speedRef }) => {
   return (
     <group ref={rootGroupRef}>
       {/* =========================================================================
-          1. HEAD & 3D LAYERED HAIR (Pivot at neck: Y = 0.40)
-          Standard Minecraft head is 0.44m cube with 3D outer hair shell
+          1. HEAD & HAIR (Pivot at neck: Y = 0.40)
+          Standard Minecraft head: 0.42m cube with chocolate brown hair on top/back/sides
          ========================================================================= */}
       <group ref={headGroupRef} position={[0, 0.40, 0]}>
-        {/* Main Base Head Cube with Pixel Face Map */}
+        {/* Main Head Cube */}
         <mesh position={[0, 0.22, 0]} castShadow receiveShadow>
           <boxGeometry args={[0.42, 0.42, 0.42]} />
           {/* Materials for [right, left, top, bottom, front, back] */}
-          <meshStandardMaterial attach="material-0" color="#E8BE9B" roughness={0.7} />
-          <meshStandardMaterial attach="material-1" color="#E8BE9B" roughness={0.7} />
-          <meshStandardMaterial attach="material-2" color="#261811" roughness={0.6} /> {/* Hair top */}
-          <meshStandardMaterial attach="material-3" color="#DCB08D" roughness={0.7} /> {/* Neck */}
-          <meshStandardMaterial attach="material-4" map={faceTexture} roughness={0.5} /> {/* Face */}
-          <meshStandardMaterial attach="material-5" color="#261811" roughness={0.6} /> {/* Hair back */}
-        </mesh>
-
-        {/* 3D Layered Hair Shell (Minecraft 1.8+ outer layer: Dark Chestnut Brown #2D1D15) */}
-        {/* Hair Cap (Top & Sides) */}
-        <mesh position={[0, 0.25, -0.01]} castShadow>
-          <boxGeometry args={[0.45, 0.38, 0.45]} />
-          <meshStandardMaterial color="#2B1C14" roughness={0.55} />
-        </mesh>
-
-        {/* 3D Cool Anime Fringe Bangs (protruding over forehead) */}
-        <group position={[0, 0.36, 0.22]}>
-          {/* Center fringe lock */}
-          <mesh position={[0, -0.05, 0.02]} rotation={[0.08, 0, 0.1]} castShadow>
-            <boxGeometry args={[0.14, 0.14, 0.04]} />
-            <meshStandardMaterial color="#362319" roughness={0.55} />
-          </mesh>
-          {/* Left fringe strand */}
-          <mesh position={[-0.14, -0.07, 0.02]} rotation={[0.1, 0, -0.15]} castShadow>
-            <boxGeometry args={[0.12, 0.16, 0.04]} />
-            <meshStandardMaterial color="#2B1C14" roughness={0.55} />
-          </mesh>
-          {/* Right fringe strand with electric cyan hair clip/streak */}
-          <mesh position={[0.14, -0.06, 0.02]} rotation={[0.06, 0, 0.15]} castShadow>
-            <boxGeometry args={[0.12, 0.15, 0.04]} />
-            <meshStandardMaterial color="#38BDF8" roughness={0.4} emissive="#0284C7" emissiveIntensity={0.2} />
-          </mesh>
-        </group>
-
-        {/* Headset / Gaming Audio Band (folded neatly around neck/hair) */}
-        <mesh position={[0, 0.32, -0.02]}>
-          <boxGeometry args={[0.47, 0.04, 0.38]} />
-          <meshStandardMaterial color="#0F172A" roughness={0.4} metalness={0.7} />
-        </mesh>
-        {/* Headset Ear Cups */}
-        <mesh position={[-0.235, 0.20, 0]}>
-          <boxGeometry args={[0.04, 0.14, 0.12]} />
-          <meshStandardMaterial color="#38BDF8" roughness={0.2} emissive="#38BDF8" emissiveIntensity={0.3} />
-        </mesh>
-        <mesh position={[0.235, 0.20, 0]}>
-          <boxGeometry args={[0.04, 0.14, 0.12]} />
-          <meshStandardMaterial color="#38BDF8" roughness={0.2} emissive="#38BDF8" emissiveIntensity={0.3} />
+          {/* Right face: Peach skin + hair sideburn */}
+          <meshStandardMaterial attach="material-0" color="#3A2418" roughness={0.7} />
+          {/* Left face: Peach skin + hair sideburn */}
+          <meshStandardMaterial attach="material-1" color="#3A2418" roughness={0.7} />
+          {/* Top face: Solid Chocolate Brown Hair (#3A2418) */}
+          <meshStandardMaterial attach="material-2" color="#3A2418" roughness={0.65} />
+          {/* Bottom face: Peach neck (#E5B892) */}
+          <meshStandardMaterial attach="material-3" color="#E5B892" roughness={0.7} />
+          {/* Front face: Pixel Face Map with Blue Eyes & Smiling Mouth */}
+          <meshStandardMaterial attach="material-4" map={faceTexture} roughness={0.5} />
+          {/* Back face: Solid Chocolate Brown Hair (#3A2418) */}
+          <meshStandardMaterial attach="material-5" color="#3A2418" roughness={0.65} />
         </mesh>
       </group>
 
       {/* =========================================================================
-          2. TORSO (Pivot at waist/center: Y = 0.15)
-          Minecraft torso is 0.42m W x 0.58m H x 0.22m D
+          2. TORSO (Pivot at waist/center: Y = 0.12)
+          Original Orange T-shirt (#EA580C) with cream collar notch and black belt
          ========================================================================= */}
       <group ref={torsoGroupRef} position={[0, 0.12, 0]}>
-        {/* Main Streetwear Hoodie Body */}
         <mesh position={[0, 0, 0]} castShadow receiveShadow>
           <boxGeometry args={[0.42, 0.56, 0.22]} />
           {/* Materials for [right, left, top, bottom, front, back] */}
-          <meshStandardMaterial attach="material-0" color="#1E293B" roughness={0.75} />
-          <meshStandardMaterial attach="material-1" color="#1E293B" roughness={0.75} />
-          <meshStandardMaterial attach="material-2" color="#0F172A" roughness={0.8} /> {/* Shoulders */}
-          <meshStandardMaterial attach="material-3" color="#0F172A" roughness={0.8} /> {/* Waist */}
-          <meshStandardMaterial attach="material-4" map={hoodieTexture} roughness={0.65} /> {/* Front */}
-          <meshStandardMaterial attach="material-5" color="#1E293B" roughness={0.75} /> {/* Back */}
-        </mesh>
-
-        {/* 3D Folded Hood Geometry on upper back */}
-        <mesh position={[0, 0.20, -0.13]} rotation={[-0.2, 0, 0]} castShadow>
-          <boxGeometry args={[0.36, 0.18, 0.08]} />
-          <meshStandardMaterial color="#161E2E" roughness={0.7} />
-        </mesh>
-
-        {/* Cyan Contrast Hood Interior Lining Rim */}
-        <mesh position={[0, 0.28, -0.09]}>
-          <boxGeometry args={[0.32, 0.03, 0.04]} />
-          <meshStandardMaterial color="#38BDF8" roughness={0.5} />
+          <meshStandardMaterial attach="material-0" color="#EA580C" roughness={0.7} />
+          <meshStandardMaterial attach="material-1" color="#EA580C" roughness={0.7} />
+          <meshStandardMaterial attach="material-2" color="#EA580C" roughness={0.7} /> {/* Shoulders */}
+          <meshStandardMaterial attach="material-3" color="#18181B" roughness={0.8} /> {/* Waist belt base */}
+          <meshStandardMaterial attach="material-4" map={torsoTexture} roughness={0.6} /> {/* Front */}
+          <meshStandardMaterial attach="material-5" color="#EA580C" roughness={0.7} /> {/* Back */}
         </mesh>
       </group>
 
       {/* =========================================================================
           3. LEFT ARM (Pivot at left shoulder: X = -0.31, Y = 0.36, Z = 0)
-          Minecraft arm is 0.19m W x 0.56m H x 0.20m D
+          Short orange sleeve on top (1/3), bare peach skin forearm & hand on bottom (2/3)
          ========================================================================= */}
       <group ref={leftArmRef} position={[-0.31, 0.36, 0]}>
-        {/* Upper Sleeve (Navy Hoodie #1E293B) */}
-        <mesh position={[0, -0.18, 0]} castShadow receiveShadow>
-          <boxGeometry args={[0.19, 0.38, 0.20]} />
-          <meshStandardMaterial color="#1E293B" roughness={0.75} />
+        {/* Upper Orange Short Sleeve */}
+        <mesh position={[0, -0.09, 0]} castShadow receiveShadow>
+          <boxGeometry args={[0.19, 0.18, 0.20]} />
+          <meshStandardMaterial color="#EA580C" roughness={0.7} />
         </mesh>
 
-        {/* Forearm & Hand (Warm Skin Tone #E8BE9B) */}
-        <mesh position={[0, -0.45, 0]} castShadow receiveShadow>
-          <boxGeometry args={[0.18, 0.18, 0.19]} />
-          <meshStandardMaterial color="#E8BE9B" roughness={0.7} />
-        </mesh>
-
-        {/* Left Wrist Watch / Smart Band in Cyber Cyan */}
-        <mesh position={[0, -0.38, 0]}>
-          <boxGeometry args={[0.195, 0.035, 0.205]} />
-          <meshStandardMaterial color="#0284C7" emissive="#38BDF8" emissiveIntensity={0.6} roughness={0.2} />
+        {/* Bare Peach Skin Forearm & Hand */}
+        <mesh position={[0, -0.37, 0]} castShadow receiveShadow>
+          <boxGeometry args={[0.188, 0.38, 0.198]} />
+          <meshStandardMaterial color="#E5B892" roughness={0.7} />
         </mesh>
       </group>
 
       {/* =========================================================================
           4. RIGHT ARM (Pivot at right shoulder: X = +0.31, Y = 0.36, Z = 0)
+          Short orange sleeve on top (1/3), bare peach skin forearm & hand on bottom (2/3)
          ========================================================================= */}
       <group ref={rightArmRef} position={[0.31, 0.36, 0]}>
-        {/* Upper Sleeve (Navy Hoodie #1E293B) */}
-        <mesh position={[0, -0.18, 0]} castShadow receiveShadow>
-          <boxGeometry args={[0.19, 0.38, 0.20]} />
-          <meshStandardMaterial color="#1E293B" roughness={0.75} />
+        {/* Upper Orange Short Sleeve */}
+        <mesh position={[0, -0.09, 0]} castShadow receiveShadow>
+          <boxGeometry args={[0.19, 0.18, 0.20]} />
+          <meshStandardMaterial color="#EA580C" roughness={0.7} />
         </mesh>
 
-        {/* Forearm & Hand (Warm Skin Tone #E8BE9B) */}
-        <mesh position={[0, -0.45, 0]} castShadow receiveShadow>
-          <boxGeometry args={[0.18, 0.18, 0.19]} />
-          <meshStandardMaterial color="#E8BE9B" roughness={0.7} />
-        </mesh>
-
-        {/* Right Wristband Accent */}
-        <mesh position={[0, -0.38, 0]}>
-          <boxGeometry args={[0.195, 0.025, 0.205]} />
-          <meshStandardMaterial color="#334155" roughness={0.6} />
+        {/* Bare Peach Skin Forearm & Hand */}
+        <mesh position={[0, -0.37, 0]} castShadow receiveShadow>
+          <boxGeometry args={[0.188, 0.38, 0.198]} />
+          <meshStandardMaterial color="#E5B892" roughness={0.7} />
         </mesh>
       </group>
 
       {/* =========================================================================
           5. LEFT LEG (Pivot at left hip: X = -0.11, Y = -0.16, Z = 0)
-          Minecraft leg is 0.19m W x 0.54m H x 0.20m D
+          Vibrant Royal Blue Jeans (#1D4ED8) with dark grey shoes (#374151)
          ========================================================================= */}
       <group ref={leftLegRef} position={[-0.11, -0.16, 0]}>
-        {/* Charcoal Denim Pants (#1E232E) */}
-        <mesh position={[0, -0.18, 0]} castShadow receiveShadow>
-          <boxGeometry args={[0.19, 0.38, 0.20]} />
-          <meshStandardMaterial color="#1E232E" roughness={0.85} />
-        </mesh>
-
-        {/* High-Top Sneaker Upper (#0284C7 Electric Cyan Canvas) */}
-        <mesh position={[0, -0.42, 0.02]} castShadow receiveShadow>
-          <boxGeometry args={[0.192, 0.14, 0.24]} />
-          <meshStandardMaterial color="#0284C7" roughness={0.6} />
-        </mesh>
-
-        {/* White Sneaker Rubber Sole & Toe Cap */}
-        <mesh position={[0, -0.495, 0.03]} receiveShadow>
-          <boxGeometry args={[0.198, 0.035, 0.26]} />
-          <meshStandardMaterial color="#F8FAFC" roughness={0.3} metalness={0.05} />
+        {/* Main Leg Mesh */}
+        <mesh position={[0, -0.27, 0]} castShadow receiveShadow>
+          <boxGeometry args={[0.19, 0.54, 0.20]} />
+          {/* Materials for [right, left, top, bottom, front, back] */}
+          <meshStandardMaterial attach="material-0" color="#1D4ED8" roughness={0.8} />
+          <meshStandardMaterial attach="material-1" color="#1D4ED8" roughness={0.8} />
+          <meshStandardMaterial attach="material-2" color="#1D4ED8" roughness={0.8} />
+          <meshStandardMaterial attach="material-3" color="#1F2937" roughness={0.7} /> {/* Shoe sole */}
+          <meshStandardMaterial attach="material-4" map={legFrontTexture} roughness={0.7} /> {/* Front */}
+          <meshStandardMaterial attach="material-5" color="#1D4ED8" roughness={0.8} /> {/* Back */}
         </mesh>
       </group>
 
       {/* =========================================================================
           6. RIGHT LEG (Pivot at right hip: X = +0.11, Y = -0.16, Z = 0)
+          Vibrant Royal Blue Jeans (#1D4ED8) with dark grey shoes (#374151)
          ========================================================================= */}
       <group ref={rightLegRef} position={[0.11, -0.16, 0]}>
-        {/* Charcoal Denim Pants (#1E232E) */}
-        <mesh position={[0, -0.18, 0]} castShadow receiveShadow>
-          <boxGeometry args={[0.19, 0.38, 0.20]} />
-          <meshStandardMaterial color="#1E232E" roughness={0.85} />
-        </mesh>
-
-        {/* High-Top Sneaker Upper (#0284C7 Electric Cyan Canvas) */}
-        <mesh position={[0, -0.42, 0.02]} castShadow receiveShadow>
-          <boxGeometry args={[0.192, 0.14, 0.24]} />
-          <meshStandardMaterial color="#0284C7" roughness={0.6} />
-        </mesh>
-
-        {/* White Sneaker Rubber Sole & Toe Cap */}
-        <mesh position={[0, -0.495, 0.03]} receiveShadow>
-          <boxGeometry args={[0.198, 0.035, 0.26]} />
-          <meshStandardMaterial color="#F8FAFC" roughness={0.3} metalness={0.05} />
+        {/* Main Leg Mesh */}
+        <mesh position={[0, -0.27, 0]} castShadow receiveShadow>
+          <boxGeometry args={[0.19, 0.54, 0.20]} />
+          {/* Materials for [right, left, top, bottom, front, back] */}
+          <meshStandardMaterial attach="material-0" color="#1D4ED8" roughness={0.8} />
+          <meshStandardMaterial attach="material-1" color="#1D4ED8" roughness={0.8} />
+          <meshStandardMaterial attach="material-2" color="#1D4ED8" roughness={0.8} />
+          <meshStandardMaterial attach="material-3" color="#1F2937" roughness={0.7} /> {/* Shoe sole */}
+          <meshStandardMaterial attach="material-4" map={legFrontTexture} roughness={0.7} /> {/* Front */}
+          <meshStandardMaterial attach="material-5" color="#1D4ED8" roughness={0.8} /> {/* Back */}
         </mesh>
       </group>
     </group>
