@@ -81,10 +81,10 @@ export const CoffeeMug: React.FC = () => {
 
   return (
     <group ref={mugGroupRef} position={[-0.60, 0.74, -1.72]}>
-      {/* 1. Outer Ceramic Mug Body */}
+      {/* 1. Outer Ceramic Mug Body in Glazed Duck-Egg Blue (#7A9E9F) */}
       <mesh receiveShadow position={[0, 0.05, 0]}>
         <cylinderGeometry args={[0.048, 0.042, 0.1, 24, 1, true]} />
-        <meshStandardMaterial color="#38bdf8" roughness={0.25} metalness={0.1} side={THREE.DoubleSide} />
+        <meshStandardMaterial color="#7A9E9F" roughness={0.2} metalness={0.05} side={THREE.DoubleSide} />
       </mesh>
 
       {/* 2. Mug Bottom Base */}

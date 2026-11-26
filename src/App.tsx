@@ -43,7 +43,7 @@ export const App: React.FC = () => {
         gl={{
           antialias: true,
           toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.05,
+          toneMappingExposure: 1.20,
         }}
         camera={{ position: [0, 4, 6], fov: 50 }}
         style={{ width: '100%', height: '100%', display: 'block' }}

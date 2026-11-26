@@ -7,6 +7,7 @@ import { getResolvedTimeMode } from '../Lighting/DayNightController';
 const _cSky = new THREE.Color();
 const _cWindowLit = new THREE.Color();
 const _cMist = new THREE.Color();
+const _cBuilding = new THREE.Color();
 
 interface BuildingData {
   pos: [number, number, number]; // [Z offset, Y height, X distance]
@@ -30,6 +31,17 @@ export const OutdoorBackdrop: React.FC = () => {
   const mistMatRef = useRef<THREE.MeshStandardMaterial>(null);
   const litWindowMatRef = useRef<THREE.MeshStandardMaterial>(null);
   const beaconRef = useRef<THREE.MeshBasicMaterial>(null);
+
+  // Shared material for all high-rise buildings (reused across instances, dynamically tinted)
+  const buildingMat = useMemo(
+    () =>
+      new THREE.MeshStandardMaterial({
+        color: '#64748B',
+        roughness: 0.35,
+        metalness: 0.6,
+      }),
+    []
+  );
 
   // Layered architectural high-rise data (arranged along West vista: X is negative depth)
   const buildings: BuildingData[] = useMemo(
@@ -63,7 +75,7 @@ export const OutdoorBackdrop: React.FC = () => {
     // 1. Sky & Overcast Colors
     const skyHex =
       resolved === 'day'
-        ? '#64748b' // Rainy overcast Tokyo daylight
+        ? '#E2E8F0' // Bright rainy overcast Tokyo daylight
         : resolved === 'evening'
           ? '#451a03' // Rainy amber Tokyo twilight
           : '#050814'; // Moody dark Tokyo night
@@ -72,6 +84,17 @@ export const OutdoorBackdrop: React.FC = () => {
       _cSky.set(skyHex);
       skyMatRef.current.color.lerp(_cSky, dt * 2.5);
     }
+
+    // 1b. Skyscraper Facades Color
+    const bldgHex =
+      resolved === 'day'
+        ? '#64748B' // Sleek modern glass/steel towers in daylight
+        : resolved === 'evening'
+          ? '#3D2D24' // Twilight silhouette
+          : '#111625'; // Dark night skyscraper
+
+    _cBuilding.set(bldgHex);
+    buildingMat.color.lerp(_cBuilding, dt * 2.5);
 
     // 2. High-Rise Window Lights
     const windowColor =
@@ -105,7 +128,7 @@ export const OutdoorBackdrop: React.FC = () => {
     if (mistMatRef.current) {
       const mistColor =
         resolved === 'day'
-          ? '#94a3b8'
+          ? '#F1F5F9'
           : resolved === 'evening'
             ? '#7c2d12'
             : '#0f172a';
@@ -130,13 +153,13 @@ export const OutdoorBackdrop: React.FC = () => {
         return (
           <group key={idx} position={[bx, by - h / 2 + 0.2, bz]}>
             {/* Main Skyscraper Tower Body */}
-            <mesh castShadow receiveShadow position={[0, h / 2, 0]}>
+            <mesh
+              material={buildingMat}
+              castShadow
+              receiveShadow
+              position={[0, h / 2, 0]}
+            >
               <boxGeometry args={[d, h, w]} />
-              <meshStandardMaterial
-                color="#090d16"
-                roughness={0.3}
-                metalness={0.7}
-              />
             </mesh>
 
             {/* Lit Window Bands / Vertical Glass Curtain Strips */}

@@ -6,10 +6,10 @@ import React from 'react';
 export const Notebook: React.FC = () => {
   return (
     <group position={[-1.55, 0.74, -1.68]} rotation={[0, 0.12, 0]}>
-      {/* Notebook Cover (Dark leatherette) */}
+      {/* Notebook Cover (Rich Cognac Tan Leather #9C6644) */}
       <mesh position={[0, 0.005, 0]} receiveShadow>
         <boxGeometry args={[0.26, 0.01, 0.34]} />
-        <meshStandardMaterial color="#1c1917" roughness={0.7} />
+        <meshStandardMaterial color="#9C6644" roughness={0.65} metalness={0.05} />
       </mesh>
 
       {/* Left Open Page (Warm ivory paper) */}

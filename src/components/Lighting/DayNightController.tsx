@@ -38,45 +38,45 @@ interface LightPreset {
 
 const PRESETS: Record<'day' | 'evening' | 'night', LightPreset> = {
   day: {
-    hemiSky: '#93c5fd', // bright sky blue
-    hemiGround: '#d6d3d1', // warm neutral ground
-    hemiIntensity: 0.95,
-    dirColor: '#fffbeb', // bright warm sunlight
-    dirIntensity: 2.2,
+    hemiSky: '#BAE6FD', // bright natural open sky
+    hemiGround: '#EDE6D8', // warm desaturated ivory/beige floor bounce (bright interior)
+    hemiIntensity: 1.30,
+    dirColor: '#FFFDF5', // bright warm sunbeam through west window
+    dirIntensity: 2.8,
     deskColor: '#fef08a',
-    deskBaseIntensity: 0.6, // desk lamp less dominant in daylight
+    deskBaseIntensity: 0.15, // desk lamp subtle in daylight
     violetColor: '#c084fc',
-    violetIntensity: 0.4, // RGB gear is subtler in daytime
-    fogColor: '#bfdbfe',
-    fogDensity: 0.012,
-    clearColor: '#93c5fd',
+    violetIntensity: 0.15, // RGB subtle in daytime
+    fogColor: '#E0F2FE',
+    fogDensity: 0.0025, // light atmospheric haze, doesn't obscure room walls
+    clearColor: '#BAE6FD',
   },
   evening: {
     hemiSky: '#f97316', // warm sunset amber/orange
-    hemiGround: '#431407', // deep dusk ground
-    hemiIntensity: 0.6,
+    hemiGround: '#8C5338', // warm terracotta floor bounce
+    hemiIntensity: 0.90,
     dirColor: '#fb923c', // golden hour beam
-    dirIntensity: 1.5,
+    dirIntensity: 2.0,
     deskColor: '#fef08a',
-    deskBaseIntensity: 1.0,
+    deskBaseIntensity: 1.1,
     violetColor: '#a855f7',
     violetIntensity: 0.75,
-    fogColor: '#451a03',
-    fogDensity: 0.018,
+    fogColor: '#5C2810',
+    fogDensity: 0.006,
     clearColor: '#7c2d12',
   },
   night: {
     hemiSky: '#38bdf8', // cool ambient fill
-    hemiGround: '#0f172a', // dark floor bounce
-    hemiIntensity: 0.38,
+    hemiGround: '#2A272E', // warm dark wood/rug bounce, visible floor
+    hemiIntensity: 0.52,
     dirColor: '#c7d2fe', // cool moonlight beam
-    dirIntensity: 1.1,
+    dirIntensity: 1.2,
     deskColor: '#fef08a', // warm task lamp
-    deskBaseIntensity: 1.35, // desk lamp is key focal light
+    deskBaseIntensity: 1.45, // desk lamp is key focal light
     violetColor: '#a855f7', // vibrant battlestation RGB
-    violetIntensity: 0.85,
+    violetIntensity: 0.95,
     fogColor: '#0a0f1d',
-    fogDensity: 0.024,
+    fogDensity: 0.010,
     clearColor: '#030712',
   },
 };
@@ -208,10 +208,10 @@ export const DayNightController: React.FC = () => {
 
   return (
     <>
-      {/* 1. Soft atmospheric hemisphere fill */}
+      {/* 1. Soft atmospheric hemisphere fill (Bright sky, warm ivory bounce) */}
       <hemisphereLight
         ref={hemiRef}
-        args={['#38bdf8', '#0f172a', 0.45]}
+        args={['#BAE6FD', '#EDE6D8', 1.30]}
         position={[0, 2.7, 0]}
       />
 

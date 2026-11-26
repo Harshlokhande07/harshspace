@@ -43,27 +43,27 @@ export const CeilingFan: React.FC = () => {
 
   return (
     <group position={[0, 2.55, 0]}>
-      {/* 1. Ceiling mounting canopy */}
+      {/* 1. Ceiling mounting canopy in warm bronze */}
       <mesh position={[0, 0.3, 0]}>
         <cylinderGeometry args={[0.18, 0.22, 0.1, 24]} />
-        <meshStandardMaterial color="#0f172a" roughness={0.4} metalness={0.7} />
+        <meshStandardMaterial color="#4A433D" roughness={0.4} metalness={0.6} />
       </mesh>
 
       {/* 2. Downrod from ceiling */}
       <mesh position={[0, 0.1, 0]}>
         <cylinderGeometry args={[0.025, 0.025, 0.35, 16]} />
-        <meshStandardMaterial color="#1e293b" roughness={0.3} metalness={0.8} />
+        <meshStandardMaterial color="#C5B49E" roughness={0.3} metalness={0.7} />
       </mesh>
 
       {/* 3. Motor housing */}
       <mesh position={[0, -0.1, 0]}>
         <cylinderGeometry args={[0.3, 0.24, 0.16, 24]} />
-        <meshStandardMaterial color="#0f172a" roughness={0.3} metalness={0.8} />
+        <meshStandardMaterial color="#4A433D" roughness={0.35} metalness={0.6} />
       </mesh>
       {/* Center decorative accent cap */}
       <mesh position={[0, -0.19, 0]}>
         <sphereGeometry args={[0.12, 16, 16]} />
-        <meshStandardMaterial color="#1e293b" roughness={0.2} metalness={0.9} />
+        <meshStandardMaterial color="#C5B49E" roughness={0.25} metalness={0.8} />
       </mesh>
 
       {/* 4. Rotating Blades Group */}
@@ -75,15 +75,15 @@ export const CeilingFan: React.FC = () => {
               {/* Blade arm bracket */}
               <mesh position={[0.26, 0, 0]}>
                 <boxGeometry args={[0.18, 0.015, 0.04]} />
-                <meshStandardMaterial color="#475569" metalness={0.8} roughness={0.3} />
+                <meshStandardMaterial color="#C5B49E" metalness={0.7} roughness={0.3} />
               </mesh>
-              {/* Wooden-tone modern aerodynamic blade */}
+              {/* Natural Medium Walnut Aerodynamic Blade (#684A35) */}
               <mesh position={[0.9, 0.005, 0]} rotation={[0.08, 0, 0]}>
                 <boxGeometry args={[1.1, 0.012, 0.2]} />
                 <meshStandardMaterial
-                  color="#1c1917"
-                  roughness={0.6}
-                  metalness={0.15}
+                  color="#684A35"
+                  roughness={0.48}
+                  metalness={0.05}
                 />
               </mesh>
             </group>

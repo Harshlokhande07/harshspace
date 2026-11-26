@@ -40,8 +40,8 @@ export const PostProcessingEffects: React.FC = () => {
       />
       <N8AO
         halfRes
-        aoRadius={0.7}
-        intensity={1.0}
+        aoRadius={0.5}
+        intensity={0.6}
         distanceFalloff={0.2}
         quality="low"
       />

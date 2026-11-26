@@ -65,16 +65,16 @@ export const Switchboard: React.FC = () => {
 
   return (
     <group position={[1.15, 1.25, 2.585]} rotation={[0, Math.PI, 0]}>
-      {/* 1. Base Wall Plate: Sleek matte slate/acrylic faceplate */}
+      {/* 1. Base Wall Plate: Warm ivory neutral acrylic faceplate (#EAE3D8) */}
       <mesh receiveShadow>
         <boxGeometry args={[0.32, 0.22, 0.02]} />
-        <meshStandardMaterial color="#0f172a" roughness={0.3} metalness={0.7} />
+        <meshStandardMaterial color="#EAE3D8" roughness={0.35} metalness={0.1} />
       </mesh>
 
-      {/* Outer border trim */}
+      {/* Outer border trim in Champagne Bronze */}
       <mesh position={[0, 0, 0.012]}>
         <boxGeometry args={[0.33, 0.23, 0.005]} />
-        <meshStandardMaterial color="#334155" roughness={0.4} metalness={0.6} />
+        <meshStandardMaterial color="#C5B8A5" roughness={0.3} metalness={0.7} />
       </mesh>
 
       {/* 2. Left Switch (Desk Lamp) */}

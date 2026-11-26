@@ -1,34 +1,34 @@
 import React from 'react';
 
 /**
- * Modern standing cyber-dock contact terminal placed against the right wall at [5.2, 0, 2.8].
- * Features an ergonomic angled console, illuminated holographic screen,
- * and a glowing geometric envelope beacon (emissive mesh, 0 extra real-time lights).
+ * Modern Standing Cyber-Dock Contact Terminal
+ * Materials:
+ * - Natural walnut wood pedestal (#684A35) with brushed champagne metal trim (#C5B49E)
+ * - Ergonomic angled console with subtle cyan holographic terminal display
  */
 export const ContactStation: React.FC = () => {
   return (
     <group position={[1.85, 0, 1.30]} rotation={[0, -Math.PI / 2, 0]}>
-      {/* Heavy base plinth (Dark slate metal) */}
+      {/* Heavy base plinth in Medium Walnut (#684A35) */}
       <mesh position={[0, 0.04, 0]} castShadow receiveShadow>
         <boxGeometry args={[0.56, 0.08, 0.44]} />
-        <meshStandardMaterial color="#0f172a" roughness={0.4} metalness={0.8} />
+        <meshStandardMaterial color="#684A35" roughness={0.45} metalness={0.05} />
       </mesh>
 
-      {/* Base perimeter cyan neon line */}
+      {/* Base perimeter champagne metal accent line */}
       <mesh position={[0, 0.082, 0]}>
         <boxGeometry args={[0.54, 0.006, 0.42]} />
         <meshStandardMaterial
-          color="#000000"
-          emissive="#38bdf8"
-          emissiveIntensity={0.5}
-          roughness={0.2}
+          color="#C5B49E"
+          roughness={0.25}
+          metalness={0.8}
         />
       </mesh>
 
-      {/* Upright pedestal pillar */}
+      {/* Upright pedestal pillar in Brushed Champagne Bronze (#4A433D) */}
       <mesh position={[0, 0.48, 0]} castShadow>
         <boxGeometry args={[0.18, 0.82, 0.16]} />
-        <meshStandardMaterial color="#1e293b" roughness={0.5} metalness={0.7} />
+        <meshStandardMaterial color="#4A433D" roughness={0.45} metalness={0.5} />
       </mesh>
 
       {/* Pedestal front illuminated vertical accent strip */}
@@ -36,18 +36,18 @@ export const ContactStation: React.FC = () => {
         <boxGeometry args={[0.02, 0.74, 0.004]} />
         <meshStandardMaterial
           color="#000000"
-          emissive="#a855f7"
-          emissiveIntensity={0.9}
+          emissive="#38bdf8"
+          emissiveIntensity={0.6}
           roughness={0.2}
         />
       </mesh>
 
-      {/* Angled Console Desktop Terminal (Height ~0.95m, angled 18 deg towards user) */}
+      {/* Angled Console Desktop Terminal in Walnut (#684A35) */}
       <group position={[0, 0.94, 0.02]} rotation={[-0.32, 0, 0]}>
         {/* Terminal Body */}
         <mesh castShadow receiveShadow>
           <boxGeometry args={[0.5, 0.04, 0.36]} />
-          <meshStandardMaterial color="#0f172a" roughness={0.3} metalness={0.6} />
+          <meshStandardMaterial color="#684A35" roughness={0.4} metalness={0.1} />
         </mesh>
 
         {/* Holographic display surface */}
@@ -56,40 +56,32 @@ export const ContactStation: React.FC = () => {
           <meshStandardMaterial
             color="#082f49"
             emissive="#0284c7"
-            emissiveIntensity={0.6}
+            emissiveIntensity={0.5}
             roughness={0.2}
           />
         </mesh>
 
-        {/* 3D Geometric Envelope / @ symbol beacon built from primitives */}
+        {/* Floating Holographic Contact Glyph */}
         <group position={[0, 0.04, 0]}>
-          {/* Envelope base rectangle */}
+          {/* Base glyph outline */}
           <mesh position={[0, 0.006, 0]}>
-            <planeGeometry args={[0.18, 0.12]} />
+            <planeGeometry args={[0.12, 0.08]} />
             <meshStandardMaterial
-              color="#000000"
+              color="#38bdf8"
               emissive="#38bdf8"
               emissiveIntensity={1.0}
               roughness={0.2}
+              wireframe={true}
             />
           </mesh>
-
-          {/* Envelope top flap triangular lines */}
+          {/* Holographic envelope flap folds */}
           <mesh position={[0, 0.008, 0.01]} rotation={[0, 0, 0.42]}>
-            <planeGeometry args={[0.11, 0.008]} />
-            <meshStandardMaterial
-              color="#ffffff"
-              emissive="#ffffff"
-              emissiveIntensity={1.2}
-            />
+            <planeGeometry args={[0.07, 0.004]} />
+            <meshStandardMaterial color="#38bdf8" emissive="#38bdf8" emissiveIntensity={1.0} />
           </mesh>
           <mesh position={[0, 0.008, 0.01]} rotation={[0, 0, -0.42]}>
-            <planeGeometry args={[0.11, 0.008]} />
-            <meshStandardMaterial
-              color="#ffffff"
-              emissive="#ffffff"
-              emissiveIntensity={1.2}
-            />
+            <planeGeometry args={[0.07, 0.004]} />
+            <meshStandardMaterial color="#38bdf8" emissive="#38bdf8" emissiveIntensity={1.0} />
           </mesh>
         </group>
       </group>

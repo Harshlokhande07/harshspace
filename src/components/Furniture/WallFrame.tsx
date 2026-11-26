@@ -20,20 +20,20 @@ function createSampleTexture(title: string): THREE.CanvasTexture {
   canvas.height = 360;
   const ctx = canvas.getContext('2d')!;
 
-  // Background gradient
+  // Background gradient: warm archival parchment / ivory
   const grad = ctx.createLinearGradient(0, 0, 512, 360);
-  grad.addColorStop(0, '#0f172a');
-  grad.addColorStop(1, '#1e293b');
+  grad.addColorStop(0, '#F5EFE6');
+  grad.addColorStop(1, '#E8DFD3');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, 512, 360);
 
   // Border outline
-  ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+  ctx.strokeStyle = 'rgba(163, 136, 101, 0.4)';
   ctx.lineWidth = 4;
   ctx.strokeRect(16, 16, 480, 328);
 
   // Subtle diagonal watermark stripes
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+  ctx.strokeStyle = 'rgba(140, 115, 80, 0.05)';
   ctx.lineWidth = 2;
   for (let i = -360; i < 512; i += 40) {
     ctx.beginPath();
@@ -42,8 +42,8 @@ function createSampleTexture(title: string): THREE.CanvasTexture {
     ctx.stroke();
   }
 
-  // "SAMPLE" stamp
-  ctx.fillStyle = '#38bdf8';
+  // "SAMPLE" stamp in warm cognac brown
+  ctx.fillStyle = '#7C5E43';
   ctx.font = 'bold 28px sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -101,7 +101,7 @@ export const WallFrame: React.FC<WallFrameProps> = ({
   width = 0.76,
   height = 0.54,
   glowIntensity = 0,
-  frameColor = '#0f172a',
+  frameColor = '#8C735A',
 }) => {
   const hasValidImage = Boolean(imageUrl && imageUrl.trim() !== '');
 
