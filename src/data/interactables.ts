@@ -126,9 +126,9 @@ export const INTERACTABLES: InteractableObject[] = [
   },
   {
     id: 'ac-switch',
-    label: 'AC Thermostat',
-    promptText: 'Control Air Conditioner',
-    position: [-0.10, 0.02, 2.05], // Approach position facing AC & Wall Thermostat
+    label: 'Air Conditioner',
+    promptText: 'Toggle Air Conditioner',
+    position: [-0.10, 0.02, 1.85], // Approach position facing AC on South wall
     radius: 1.4,
     sectionId: 'ac-switch',
     kind: 'action',

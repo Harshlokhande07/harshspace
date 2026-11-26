@@ -186,6 +186,109 @@ export const LoungeFurniturePack: React.FC = () => {
     return texture;
   }, []);
 
+  // 5. Photorealistic Snake Plant (Sansevieria) Leaf Texture (Broad, Flat, Variegated)
+  const snakeLeafTexture = useMemo(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 768;
+    const ctx = canvas.getContext('2d')!;
+
+    ctx.clearRect(0, 0, 256, 768);
+
+    // Leaf contour path (sword-shaped, tapered tip)
+    ctx.beginPath();
+    ctx.moveTo(128, 30); // Pointed tip
+    ctx.bezierCurveTo(68, 180, 40, 500, 78, 750); // Left outer curve
+    ctx.lineTo(178, 750); // Base bottom
+    ctx.bezierCurveTo(216, 500, 188, 180, 128, 30); // Right outer curve
+    ctx.closePath();
+
+    // Vibrant Yellow/Gold Variegated Outer Margin Band
+    ctx.fillStyle = '#ECC94B';
+    ctx.fill();
+
+    // Dark Forest Green Inner Core with Mottled Cross-Banding
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(128, 54);
+    ctx.bezierCurveTo(86, 190, 64, 490, 92, 750);
+    ctx.lineTo(164, 750);
+    ctx.bezierCurveTo(192, 490, 170, 190, 128, 54);
+    ctx.closePath();
+    ctx.clip();
+
+    // Deep rich emerald green base
+    ctx.fillStyle = '#1D4524';
+    ctx.fillRect(0, 0, 256, 768);
+
+    // Mottled horizontal waves
+    ctx.fillStyle = '#2A5B34';
+    for (let y = 70; y < 740; y += 22) {
+      ctx.beginPath();
+      ctx.ellipse(128, y, 54, 8 + (y % 5), 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.fillStyle = '#16341C';
+    for (let y = 82; y < 740; y += 26) {
+      ctx.beginPath();
+      ctx.ellipse(128, y, 48, 6, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    return texture;
+  }, []);
+
+  // 6. Photorealistic Lush Tropical Palm/Fern Frond Texture
+  const palmFrondTexture = useMemo(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d')!;
+
+    ctx.clearRect(0, 0, 512, 512);
+
+    // Central arched stem
+    ctx.strokeStyle = '#225430';
+    ctx.lineWidth = 6;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(256, 490);
+    ctx.quadraticCurveTo(256, 260, 256, 30);
+    ctx.stroke();
+
+    // Feathered pinnate leaflets radiating along the stem
+    const numPairs = 18;
+    for (let i = 0; i < numPairs; i++) {
+      const t = i / numPairs;
+      const y = 460 - t * 410;
+      const len = (1 - t * 0.45) * 110;
+      const col = i % 2 === 0 ? '#2D6E42' : '#3E8C56';
+
+      ctx.fillStyle = col;
+
+      // Left leaflet
+      ctx.beginPath();
+      ctx.moveTo(256, y);
+      ctx.quadraticCurveTo(256 - len * 0.5, y - 28, 256 - len, y - 48);
+      ctx.quadraticCurveTo(256 - len * 0.5, y - 10, 256, y + 14);
+      ctx.fill();
+
+      // Right leaflet
+      ctx.beginPath();
+      ctx.moveTo(256, y);
+      ctx.quadraticCurveTo(256 + len * 0.5, y - 28, 256 + len, y - 48);
+      ctx.quadraticCurveTo(256 + len * 0.5, y - 10, 256, y + 14);
+      ctx.fill();
+    }
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    return texture;
+  }, []);
+
   return (
     <group position={[4.05, 0, 0.10]} rotation={[0, -Math.PI / 2, 0]}>
       {/* =========================================================================
@@ -348,29 +451,12 @@ export const LoungeFurniturePack: React.FC = () => {
             <meshStandardMaterial map={painting4Texture} roughness={0.7} />
           </mesh>
         </group>
-
-        {/* 4. WALL HEXAGONAL WOODEN HONEYCOMB FLOATING SHELVES (X = +1.52) */}
-        {/* Open hollow natural light oak frames (#C49E6A) */}
-        <group position={[1.52, 0.22, 0.02]}>
-          {[
-            [0, 0.22, 0],
-            [-0.14, -0.04, 0],
-            [0.14, 0.08, 0],
-          ].map((hp, idx) => (
-            <group key={idx} position={hp as [number, number, number]}>
-              <mesh rotation={[0, 0, Math.PI / 6]} castShadow receiveShadow>
-                <cylinderGeometry args={[0.16, 0.16, 0.12, 6, 1, true]} />
-                <meshStandardMaterial color="#C49E6A" roughness={0.55} side={THREE.DoubleSide} />
-              </mesh>
-            </group>
-          ))}
-        </group>
       </group>
 
       {/* =========================================================================
-          5. 3 DESIGNER INDOOR POTTED PLANTS (Eli_ac original designs)
+          5. 3 DESIGNER INDOOR POTTED PLANTS (Eli_ac 1:1 original realistic foliage)
          ========================================================================= */}
-      {/* Plant A: Tall Snake Plant on 4-Legged Wood Stand (X = +1.28) */}
+      {/* Plant A: Tall Variegated Snake Plant (Sansevieria) on 4-Legged Wood Stand (X = +1.28) */}
       <group position={[1.28, 0, 0.12]}>
         {/* 4-Legged Natural Wood Stand */}
         <group position={[0, 0.20, 0]}>
@@ -401,33 +487,44 @@ export const LoungeFurniturePack: React.FC = () => {
           <meshStandardMaterial color="#F1F5F9" roughness={0.35} />
         </mesh>
 
-        {/* Upright Variegated Snake Plant Leaves */}
+        {/* Soil Base */}
+        <mesh position={[0, 0.62, 0]}>
+          <boxGeometry args={[0.19, 0.02, 0.19]} />
+          <meshStandardMaterial color="#2B1E16" roughness={0.9} />
+        </mesh>
+
+        {/* Photorealistic Broad Variegated Snake Plant Leaves */}
         {[
-          { pos: [0, 0.84, 0], scale: [1, 1.45, 1], rotY: 0.1 },
-          { pos: [-0.04, 0.78, 0.03], scale: [0.9, 1.25, 0.9], rotY: -0.4 },
-          { pos: [0.04, 0.75, -0.03], scale: [0.85, 1.15, 0.85], rotY: 0.6 },
-          { pos: [0.03, 0.72, 0.04], scale: [0.9, 1.1, 0.9], rotY: 1.1 },
-          { pos: [-0.03, 0.70, -0.04], scale: [0.8, 1.05, 0.8], rotY: 1.8 },
+          { pos: [0, 0.88, 0], rot: [0.05, 0.1, 0], scale: [1, 1.35, 1] },
+          { pos: [-0.03, 0.84, 0.02], rot: [-0.12, 0.8, -0.08], scale: [0.95, 1.25, 1] },
+          { pos: [0.03, 0.83, -0.02], rot: [0.15, -0.6, 0.06], scale: [0.92, 1.2, 1] },
+          { pos: [0.02, 0.80, 0.04], rot: [-0.18, 1.6, 0.04], scale: [0.88, 1.15, 1] },
+          { pos: [-0.04, 0.79, -0.03], rot: [0.2, -1.4, -0.06], scale: [0.85, 1.1, 1] },
+          { pos: [0.05, 0.76, 0.01], rot: [0.08, 2.3, 0.14], scale: [0.8, 1.05, 1] },
+          { pos: [-0.02, 0.75, 0.05], rot: [-0.15, -2.1, -0.1], scale: [0.78, 1.0, 1] },
+          { pos: [0.01, 0.73, -0.05], rot: [0.22, 0.4, -0.12], scale: [0.75, 0.95, 1] },
         ].map((leaf, idx) => (
           <group
             key={idx}
             position={leaf.pos as [number, number, number]}
-            rotation={[0, leaf.rotY, 0]}
+            rotation={leaf.rot as [number, number, number]}
             scale={leaf.scale as [number, number, number]}
           >
-            <mesh castShadow>
-              <cylinderGeometry args={[0.035, 0.008, 0.44, 4]} />
-              <meshStandardMaterial color="#1E4620" roughness={0.65} />
-            </mesh>
-            <mesh position={[0, 0, 0.002]}>
-              <cylinderGeometry args={[0.038, 0.01, 0.42, 4]} />
-              <meshStandardMaterial color="#ECC94B" roughness={0.7} />
+            <mesh castShadow receiveShadow>
+              <planeGeometry args={[0.095, 0.52]} />
+              <meshStandardMaterial
+                map={snakeLeafTexture}
+                transparent
+                alphaTest={0.08}
+                side={THREE.DoubleSide}
+                roughness={0.45}
+              />
             </mesh>
           </group>
         ))}
       </group>
 
-      {/* Plant B: Lush Tropical Fern/Palm in Tall Tapered Terrazzo Planter (X = +1.68) */}
+      {/* Plant B: Lush Tropical Palm/Fern in Tall Tapered Terrazzo Planter (X = +1.68) */}
       <group position={[1.68, 0, 0.08]}>
         {/* Tall Light-Grey Tapered Rectangular Planter sitting directly on floor */}
         <mesh position={[0, 0.24, 0]} castShadow receiveShadow>
@@ -435,48 +532,79 @@ export const LoungeFurniturePack: React.FC = () => {
           <meshStandardMaterial color="#E2E8F0" roughness={0.4} />
         </mesh>
 
-        {/* Spreading Tropical Palm Fronds */}
+        {/* Soil Base */}
+        <mesh position={[0, 0.47, 0]}>
+          <boxGeometry args={[0.22, 0.02, 0.22]} />
+          <meshStandardMaterial color="#2B1E16" roughness={0.9} />
+        </mesh>
+
+        {/* Spreading Arching Tropical Palm Fronds radiating in all directions */}
         {[
-          { rot: [0.45, 0.2, 0.3], pos: [0.06, 0.52, 0.04], col: '#2D6A4F' },
-          { rot: [-0.4, 1.4, 0.35], pos: [-0.05, 0.54, 0.06], col: '#387A4C' },
-          { rot: [0.35, 2.6, -0.25], pos: [0.04, 0.50, -0.05], col: '#40916C' },
-          { rot: [-0.3, 3.9, 0.3], pos: [-0.06, 0.53, -0.04], col: '#2D6A4F' },
-          { rot: [0.15, 5.2, -0.35], pos: [0.02, 0.58, 0], col: '#52B788' },
+          { rot: [0.55, 0.2, -0.15], pos: [0.04, 0.60, 0.03], scale: 1.1 },
+          { rot: [0.45, 1.1, -0.2], pos: [-0.03, 0.62, 0.04], scale: 1.05 },
+          { rot: [0.5, 2.1, -0.15], pos: [-0.04, 0.59, -0.03], scale: 1.0 },
+          { rot: [0.52, 3.2, -0.18], pos: [0.03, 0.61, -0.04], scale: 1.08 },
+          { rot: [0.48, 4.3, -0.12], pos: [0.04, 0.63, 0.01], scale: 1.02 },
+          { rot: [0.54, 5.3, -0.16], pos: [-0.02, 0.60, -0.01], scale: 1.0 },
+          // Upright inner crowning fronds
+          { rot: [0.22, 0.6, -0.05], pos: [0.01, 0.68, 0.02], scale: 0.95 },
+          { rot: [0.25, 2.7, 0.08], pos: [-0.01, 0.69, -0.02], scale: 0.92 },
+          { rot: [0.28, 4.8, -0.06], pos: [0.02, 0.67, 0], scale: 0.9 },
         ].map((f, i) => (
           <group
             key={i}
             position={f.pos as [number, number, number]}
             rotation={f.rot as [number, number, number]}
+            scale={[f.scale, f.scale, f.scale]}
           >
-            <mesh castShadow>
-              <coneGeometry args={[0.15, 0.42, 5]} />
-              <meshStandardMaterial color={f.col} roughness={0.65} />
+            <mesh castShadow receiveShadow>
+              <planeGeometry args={[0.20, 0.36]} />
+              <meshStandardMaterial
+                map={palmFrondTexture}
+                transparent
+                alphaTest={0.06}
+                side={THREE.DoubleSide}
+                roughness={0.4}
+              />
             </mesh>
           </group>
         ))}
       </group>
 
-      {/* Plant C: Small Miniature Snake Plant in Geometric Origami Planter (X = +1.98) */}
+      {/* Plant C: Miniature Variegated Snake Plant in Geometric Origami Planter (X = +1.98) */}
       <group position={[1.98, 0, -0.04]}>
         {/* Faceted Origami Ceramic Planter */}
         <mesh position={[0, 0.08, 0]} castShadow receiveShadow>
           <cylinderGeometry args={[0.085, 0.06, 0.16, 6]} />
           <meshStandardMaterial color="#F8FAFC" roughness={0.3} />
         </mesh>
-        {/* Miniature Variegated Leaves */}
+        {/* Soil Base */}
+        <mesh position={[0, 0.155, 0]}>
+          <cylinderGeometry args={[0.075, 0.075, 0.01, 6]} />
+          <meshStandardMaterial color="#2B1E16" roughness={0.9} />
+        </mesh>
+        {/* Delicate Miniature Variegated Leaves */}
         {[
-          { pos: [0, 0.22, 0], rot: [0, 0, 0], scale: 1 },
-          { pos: [-0.02, 0.20, 0.02], rot: [0.1, 1.2, 0], scale: 0.8 },
-          { pos: [0.02, 0.19, -0.01], rot: [-0.1, 2.8, 0], scale: 0.85 },
+          { pos: [0, 0.25, 0], rot: [0.05, 0.1, 0], scale: 1.0 },
+          { pos: [-0.02, 0.23, 0.01], rot: [-0.15, 1.2, -0.08], scale: 0.85 },
+          { pos: [0.02, 0.22, -0.01], rot: [0.18, 2.5, 0.06], scale: 0.82 },
+          { pos: [0.01, 0.21, 0.02], rot: [-0.12, 3.8, 0.1], scale: 0.78 },
+          { pos: [-0.01, 0.20, -0.02], rot: [0.15, 5.1, -0.05], scale: 0.75 },
         ].map((leaf, idx) => (
-          <group key={idx} position={leaf.pos as [number, number, number]} rotation={leaf.rot as [number, number, number]}>
-            <mesh castShadow>
-              <cylinderGeometry args={[0.016, 0.005, 0.16 * leaf.scale, 4]} />
-              <meshStandardMaterial color="#1E4620" roughness={0.6} />
-            </mesh>
-            <mesh position={[0, 0, 0.001]}>
-              <cylinderGeometry args={[0.018, 0.006, 0.15 * leaf.scale, 4]} />
-              <meshStandardMaterial color="#ECC94B" roughness={0.65} />
+          <group
+            key={idx}
+            position={leaf.pos as [number, number, number]}
+            rotation={leaf.rot as [number, number, number]}
+          >
+            <mesh castShadow receiveShadow>
+              <planeGeometry args={[0.045 * leaf.scale, 0.20 * leaf.scale]} />
+              <meshStandardMaterial
+                map={snakeLeafTexture}
+                transparent
+                alphaTest={0.08}
+                side={THREE.DoubleSide}
+                roughness={0.45}
+              />
             </mesh>
           </group>
         ))}
