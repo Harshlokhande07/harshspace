@@ -30,6 +30,7 @@ import { MinecraftSword } from '../Furniture/MinecraftSword';
 import { MinecraftAquarium } from '../Furniture/MinecraftAquarium';
 import { MinecraftTorch } from '../Furniture/MinecraftTorch';
 import { MinecraftBee } from '../Furniture/MinecraftBee';
+import { MinecraftLogo } from '../Furniture/MinecraftLogo';
 
 /**
  * Photorealistic Extended Bedroom Shell
@@ -273,6 +274,8 @@ export const GamingRoomModel: React.FC = () => {
       <Notebook />
       <GamingChair />
       <Bed />
+      {/* 3D Minecraft Logo mounted in the middle of the wall above the bed */}
+      <MinecraftLogo />
       <Monitor />
       <Keyboard />
       <Mouse />
