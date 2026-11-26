@@ -25,6 +25,7 @@ import { SecretCube } from '../Furniture/SecretCube';
 import { DrawerNote } from '../Furniture/DrawerNote';
 import { LoungeFurniturePack } from '../Furniture/LoungeFurniturePack';
 import { AirConditioner } from '../Furniture/AirConditioner';
+import { IndustrialCeilingLight } from '../Furniture/IndustrialCeilingLight';
 
 /**
  * Photorealistic Extended Bedroom Shell
@@ -244,8 +245,9 @@ export const GamingRoomModel: React.FC = () => {
       <WindowFrame />
       <OutdoorBackdrop />
 
-      {/* 9. Ceiling Fan */}
+      {/* 9. Ceiling Fan & Industrial Lighting */}
       <CeilingFan />
+      <IndustrialCeilingLight />
 
       {/* 10. Wall Mounted Art & Portfolios */}
       <Switchboard />
