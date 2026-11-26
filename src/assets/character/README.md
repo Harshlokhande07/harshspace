@@ -1,11 +1,14 @@
-# Mixamo Character Assets
+# Character Model Assets (Rigged Minecraft Boy / Custom Avatar)
 
-Place your Mixamo FBX files in this directory:
-- `harsh.fbx`: Character model with skin (e.g., exported from Mixamo as FBX with Skin, T-Pose or Idle).
-- `idle.fbx`: Idle animation (FBX without skin, in place).
-- `walk.fbx`: Walking animation (FBX without skin, in place).
-- `run.fbx`: Running animation (FBX without skin, in place).
+This directory supports both **GLB/glTF** and **FBX** 3D character models:
 
-### Safe Loading Architecture:
-- If files are not yet added, the system automatically uses the sleek capsule avatar with directional visor and underglow.
-- When you drop your FBX files here, Vite detects them and mounts the animated 3D mesh automatically without code changes.
+### 1. Default Built-in Model
+If no external 3D model file is present, the application automatically renders and animates the custom **Rigged Minecraft Boy** (with layered 3D hair fringe, cyan/navy streetwear hoodie, denim jeans, sneakers, and full limb kinematic walking, running, seated keyboard-typing, and lying bed animations).
+
+### 2. Loading External Sketchfab Model (Rigged Mine Craft Boy):
+To load the exact 3D file from Sketchfab:
+1. Download the model as **glTF / GLB** or **FBX** from Sketchfab.
+2. Place the file in this folder:
+   - For GLTF/GLB: `src/assets/character/harsh.glb` (or `minecraft.glb`)
+   - For FBX: `src/assets/character/harsh.fbx`
+3. Vite hot-module reload will automatically detect and mount it in the 3D bedroom without rebuilding.
