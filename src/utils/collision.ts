@@ -43,10 +43,10 @@ export const FURNITURE_COLLIDERS: Box3D[] = [
     max: [-1.20, 2.2, 2.53],
     name: 'Bookshelf',
   },
-  // Contact Station: center [1.85, 0, 1.30], against East Wall, size [0.70, 1.0, 0.45]
+  // Contact Station: entryway next to entrance door, center [2.65, 0, 2.22], size [0.55, 1.0, 0.55]
   {
-    min: [1.50, 0, 1.05],
-    max: [2.20, 1.2, 1.55],
+    min: [2.35, 0, 1.92],
+    max: [2.95, 1.2, 2.52],
     name: 'ContactStation',
   },
   // Corner Plant: center [-2.35, 0, -2.15], size [0.45, 0.90, 0.45]

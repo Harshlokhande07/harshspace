@@ -97,12 +97,12 @@ export const MiniMap: React.FC = () => {
         toCanvasX(-1.20) - toCanvasX(-2.50),
         toCanvasY(2.53) - toCanvasY(2.17)
       );
-      // Contact Station
+      // Contact Station (Next to Entrance Door)
       ctx.fillRect(
-        toCanvasX(1.50),
-        toCanvasY(1.05),
-        toCanvasX(2.20) - toCanvasX(1.50),
-        toCanvasY(1.55) - toCanvasY(1.05)
+        toCanvasX(2.35),
+        toCanvasY(1.92),
+        toCanvasX(2.95) - toCanvasX(2.35),
+        toCanvasY(2.52) - toCanvasY(1.92)
       );
       // Lounge Couch (Eli_ac Furniture Pack)
       ctx.fillStyle = 'rgba(91, 152, 171, 0.4)';
