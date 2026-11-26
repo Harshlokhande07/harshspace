@@ -97,12 +97,20 @@ export const MiniMap: React.FC = () => {
         toCanvasX(-1.20) - toCanvasX(-2.50),
         toCanvasY(2.53) - toCanvasY(2.17)
       );
-      // Contact Station (Next to Entrance Door)
+      // Contact Station
       ctx.fillRect(
-        toCanvasX(2.35),
-        toCanvasY(1.92),
-        toCanvasX(2.95) - toCanvasX(2.35),
-        toCanvasY(2.52) - toCanvasY(1.92)
+        toCanvasX(1.50),
+        toCanvasY(1.05),
+        toCanvasX(2.20) - toCanvasX(1.50),
+        toCanvasY(1.55) - toCanvasY(1.05)
+      );
+      // Minecraft Aquarium
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.6)';
+      ctx.fillRect(
+        toCanvasX(2.20),
+        toCanvasY(2.14),
+        toCanvasX(3.10) - toCanvasX(2.20),
+        toCanvasY(2.58) - toCanvasY(2.14)
       );
       // Lounge Couch (Eli_ac Furniture Pack)
       ctx.fillStyle = 'rgba(91, 152, 171, 0.4)';

@@ -26,6 +26,8 @@ import { DrawerNote } from '../Furniture/DrawerNote';
 import { LoungeFurniturePack } from '../Furniture/LoungeFurniturePack';
 import { AirConditioner } from '../Furniture/AirConditioner';
 import { IndustrialCeilingLight } from '../Furniture/IndustrialCeilingLight';
+import { MinecraftSword } from '../Furniture/MinecraftSword';
+import { MinecraftAquarium } from '../Furniture/MinecraftAquarium';
 
 /**
  * Photorealistic Extended Bedroom Shell
@@ -153,6 +155,8 @@ export const GamingRoomModel: React.FC = () => {
       </mesh>
       {/* Natural Walnut Acoustic Slat Feature Wall behind Workstation */}
       <WalnutAcousticWall position={[-1.30, 1.40, -2.59]} width={3.0} height={2.80} />
+      {/* Minecraft Diamond Sword mounted directly in the middle of the acoustic wall */}
+      <MinecraftSword />
 
       {/* 5. South / Front Wall (Z = +2.60m) in Warm Ivory (#E9E2D6) */}
       {/* Left section (X: -2.80 to 1.25 -> center -0.775, width 4.05) */}
@@ -256,6 +260,7 @@ export const GamingRoomModel: React.FC = () => {
 
       {/* 11. Furniture Pieces */}
       <ContactStation />
+      <MinecraftAquarium />
       <Desk />
       <DrawerNote />
       <CoffeeMug />

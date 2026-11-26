@@ -8,7 +8,7 @@ import React from 'react';
  */
 export const ContactStation: React.FC = () => {
   return (
-    <group position={[2.65, 0, 2.22]} rotation={[0, -Math.PI * 0.75, 0]}>
+    <group position={[1.85, 0, 1.30]} rotation={[0, -Math.PI / 2, 0]}>
       {/* Heavy base plinth in Medium Walnut (#684A35) */}
       <mesh position={[0, 0.04, 0]} castShadow receiveShadow>
         <boxGeometry args={[0.56, 0.08, 0.44]} />

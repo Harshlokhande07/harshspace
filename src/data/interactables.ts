@@ -78,7 +78,7 @@ export const INTERACTABLES: InteractableObject[] = [
     id: 'contact',
     label: 'Contact Station',
     promptText: 'Connect With Me',
-    position: [2.35, 0.02, 1.95], // In front of station angled towards approaching player
+    position: [1.10, 0.02, 1.30], // In front of station with 0.40m buffer to collider
     radius: 1.4,
     sectionId: 'contact',
     kind: 'panel',
