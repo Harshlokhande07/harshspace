@@ -29,6 +29,7 @@ import { IndustrialCeilingLight } from '../Furniture/IndustrialCeilingLight';
 import { MinecraftSword } from '../Furniture/MinecraftSword';
 import { MinecraftAquarium } from '../Furniture/MinecraftAquarium';
 import { MinecraftTorch } from '../Furniture/MinecraftTorch';
+import { MinecraftBee } from '../Furniture/MinecraftBee';
 
 /**
  * Photorealistic Extended Bedroom Shell
@@ -253,9 +254,10 @@ export const GamingRoomModel: React.FC = () => {
       <WindowFrame />
       <OutdoorBackdrop />
 
-      {/* 9. Ceiling Fan & Industrial Lighting */}
+      {/* Functional Ceiling Elements & Room Companions */}
       <CeilingFan />
       <IndustrialCeilingLight />
+      <MinecraftBee />
 
       {/* 10. Wall Mounted Art & Portfolios */}
       <Switchboard />
