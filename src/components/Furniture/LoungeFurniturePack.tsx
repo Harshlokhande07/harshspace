@@ -348,12 +348,12 @@ export const LoungeFurniturePack: React.FC = () => {
         {/* Tall White Planter on Stand */}
         <mesh position={[0, 0.44, 0]} castShadow receiveShadow>
           <boxGeometry args={[0.21, 0.38, 0.21]} />
-          <meshStandardMaterial color="#F1F5F9" roughness={0.35} />
+          <meshStandardMaterial color="#F8FAFC" roughness={0.35} />
         </mesh>
 
-        {/* Soil Base */}
-        <mesh position={[0, 0.62, 0]}>
-          <boxGeometry args={[0.19, 0.02, 0.19]} />
+        {/* Soil Base (recessed slightly below pot rim) */}
+        <mesh position={[0, 0.615, 0]} receiveShadow>
+          <boxGeometry args={[0.185, 0.02, 0.185]} />
           <meshStandardMaterial color="#2B1E16" roughness={0.9} />
         </mesh>
 
@@ -374,14 +374,15 @@ export const LoungeFurniturePack: React.FC = () => {
             rotation={leaf.rot as [number, number, number]}
             scale={leaf.scale as [number, number, number]}
           >
-            <mesh castShadow receiveShadow>
+            <mesh>
               <planeGeometry args={[0.095, 0.52]} />
               <meshStandardMaterial
                 map={snakeLeafTexture}
                 transparent
-                alphaTest={0.08}
+                alphaTest={0.4}
                 side={THREE.DoubleSide}
                 roughness={0.45}
+                depthWrite={true}
               />
             </mesh>
           </group>
@@ -396,9 +397,9 @@ export const LoungeFurniturePack: React.FC = () => {
           <meshStandardMaterial color="#E2E8F0" roughness={0.4} />
         </mesh>
 
-        {/* Soil Base */}
-        <mesh position={[0, 0.47, 0]}>
-          <boxGeometry args={[0.22, 0.02, 0.22]} />
+        {/* Soil Base (recessed below pot rim) */}
+        <mesh position={[0, 0.465, 0]} receiveShadow>
+          <boxGeometry args={[0.21, 0.02, 0.21]} />
           <meshStandardMaterial color="#2B1E16" roughness={0.9} />
         </mesh>
 
@@ -421,14 +422,15 @@ export const LoungeFurniturePack: React.FC = () => {
             rotation={f.rot as [number, number, number]}
             scale={[f.scale, f.scale, f.scale]}
           >
-            <mesh castShadow receiveShadow>
+            <mesh>
               <planeGeometry args={[0.20, 0.36]} />
               <meshStandardMaterial
                 map={palmFrondTexture}
                 transparent
-                alphaTest={0.06}
+                alphaTest={0.4}
                 side={THREE.DoubleSide}
                 roughness={0.4}
+                depthWrite={true}
               />
             </mesh>
           </group>
@@ -442,9 +444,9 @@ export const LoungeFurniturePack: React.FC = () => {
           <cylinderGeometry args={[0.085, 0.06, 0.16, 6]} />
           <meshStandardMaterial color="#F8FAFC" roughness={0.3} />
         </mesh>
-        {/* Soil Base */}
-        <mesh position={[0, 0.155, 0]}>
-          <cylinderGeometry args={[0.075, 0.075, 0.01, 6]} />
+        {/* Soil Base (recessed inside planter) */}
+        <mesh position={[0, 0.15, 0]} receiveShadow>
+          <cylinderGeometry args={[0.07, 0.07, 0.01, 6]} />
           <meshStandardMaterial color="#2B1E16" roughness={0.9} />
         </mesh>
         {/* Delicate Miniature Variegated Leaves */}
@@ -460,14 +462,15 @@ export const LoungeFurniturePack: React.FC = () => {
             position={leaf.pos as [number, number, number]}
             rotation={leaf.rot as [number, number, number]}
           >
-            <mesh castShadow receiveShadow>
+            <mesh>
               <planeGeometry args={[0.045 * leaf.scale, 0.20 * leaf.scale]} />
               <meshStandardMaterial
                 map={snakeLeafTexture}
                 transparent
-                alphaTest={0.08}
+                alphaTest={0.4}
                 side={THREE.DoubleSide}
                 roughness={0.45}
+                depthWrite={true}
               />
             </mesh>
           </group>
