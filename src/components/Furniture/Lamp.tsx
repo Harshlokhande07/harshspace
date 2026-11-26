@@ -5,12 +5,11 @@ import { useLivingRoomStore } from '../../store/useLivingRoomStore';
 import { useInteractionStore } from '../../store/useInteractionStore';
 
 /**
- * Ultra-Detailed Minimalist Architectural Anglepoise Desk Lamp
+ * Modern Architect Anglepoise Desk Task Lamp
  * - Brushed Champagne Brass / Warm Titanium finish (#C5A880)
- * - Articulated mechanical joints with knurled adjustment thumb screws
- * - Conical lampshade with realistic interior white reflector and glowing warm tungsten filament / frosted LED bulb
- * - Real-time smooth dimming tied to switchboard / lampOn state
- * - Subtle local illumination cone
+ * - True connected cantilever linkage: Base -> Lower Strut -> Elbow Pivot -> Upper Arm -> Shade
+ * - Realistic proportions: sleek cone shade (0.09m dia), perfectly mounted to the tip of upper arm
+ * - Warm incandescent / LED bulb with smooth dimming tied to switchboard / lampOn state
  */
 export const Lamp: React.FC = () => {
   const bulbMatRef = useRef<THREE.MeshStandardMaterial>(null);
@@ -25,7 +24,7 @@ export const Lamp: React.FC = () => {
         metalness: 0.82,
       }),
       darkBrassMat: new THREE.MeshStandardMaterial({
-        color: '#9E825C',
+        color: '#8A704C',
         roughness: 0.35,
         metalness: 0.85,
       }),
@@ -73,122 +72,114 @@ export const Lamp: React.FC = () => {
   });
 
   return (
-    <group position={[-1.85, 0.74, -2.05]}>
-      {/* 1. Heavy Stepped Circular Base (#C6A982) */}
+    // Base placed cleanly in the left rear quadrant of the desk
+    <group position={[-1.75, 0.74, -2.12]}>
+      {/* 1. Base Assembly */}
       <group position={[0, 0, 0]}>
         {/* Rubberized non-slip foot pad */}
-        <mesh position={[0, 0.004, 0]}>
-          <cylinderGeometry args={[0.082, 0.082, 0.008, 32]} />
+        <mesh position={[0, 0.003, 0]}>
+          <cylinderGeometry args={[0.075, 0.075, 0.006, 28]} />
           <meshStandardMaterial color="#1A1C20" roughness={0.8} />
         </mesh>
-        {/* Lower brass tier */}
-        <mesh position={[0, 0.014, 0]} material={brassMat} castShadow>
-          <cylinderGeometry args={[0.08, 0.082, 0.012, 32]} />
+        {/* Heavy stepped brass base plinth */}
+        <mesh position={[0, 0.012, 0]} material={brassMat} castShadow>
+          <cylinderGeometry args={[0.072, 0.075, 0.012, 28]} />
         </mesh>
-        {/* Upper beveled bevel ring */}
-        <mesh position={[0, 0.024, 0]} material={brassMat}>
-          <cylinderGeometry args={[0.065, 0.078, 0.01, 32]} />
+        <mesh position={[0, 0.021, 0]} material={brassMat}>
+          <cylinderGeometry args={[0.058, 0.070, 0.008, 28]} />
         </mesh>
-        {/* Brass push toggle button on base */}
-        <mesh position={[0.035, 0.032, 0.035]} material={darkBrassMat}>
-          <cylinderGeometry args={[0.008, 0.009, 0.012, 16]} />
+        {/* Push toggle button on base */}
+        <mesh position={[0.03, 0.028, 0.03]} material={darkBrassMat}>
+          <cylinderGeometry args={[0.006, 0.007, 0.01, 16]} />
         </mesh>
-        {/* Central swivel collar */}
-        <mesh position={[0, 0.036, 0]} material={darkBrassMat}>
-          <cylinderGeometry args={[0.02, 0.022, 0.018, 24]} />
+        {/* Swivel collar turret */}
+        <mesh position={[0, 0.030, 0]} material={darkBrassMat}>
+          <cylinderGeometry args={[0.016, 0.018, 0.014, 20]} />
         </mesh>
       </group>
 
-      {/* 2. Lower Dual-Rod Parallel Struts */}
-      <group position={[0, 0.045, 0]} rotation={[0, 0, -0.22]}>
-        {/* Base pivot pin */}
+      {/* 2. Lower Cantilever Strut (Starts at base [0, 0.035, 0], leans back & right) */}
+      <group position={[0, 0.036, 0]} rotation={[0.08, 0, -0.26]}>
+        {/* Base pivot pin & tension thumbscrew */}
         <mesh rotation={[Math.PI / 2, 0, 0]} material={jointMat}>
-          <cylinderGeometry args={[0.012, 0.012, 0.03, 16]} />
+          <cylinderGeometry args={[0.010, 0.010, 0.026, 16]} />
         </mesh>
-        {/* Knurled brass tension thumbscrew */}
-        <mesh position={[0, 0, 0.02]} rotation={[Math.PI / 2, 0, 0]} material={darkBrassMat}>
-          <cylinderGeometry args={[0.014, 0.014, 0.008, 16]} />
-        </mesh>
-
-        {/* Parallel twin brass rods */}
-        <mesh position={[-0.008, 0.18, 0]} material={brassMat} castShadow>
-          <cylinderGeometry args={[0.004, 0.004, 0.36, 12]} />
-        </mesh>
-        <mesh position={[0.008, 0.18, 0]} material={brassMat} castShadow>
-          <cylinderGeometry args={[0.004, 0.004, 0.36, 12]} />
-        </mesh>
-        {/* Mid-span stabilizing bracket */}
-        <mesh position={[0, 0.18, 0]} material={jointMat}>
-          <boxGeometry args={[0.025, 0.01, 0.012]} />
-        </mesh>
-      </group>
-
-      {/* 3. Articulated Elbow Joint */}
-      <group position={[0.082, 0.40, 0]}>
-        <mesh rotation={[Math.PI / 2, 0, 0]} material={jointMat}>
-          <cylinderGeometry args={[0.016, 0.016, 0.032, 20]} />
-        </mesh>
-        {/* Knurled elbow thumbscrew */}
-        <mesh position={[0, 0, 0.022]} rotation={[Math.PI / 2, 0, 0]} material={darkBrassMat}>
-          <cylinderGeometry args={[0.015, 0.015, 0.009, 16]} />
-        </mesh>
-      </group>
-
-      {/* 4. Upper Cantilever Arm pointing toward desk center */}
-      <group position={[0.082, 0.40, 0]} rotation={[0, -0.32, 0.44]}>
-        {/* Main upper brass cantilever tube */}
-        <mesh position={[0, 0.16, 0]} material={brassMat} castShadow>
-          <cylinderGeometry args={[0.006, 0.006, 0.32, 14]} />
-        </mesh>
-      </group>
-
-      {/* 5. Lamp Shade & Socket Assembly (Angled down toward desk) */}
-      <group position={[0.22, 0.52, 0.06]} rotation={[0.42, -0.15, -0.85]}>
-        {/* Socket swivel hinge & mount */}
-        <mesh position={[0, 0.07, 0]} material={jointMat}>
-          <sphereGeometry args={[0.014, 16, 16]} />
-        </mesh>
-        <mesh position={[0, 0.045, 0]} material={darkBrassMat}>
-          <cylinderGeometry args={[0.018, 0.018, 0.04, 20]} />
+        <mesh position={[0, 0, 0.016]} rotation={[Math.PI / 2, 0, 0]} material={darkBrassMat}>
+          <cylinderGeometry args={[0.012, 0.012, 0.006, 16]} />
         </mesh>
 
-        {/* Sculpted Brass Lampshade (Conical outer shade) */}
-        <mesh position={[0, -0.015, 0]} material={brassMat} castShadow>
-          <cylinderGeometry args={[0.028, 0.076, 0.11, 28, 1, true]} />
+        {/* Parallel twin brass rods (length 0.32m) */}
+        <mesh position={[-0.007, 0.16, 0]} material={brassMat} castShadow>
+          <cylinderGeometry args={[0.0035, 0.0035, 0.32, 12]} />
         </mesh>
-        {/* Top vent ring on shade */}
-        <mesh position={[0, 0.035, 0]} material={darkBrassMat}>
-          <cylinderGeometry args={[0.032, 0.032, 0.012, 28]} />
+        <mesh position={[0.007, 0.16, 0]} material={brassMat} castShadow>
+          <cylinderGeometry args={[0.0035, 0.0035, 0.32, 12]} />
         </mesh>
-        {/* Interior high-reflectance white enamel reflector */}
-        <mesh position={[0, -0.016, 0]} material={innerReflectorMat}>
-          <cylinderGeometry args={[0.026, 0.074, 0.108, 28, 1, true]} />
-        </mesh>
-
-        {/* Frosted Warm Tungsten / LED Bulb */}
-        <mesh position={[0, -0.02, 0]}>
-          <sphereGeometry args={[0.024, 24, 24]} />
-          <meshStandardMaterial
-            ref={bulbMatRef}
-            color="#FFFBEB"
-            emissive="#FDE68A"
-            emissiveIntensity={1.8}
-            roughness={0.1}
-          />
+        {/* Mid-span reinforcement bracket */}
+        <mesh position={[0, 0.16, 0]} material={jointMat}>
+          <boxGeometry args={[0.022, 0.008, 0.010]} />
         </mesh>
 
-        {/* Translucent Soft Volumetric Light Cone on Desk (Fades when off) */}
-        <mesh position={[0, -0.22, 0]} rotation={[0, 0, 0]}>
-          <cylinderGeometry args={[0.06, 0.28, 0.38, 24, 1, true]} />
-          <meshBasicMaterial
-            ref={glowConeMatRef}
-            color="#FEF08A"
-            transparent
-            opacity={0.09}
-            side={THREE.DoubleSide}
-            depthWrite={false}
-          />
-        </mesh>
+        {/* 3. Articulated Elbow Joint (Exactly at top of lower strut: Y = 0.32) */}
+        <group position={[0, 0.32, 0]}>
+          <mesh rotation={[Math.PI / 2, 0, 0]} material={jointMat}>
+            <cylinderGeometry args={[0.013, 0.013, 0.028, 16]} />
+          </mesh>
+          <mesh position={[0, 0, 0.018]} rotation={[Math.PI / 2, 0, 0]} material={darkBrassMat}>
+            <cylinderGeometry args={[0.014, 0.014, 0.008, 16]} />
+          </mesh>
+
+          {/* 4. Upper Cantilever Arm (Reaches forward & down over desk towards laptop/notebook) */}
+          <group rotation={[0.20, -0.40, 0.82]}>
+            {/* Upper arm brass tube (length 0.28m) */}
+            <mesh position={[0, 0.14, 0]} material={brassMat} castShadow>
+              <cylinderGeometry args={[0.0045, 0.0045, 0.28, 12]} />
+            </mesh>
+
+            {/* 5. Lamp Shade Fixture (At top of upper arm: Y = 0.28) */}
+            <group position={[0, 0.28, 0]} rotation={[0.55, 0, -1.25]}>
+              {/* Swivel socket hinge */}
+              <mesh material={jointMat}>
+                <sphereGeometry args={[0.011, 16, 16]} />
+              </mesh>
+              {/* Socket stem */}
+              <mesh position={[0, -0.022, 0]} material={darkBrassMat}>
+                <cylinderGeometry args={[0.013, 0.015, 0.028, 20]} />
+              </mesh>
+
+              {/* Conical Lampshade (Outer spun brass, scaled nicely: 0.052m radius) */}
+              <mesh position={[0, -0.068, 0]} material={brassMat} castShadow>
+                <cylinderGeometry args={[0.020, 0.052, 0.085, 24, 1, true]} />
+              </mesh>
+              {/* Shade rolled edge lip */}
+              <mesh position={[0, -0.110, 0]} material={brassMat}>
+                <torusGeometry args={[0.052, 0.003, 12, 24]} />
+              </mesh>
+              {/* Interior white reflector */}
+              <mesh position={[0, -0.068, 0]} material={innerReflectorMat}>
+                <cylinderGeometry args={[0.019, 0.050, 0.083, 24, 1, true]} />
+              </mesh>
+
+              {/* Frosted warm bulb */}
+              <mesh position={[0, -0.060, 0]}>
+                <sphereGeometry args={[0.016, 16, 16]} />
+                <meshStandardMaterial
+                  ref={bulbMatRef}
+                  color="#FFFBEB"
+                  emissive="#FDE68A"
+                  emissiveIntensity={1.8}
+                  roughness={0.1}
+                />
+              </mesh>
+
+              {/* Translucent downward illumination cone */}
+              <mesh position={[0, -0.22, 0]}>
+                <cylinderGeometry args={[0.045, 0.18, 0.28, 20, 1, true]} />
+                <primitive object={glowConeMatRef} />
+              </mesh>
+            </group>
+          </group>
+        </group>
       </group>
     </group>
   );
