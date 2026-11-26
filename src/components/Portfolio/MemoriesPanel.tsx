@@ -1,0 +1,292 @@
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MEMORIES, Memory, MemoryCategory } from '../../data/experiences';
+import { useInteractionStore } from '../../store/useInteractionStore';
+import { ImageViewer } from './ImageViewer';
+
+export const MemoriesPanel: React.FC = () => {
+  const closeInteraction = useInteractionStore((s) => s.closeInteraction);
+  const [activeCategory, setActiveCategory] = useState<MemoryCategory | 'all'>('all');
+  const [selectedMemory, setSelectedMemory] = useState<Memory | null>(null);
+
+  const categories: (MemoryCategory | 'all')[] = [
+    'all',
+    'college',
+    'hackathon',
+    'team',
+    'workshop',
+    'event',
+    'project',
+  ];
+
+  const filteredMemories = activeCategory === 'all'
+    ? MEMORIES
+    : MEMORIES.filter((m) => m.category === activeCategory);
+
+  // Esc handling: if preview open, Esc closes preview; otherwise closes gallery
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' || e.code === 'Escape') {
+        e.preventDefault();
+        e.stopPropagation();
+        if (selectedMemory !== null) {
+          setSelectedMemory(null);
+        } else {
+          closeInteraction();
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown, true);
+    return () => window.removeEventListener('keydown', handleKeyDown, true);
+  }, [selectedMemory, closeInteraction]);
+
+  const currentIndex = selectedMemory
+    ? filteredMemories.findIndex((m) => m.id === selectedMemory.id)
+    : -1;
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setSelectedMemory(filteredMemories[currentIndex - 1]);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentIndex < filteredMemories.length - 1) {
+      setSelectedMemory(filteredMemories[currentIndex + 1]);
+    }
+  };
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 100,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(5, 8, 16, 0.75)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        userSelect: 'none',
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.94, y: 15 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 10 }}
+        transition={{ duration: 0.25, ease: 'easeOut' }}
+        style={{
+          position: 'relative',
+          width: '94vw',
+          maxWidth: '1080px',
+          maxHeight: '88vh',
+          backgroundColor: 'rgba(15, 23, 42, 0.95)',
+          border: '1px solid rgba(168, 85, 247, 0.35)',
+          boxShadow: '0 24px 70px rgba(0, 0, 0, 0.8), 0 0 35px rgba(168, 85, 247, 0.15)',
+          borderRadius: '20px',
+          padding: '26px',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Header bar */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: '16px',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+            paddingBottom: '14px',
+            flexWrap: 'wrap',
+            gap: '12px',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{ fontSize: '22px' }}>📸</span>
+            <div>
+              <h2 style={{ fontSize: '20px', fontWeight: 800, color: '#f8fafc', letterSpacing: '-0.01em' }}>
+                Memory Wall & Engineering Journey
+              </h2>
+              <p style={{ fontSize: '13px', color: '#94a3b8' }}>
+                Snapshots, milestones, team hackathons, and memorable events.
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={closeInteraction}
+            style={{
+              background: 'rgba(30, 41, 59, 0.7)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#94a3b8',
+              width: '32px',
+              height: '32px',
+              borderRadius: '50%',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '15px',
+            }}
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* Category Filter Chips */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
+          {categories.map((cat) => {
+            const isActive = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                style={{
+                  padding: '5px 12px',
+                  borderRadius: '8px',
+                  backgroundColor: isActive
+                    ? 'rgba(168, 85, 247, 0.25)'
+                    : 'rgba(30, 41, 59, 0.5)',
+                  border: isActive
+                    ? '1px solid rgba(168, 85, 247, 0.6)'
+                    : '1px solid rgba(255, 255, 255, 0.06)',
+                  color: isActive ? '#c084fc' : '#94a3b8',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  textTransform: 'capitalize',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                }}
+              >
+                {cat}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Gallery Grid */}
+        <div style={{ flex: 1, overflowY: 'auto', paddingRight: '4px' }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+              gap: '16px',
+            }}
+          >
+            {filteredMemories.map((mem) => (
+              <div
+                key={mem.id}
+                onClick={() => setSelectedMemory(mem)}
+                style={{
+                  backgroundColor: 'rgba(21, 29, 48, 0.75)',
+                  border: '1px solid rgba(168, 85, 247, 0.25)',
+                  borderRadius: '14px',
+                  padding: '20px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  minHeight: '200px',
+                  transition: 'all 0.22s cubic-bezier(0.16, 1, 0.3, 1)',
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.borderColor = 'rgba(168, 85, 247, 0.5)';
+                  e.currentTarget.style.boxShadow =
+                    '0 12px 28px rgba(0, 0, 0, 0.5), 0 0 20px rgba(168, 85, 247, 0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.borderColor = 'rgba(168, 85, 247, 0.25)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                    <span
+                      style={{
+                        fontSize: '10px',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        color: '#c084fc',
+                        backgroundColor: 'rgba(168, 85, 247, 0.12)',
+                        border: '1px solid rgba(168, 85, 247, 0.25)',
+                        padding: '2px 8px',
+                        borderRadius: '6px',
+                      }}
+                    >
+                      {mem.category}
+                    </span>
+                    <span style={{ fontSize: '11px', color: '#64748b' }}>{mem.date}</span>
+                  </div>
+
+                  <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#f8fafc', marginBottom: '8px', lineHeight: 1.3 }}>
+                    {mem.title}
+                  </h3>
+                  <p style={{ fontSize: '13px', lineHeight: 1.5, color: '#94a3b8' }}>
+                    {mem.description}
+                  </p>
+                </div>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    color: '#c084fc',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    marginTop: '16px',
+                  }}
+                >
+                  <span>View Memory</span>
+                  <span>↗</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div
+          style={{
+            marginTop: '14px',
+            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+            paddingTop: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            fontSize: '12px',
+            color: '#64748b',
+          }}
+        >
+          <span>Press <kbd style={{ color: '#c084fc' }}>Esc</kbd> to exit gallery</span>
+          <span>{filteredMemories.length} Memories Documented</span>
+        </div>
+      </motion.div>
+
+      {/* Large Image / Sample Viewer Modal */}
+      <AnimatePresence>
+        {selectedMemory && (
+          <ImageViewer
+            title={selectedMemory.title}
+            subtitle={selectedMemory.date}
+            description={selectedMemory.description}
+            imageUrl={selectedMemory.image}
+            category={selectedMemory.category}
+            onClose={() => setSelectedMemory(null)}
+            onPrev={handlePrev}
+            onNext={handleNext}
+            hasPrev={currentIndex > 0}
+            hasNext={currentIndex < filteredMemories.length - 1}
+          />
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
