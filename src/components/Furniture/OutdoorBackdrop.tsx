@@ -17,12 +17,13 @@ interface BuildingData {
 }
 
 /**
- * Photorealistic Rainy Modern Tokyo High-rise Exterior Environment (Phase 1)
+ * Photorealistic Rainy Modern Tokyo High-rise Exterior Environment (Phase 3 Polish)
  * Located beyond the West window (X < -2.8m).
  * Features:
  * - Multi-tiered contemporary Tokyo skyscrapers, residential towers & spires
- * - Luminous window grids (warm interior lights, office blues)
+ * - Luminous window grids (warm interior lights, cool office cyan, amber suites)
  * - Pulsing rooftop aircraft beacon lights
+ * - Exterior falling rain streak particle system outside window
  * - Distant rain mist planes & overcast Tokyo sky backdrop
  * - Reactive Day / Evening / Night atmospheric lighting
  */
@@ -31,8 +32,9 @@ export const OutdoorBackdrop: React.FC = () => {
   const mistMatRef = useRef<THREE.MeshStandardMaterial>(null);
   const litWindowMatRef = useRef<THREE.MeshStandardMaterial>(null);
   const beaconRef = useRef<THREE.MeshBasicMaterial>(null);
+  const rainPointsRef = useRef<THREE.Points>(null);
 
-  // Shared material for all high-rise buildings (reused across instances, dynamically tinted)
+  // Shared material for high-rise buildings
   const buildingMat = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
@@ -43,7 +45,7 @@ export const OutdoorBackdrop: React.FC = () => {
     []
   );
 
-  // Layered architectural high-rise data (arranged along West vista: X is negative depth)
+  // Layered architectural high-rise data
   const buildings: BuildingData[] = useMemo(
     () => [
       // Fore-ground modern glass towers (X = -4.5 to -6.5)
@@ -65,6 +67,22 @@ export const OutdoorBackdrop: React.FC = () => {
     ],
     []
   );
+
+  // Exterior Tokyo rain streaks (lightweight, zero memory allocations in useFrame)
+  const { rainPositions, rainVelocities } = useMemo(() => {
+    const count = 280;
+    const positions = new Float32Array(count * 3);
+    const velocities = new Float32Array(count);
+
+    for (let i = 0; i < count; i++) {
+      // Window bounds: X from -3.0 to -4.2, Y from 0.4 to 3.2, Z from -2.0 to 0.8
+      positions[i * 3 + 0] = -3.0 - Math.random() * 1.4; // X outside window
+      positions[i * 3 + 1] = 0.4 + Math.random() * 2.8;  // Y height
+      positions[i * 3 + 2] = -2.0 + Math.random() * 2.8; // Z span
+      velocities[i] = 4.5 + Math.random() * 3.5;
+    }
+    return { rainPositions: positions, rainVelocities: velocities };
+  }, []);
 
   useFrame((state, delta) => {
     const dt = Math.min(delta, 0.1);
@@ -134,6 +152,26 @@ export const OutdoorBackdrop: React.FC = () => {
             : '#0f172a';
       _cMist.set(mistColor);
       mistMatRef.current.color.lerp(_cMist, dt * 2.0);
+    }
+
+    // 5. Falling rain streak animation outside window
+    if (rainPointsRef.current) {
+      const posAttr = rainPointsRef.current.geometry.attributes.position;
+      const arr = posAttr.array as Float32Array;
+      const count = arr.length / 3;
+
+      for (let i = 0; i < count; i++) {
+        arr[i * 3 + 1] -= rainVelocities[i] * dt;
+        // Wind slant in Z
+        arr[i * 3 + 2] -= 0.6 * dt;
+
+        // Reset if fallen below sill
+        if (arr[i * 3 + 1] < 0.4) {
+          arr[i * 3 + 1] = 3.2;
+          arr[i * 3 + 2] = -2.0 + Math.random() * 2.8;
+        }
+      }
+      posAttr.needsUpdate = true;
     }
   });
 
@@ -262,6 +300,26 @@ export const OutdoorBackdrop: React.FC = () => {
           roughness={1.0}
         />
       </mesh>
+
+      {/* 5. Exterior Window Rain Streak Particles */}
+      <points ref={rainPointsRef}>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={rainPositions.length / 3}
+            array={rainPositions}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <pointsMaterial
+          size={0.035}
+          color="#cbd5e1"
+          transparent={true}
+          opacity={0.45}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </points>
     </group>
   );
 };

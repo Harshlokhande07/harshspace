@@ -3,13 +3,14 @@ import { ModelLoader, getModelUrl } from '../Room/ModelLoader';
 import { FURNITURE_MODELS } from '../../data/models';
 
 /**
- * Premium Modern Workstation Desk (Phase 2 Enhancement)
+ * Premium Modern Workstation Desk (Phase 3 Polish)
  * Features:
  * - Solid natural walnut tabletop (#724F36) with dual-chamfered ergonomic front edge
  * - Dual champagne metal cable grommet pass-throughs (#C5B49E)
  * - Heavy-duty O-frame powder-coated steel legs (#3A3530) with threaded leveling footpads
  * - Under-desk reinforcing spine & perforated cable management raceway
  * - Under-mount headphone hanger with studio over-ear headphones
+ * - Desktop accessories: Anodized aluminum pen pot with stylus, inductive phone charging dock
  */
 const PrimitiveDesk: React.FC = () => {
   return (
@@ -144,6 +145,44 @@ const PrimitiveDesk: React.FC = () => {
             <meshStandardMaterial color="#3A3530" metalness={0.7} roughness={0.3} />
           </mesh>
         </group>
+      </group>
+
+      {/* 4. Desktop Accessories (Right Side Developer Tools) */}
+      {/* Aluminum Cylindrical Pen & Stylus Holder */}
+      <group position={[0.62, 0.763, -0.10]}>
+        <mesh position={[0, 0.05, 0]} castShadow>
+          <cylinderGeometry args={[0.035, 0.035, 0.10, 20]} />
+          <meshStandardMaterial color="#333842" roughness={0.35} metalness={0.85} />
+        </mesh>
+        {/* Stylus / Apple-Pencil angled in cup */}
+        <mesh position={[0.01, 0.09, 0.01]} rotation={[0.15, 0.2, 0.2]} castShadow>
+          <cylinderGeometry args={[0.004, 0.004, 0.14, 12]} />
+          <meshStandardMaterial color="#F8FAFC" roughness={0.2} metalness={0.4} />
+        </mesh>
+        {/* Mechanical Drafting Pen */}
+        <mesh position={[-0.012, 0.085, -0.01]} rotation={[-0.18, 0, -0.12]} castShadow>
+          <cylinderGeometry args={[0.0045, 0.0045, 0.13, 12]} />
+          <meshStandardMaterial color="#C5B49E" roughness={0.3} metalness={0.8} />
+        </mesh>
+      </group>
+
+      {/* Smartphone on Charging Pad */}
+      <group position={[0.74, 0.763, 0.12]} rotation={[0, -0.1, 0]}>
+        {/* Dark leatherette coaster charging pad */}
+        <mesh position={[0, 0.003, 0]}>
+          <boxGeometry args={[0.085, 0.006, 0.15]} />
+          <meshStandardMaterial color="#1E222A" roughness={0.6} />
+        </mesh>
+        {/* Glass Phone */}
+        <mesh position={[0, 0.008, 0]}>
+          <boxGeometry args={[0.07, 0.007, 0.14]} />
+          <meshStandardMaterial color="#0A0C10" roughness={0.15} metalness={0.9} />
+        </mesh>
+        {/* Soft amber charge indicator glow */}
+        <mesh position={[0, 0.012, 0.065]}>
+          <circleGeometry args={[0.002, 8]} />
+          <meshStandardMaterial color="#000000" emissive="#F59E0B" emissiveIntensity={0.8} />
+        </mesh>
       </group>
     </group>
   );

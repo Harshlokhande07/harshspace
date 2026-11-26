@@ -62,6 +62,46 @@ export const GamingRoomModel: React.FC = () => {
         />
       </mesh>
 
+      {/* Architectural Ceiling Shadow Gap Trim (North, South, East, West perimeters at Y = 2.785) */}
+      <mesh position={[0, 2.785, -2.58]}>
+        <boxGeometry args={[5.56, 0.03, 0.02]} />
+        <meshStandardMaterial color="#BDB5A8" roughness={0.6} />
+      </mesh>
+      <mesh position={[0, 2.785, 2.58]}>
+        <boxGeometry args={[5.56, 0.03, 0.02]} />
+        <meshStandardMaterial color="#BDB5A8" roughness={0.6} />
+      </mesh>
+      <mesh position={[-2.78, 2.785, 0]}>
+        <boxGeometry args={[0.02, 0.03, 5.16]} />
+        <meshStandardMaterial color="#BDB5A8" roughness={0.6} />
+      </mesh>
+      <mesh position={[2.78, 2.785, 0]}>
+        <boxGeometry args={[0.02, 0.03, 5.16]} />
+        <meshStandardMaterial color="#BDB5A8" roughness={0.6} />
+      </mesh>
+
+      {/* Flush architectural ceiling downlight bezels */}
+      {[-1.3, 1.3].map((cx, i) =>
+        [-1.0, 1.0].map((cz, j) => (
+          <group key={`${i}-${j}`} position={[cx, 2.798, cz]} rotation={[Math.PI / 2, 0, 0]}>
+            <mesh>
+              <ringGeometry args={[0.045, 0.065, 24]} />
+              <meshStandardMaterial color="#DDD6CB" roughness={0.4} metalness={0.2} />
+            </mesh>
+            <mesh position={[0, 0, -0.001]}>
+              <circleGeometry args={[0.044, 20]} />
+              <meshStandardMaterial color="#FAF7F2" roughness={0.2} />
+            </mesh>
+          </group>
+        ))
+      )}
+
+      {/* Entrance Doorway Floor Threshold Trim (Brushed Brass #B59E7A) */}
+      <mesh position={[1.75, 0.005, 2.58]}>
+        <boxGeometry args={[0.96, 0.01, 0.08]} />
+        <meshStandardMaterial color="#B59E7A" roughness={0.3} metalness={0.8} />
+      </mesh>
+
       {/* 3. Baseboards / Skirting (0.08m tall) in Warm Architectural Neutral (#C8C0B2) */}
       {/* North Wall Baseboard */}
       <mesh position={[0, 0.04, -2.575]} receiveShadow>
