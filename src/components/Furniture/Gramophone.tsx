@@ -280,12 +280,16 @@ export const Gramophone: React.FC = () => {
         {/* ============================================================== */}
         <group position={[0.09, 0.14, -0.09]}>
           {/* Dark Steel Support Elbow Bracket */}
-          <mesh position={[0, 0.04, 0]} material={tonearmMat}>
-            <cylinderGeometry args={[0.012, 0.014, 0.08, 12]} />
+          <mesh position={[0, 0.035, 0]} material={tonearmMat}>
+            <cylinderGeometry args={[0.012, 0.014, 0.07, 12]} />
+          </mesh>
+          {/* Elbow curve connector */}
+          <mesh position={[-0.01, 0.07, 0.02]} rotation={[0.4, -0.3, 0]} material={tonearmMat}>
+            <cylinderGeometry args={[0.013, 0.013, 0.03, 12]} />
           </mesh>
 
-          {/* Main Horn Assembly angled forward & up at ~48° towards room */}
-          <group position={[-0.04, 0.08, 0.02]} rotation={[-0.65, 0.55, -0.2]}>
+          {/* Main Horn Assembly angled FORWARD & UP towards room / front */}
+          <group position={[-0.02, 0.08, 0.03]} rotation={[0.65, -0.45, 0.15]}>
             {/* Lower Throat Tube */}
             <mesh position={[0, 0.04, 0]} material={hornOuterMat} castShadow>
               <cylinderGeometry args={[0.022, 0.016, 0.08, 8]} />
