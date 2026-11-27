@@ -90,6 +90,15 @@ export const MiniMap: React.FC = () => {
         toCanvasX(2.45) - toCanvasX(0.85),
         toCanvasY(-0.30) - toCanvasY(-2.40)
       );
+      // Bedside Table & Gramophone
+      ctx.fillStyle = 'rgba(234, 179, 8, 0.6)';
+      ctx.fillRect(
+        toCanvasX(2.55),
+        toCanvasY(-2.40),
+        toCanvasX(3.05) - toCanvasX(2.55),
+        toCanvasY(-1.90) - toCanvasY(-2.40)
+      );
+      ctx.fillStyle = 'rgba(100, 116, 139, 0.5)';
       // Bookshelf
       ctx.fillRect(
         toCanvasX(-2.50),

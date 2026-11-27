@@ -33,6 +33,7 @@ import { MinecraftBee } from '../Furniture/MinecraftBee';
 import { MinecraftLogo } from '../Furniture/MinecraftLogo';
 import { MinecraftGirl } from '../Furniture/MinecraftGirl';
 import { MinecraftCamera } from '../Furniture/MinecraftCamera';
+import { Gramophone } from '../Furniture/Gramophone';
 
 /**
  * Photorealistic Extended Bedroom Shell
@@ -276,6 +277,8 @@ export const GamingRoomModel: React.FC = () => {
       <Notebook />
       <GamingChair />
       <Bed />
+      {/* Bedside Nightstand Table with authentic Minecraft Gramophone */}
+      <Gramophone />
       {/* 3D Minecraft Logo mounted in the middle of the wall above the bed */}
       <MinecraftLogo />
       <Monitor />
