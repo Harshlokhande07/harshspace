@@ -72,19 +72,19 @@ export const App: React.FC = () => {
           top: 232,
           right: 24,
           zIndex: 50,
-          backgroundColor: muted ? 'rgba(239, 68, 68, 0.3)' : 'rgba(15, 23, 42, 0.85)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          border: `1px solid ${muted ? 'rgba(239, 68, 68, 0.5)' : 'rgba(139, 92, 246, 0.3)'}`,
-          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45)',
-          borderRadius: '12px',
+          backgroundColor: muted ? 'rgba(239, 68, 68, 0.2)' : 'rgba(255, 255, 255, 0.65)',
+          backdropFilter: 'blur(24px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+          border: `1px solid ${muted ? 'rgba(239, 68, 68, 0.4)' : 'rgba(255, 255, 255, 0.85)'}`,
+          boxShadow: '0 8px 28px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
+          borderRadius: '14px',
           width: '42px',
           height: '42px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
-          color: muted ? '#f87171' : '#f8fafc',
+          color: muted ? '#dc2626' : '#0f172a',
           fontSize: '16px',
           transition: 'all 0.2s ease',
         }}
@@ -126,40 +126,42 @@ export const App: React.FC = () => {
           bottom: 24,
           left: 24,
           zIndex: 30,
-          backgroundColor: 'rgba(15, 23, 42, 0.75)',
-          backdropFilter: 'blur(8px)',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          borderRadius: '10px',
-          padding: '8px 14px',
-          color: '#94a3b8',
+          backgroundColor: 'rgba(255, 255, 255, 0.65)',
+          backdropFilter: 'blur(24px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+          border: '1px solid rgba(255, 255, 255, 0.85)',
+          borderRadius: '9999px',
+          padding: '8px 18px',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
+          color: '#475569',
           fontSize: '11px',
           fontFamily: 'monospace',
           display: 'flex',
-          gap: '12px',
+          gap: '14px',
           pointerEvents: 'none',
           userSelect: 'none',
         }}
       >
         <span>
-          <strong style={{ color: '#f8fafc' }}>WASD</strong> Move
+          <strong style={{ color: '#0f172a' }}>WASD</strong> Move
         </span>
         <span>
-          <strong style={{ color: '#f8fafc' }}>Shift</strong> Run
+          <strong style={{ color: '#0f172a' }}>Shift</strong> Run
         </span>
         <span>
-          <strong style={{ color: '#f8fafc' }}>Drag</strong> Look
+          <strong style={{ color: '#0f172a' }}>Drag</strong> Look
         </span>
         <span>
-          <strong style={{ color: '#f8fafc' }}>Scroll</strong> Zoom
+          <strong style={{ color: '#0f172a' }}>Scroll</strong> Zoom
         </span>
         <span>
-          <strong style={{ color: '#f8fafc' }}>V</strong> View
+          <strong style={{ color: '#0f172a' }}>V</strong> View
         </span>
         <span>
-          <strong style={{ color: '#f8fafc' }}>E / F</strong> Interact
+          <strong style={{ color: '#0f172a' }}>E / F</strong> Interact
         </span>
         <span>
-          <strong style={{ color: '#f8fafc' }}>Esc</strong> Back
+          <strong style={{ color: '#0f172a' }}>Esc</strong> Back
         </span>
       </div>
     </div>

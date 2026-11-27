@@ -53,15 +53,20 @@ export const PoseTuner: React.FC = () => {
           bottom: 24,
           right: 24,
           zIndex: 60,
-          backgroundColor: isOpen ? '#8b5cf6' : '#1e293b',
-          color: '#f8fafc',
-          border: '1px solid rgba(139, 92, 246, 0.4)',
-          borderRadius: '8px',
-          padding: '6px 12px',
+          backgroundColor: isOpen
+            ? 'rgba(255, 255, 255, 0.90)'
+            : 'rgba(255, 255, 255, 0.65)',
+          backdropFilter: 'blur(24px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+          color: '#0f172a',
+          border: '1px solid rgba(255, 255, 255, 0.85)',
+          borderRadius: '9999px',
+          padding: '8px 16px',
           fontSize: '11px',
           fontFamily: 'monospace',
+          fontWeight: 700,
           cursor: 'pointer',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.08), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
         }}
       >
         🔧 Pose Tuner {isOpen ? '▲' : '▼'}
@@ -71,30 +76,31 @@ export const PoseTuner: React.FC = () => {
         <div
           style={{
             position: 'absolute',
-            bottom: 64,
+            bottom: 68,
             right: 24,
             width: '320px',
             maxHeight: '480px',
             overflowY: 'auto',
-            backgroundColor: 'rgba(15, 23, 42, 0.95)',
-            backdropFilter: 'blur(16px)',
-            border: '1px solid rgba(139, 92, 246, 0.4)',
-            borderRadius: '12px',
+            backgroundColor: 'rgba(255, 255, 255, 0.75)',
+            backdropFilter: 'blur(24px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 0.85)',
+            borderRadius: '20px',
             padding: '16px',
-            color: '#f8fafc',
+            color: '#0f172a',
             fontFamily: 'sans-serif',
             fontSize: '12px',
             zIndex: 60,
-            boxShadow: '0 16px 36px rgba(0,0,0,0.6)',
+            boxShadow: '0 16px 40px rgba(0,0,0,0.12), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-            <span style={{ fontWeight: 700, color: '#38bdf8' }}>Dev Pose Tuner</span>
-            <span style={{ fontSize: '11px', color: '#94a3b8' }}>State: {actionState}</span>
+            <span style={{ fontWeight: 800, color: '#0f172a' }}>Dev Pose Tuner</span>
+            <span style={{ fontSize: '11px', color: '#64748b' }}>State: {actionState}</span>
           </div>
 
           {/* Pose Selector Tabs */}
-          <div style={{ display: 'flex', gap: '4px', marginBottom: '14px' }}>
+          <div style={{ display: 'flex', gap: '4px', marginBottom: '14px', backgroundColor: 'rgba(0, 0, 0, 0.05)', padding: '3px', borderRadius: '10px' }}>
             {(['sit-chair', 'lie-bed', 'drink-coffee'] as const).map((id) => (
               <button
                 key={id}
@@ -104,10 +110,11 @@ export const PoseTuner: React.FC = () => {
                   padding: '6px 0',
                   fontSize: '10px',
                   fontWeight: selectedPose === id ? 700 : 500,
-                  backgroundColor: selectedPose === id ? '#8b5cf6' : '#334155',
-                  color: '#fff',
+                  backgroundColor: selectedPose === id ? 'rgba(255, 255, 255, 0.95)' : 'transparent',
+                  boxShadow: selectedPose === id ? '0 2px 6px rgba(0, 0, 0, 0.08)' : 'none',
+                  color: selectedPose === id ? '#0f172a' : '#64748b',
                   border: 'none',
-                  borderRadius: '6px',
+                  borderRadius: '7px',
                   cursor: 'pointer',
                 }}
               >
@@ -118,10 +125,10 @@ export const PoseTuner: React.FC = () => {
 
           {/* Anchor sliders */}
           <div style={{ marginBottom: '10px' }}>
-            <div style={{ color: '#94a3b8', fontSize: '11px', marginBottom: '4px', fontWeight: 600 }}>Anchor (Final Pos)</div>
+            <div style={{ color: '#475569', fontSize: '11px', marginBottom: '4px', fontWeight: 700 }}>Anchor (Final Pos)</div>
             {(['X', 'Y', 'Z'] as const).map((axis, i) => (
               <div key={axis} style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-                <span style={{ width: '14px', fontFamily: 'monospace' }}>{axis}</span>
+                <span style={{ width: '14px', fontFamily: 'monospace', fontWeight: 600 }}>{axis}</span>
                 <input
                   type="range"
                   min={axis === 'Y' ? 0 : -6}
@@ -129,16 +136,16 @@ export const PoseTuner: React.FC = () => {
                   step={0.05}
                   value={current.anchor[i]}
                   onChange={(e) => updateField('anchor', i, parseFloat(e.target.value))}
-                  style={{ flex: 1 }}
+                  style={{ flex: 1, accentColor: '#0f172a' }}
                 />
-                <span style={{ width: '38px', fontFamily: 'monospace', textAlign: 'right' }}>{current.anchor[i]}</span>
+                <span style={{ width: '38px', fontFamily: 'monospace', textAlign: 'right', fontWeight: 600 }}>{current.anchor[i]}</span>
               </div>
             ))}
           </div>
 
           {/* Yaw slider */}
           <div style={{ marginBottom: '10px' }}>
-            <div style={{ color: '#94a3b8', fontSize: '11px', marginBottom: '4px', fontWeight: 600 }}>Yaw (Radians)</div>
+            <div style={{ color: '#475569', fontSize: '11px', marginBottom: '4px', fontWeight: 700 }}>Yaw (Radians)</div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <input
                 type="range"
@@ -147,15 +154,15 @@ export const PoseTuner: React.FC = () => {
                 step={0.05}
                 value={current.yaw}
                 onChange={(e) => updateScalar('yaw', parseFloat(e.target.value))}
-                style={{ flex: 1 }}
+                style={{ flex: 1, accentColor: '#0f172a' }}
               />
-              <span style={{ width: '38px', fontFamily: 'monospace', textAlign: 'right' }}>{current.yaw}</span>
+              <span style={{ width: '38px', fontFamily: 'monospace', textAlign: 'right', fontWeight: 600 }}>{current.yaw}</span>
             </div>
           </div>
 
           {/* Eye Height Offset */}
           <div style={{ marginBottom: '14px' }}>
-            <div style={{ color: '#94a3b8', fontSize: '11px', marginBottom: '4px', fontWeight: 600 }}>1st-Person Eye Height</div>
+            <div style={{ color: '#475569', fontSize: '11px', marginBottom: '4px', fontWeight: 700 }}>1st-Person Eye Height</div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <input
                 type="range"
@@ -164,9 +171,9 @@ export const PoseTuner: React.FC = () => {
                 step={0.05}
                 value={current.eyeHeightOffset}
                 onChange={(e) => updateScalar('eyeHeightOffset', parseFloat(e.target.value))}
-                style={{ flex: 1 }}
+                style={{ flex: 1, accentColor: '#0f172a' }}
               />
-              <span style={{ width: '38px', fontFamily: 'monospace', textAlign: 'right' }}>{current.eyeHeightOffset}</span>
+              <span style={{ width: '38px', fontFamily: 'monospace', textAlign: 'right', fontWeight: 600 }}>{current.eyeHeightOffset}</span>
             </div>
           </div>
 

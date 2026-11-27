@@ -20,14 +20,13 @@ export const ExplorationCounter: React.FC = () => {
         top: 24,
         left: 24,
         zIndex: 50,
-        backgroundColor: 'rgba(15, 23, 42, 0.85)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        border: '1px solid rgba(139, 92, 246, 0.25)',
-        boxShadow:
-          '0 12px 36px rgba(0, 0, 0, 0.5), 0 0 16px rgba(139, 92, 246, 0.15)',
+        backgroundColor: 'rgba(255, 255, 255, 0.65)',
+        backdropFilter: 'blur(24px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+        border: '1px solid rgba(255, 255, 255, 0.85)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
         borderRadius: '9999px',
-        padding: '8px 16px',
+        padding: '8px 18px',
         display: 'flex',
         alignItems: 'center',
         gap: '8px',
@@ -39,19 +38,19 @@ export const ExplorationCounter: React.FC = () => {
           width: '7px',
           height: '7px',
           borderRadius: '50%',
-          backgroundColor: isComplete ? '#4ade80' : '#38bdf8',
-          boxShadow: `0 0 8px ${isComplete ? '#4ade80' : '#38bdf8'}`,
+          backgroundColor: isComplete ? '#10b981' : '#0284c7',
+          boxShadow: `0 0 8px ${isComplete ? '#10b981' : '#0284c7'}`,
         }}
       />
       <span
         style={{
           fontSize: '12px',
           fontWeight: 600,
-          color: '#f8fafc',
+          color: '#0f172a',
           letterSpacing: '0.02em',
         }}
       >
-        Explored: <span style={{ color: isComplete ? '#4ade80' : '#38bdf8' }}>{count}</span>
+        Explored: <span style={{ color: isComplete ? '#059669' : '#0284c7', fontWeight: 700 }}>{count}</span>
         <span style={{ color: '#64748b' }}>/{total}</span>
       </span>
     </div>

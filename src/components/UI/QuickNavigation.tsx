@@ -40,11 +40,11 @@ export const QuickNavigation: React.FC = () => {
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: 50,
-        backgroundColor: 'rgba(15, 23, 42, 0.85)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        border: '1px solid rgba(139, 92, 246, 0.28)',
-        boxShadow: '0 12px 32px rgba(0, 0, 0, 0.5), 0 0 16px rgba(139, 92, 246, 0.15)',
+        backgroundColor: 'rgba(255, 255, 255, 0.65)',
+        backdropFilter: 'blur(24px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+        border: '1px solid rgba(255, 255, 255, 0.85)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
         borderRadius: '9999px',
         padding: '5px 8px',
         display: 'flex',
@@ -65,19 +65,19 @@ export const QuickNavigation: React.FC = () => {
             border: 'none',
             borderRadius: '9999px',
             padding: '6px 14px',
-            color: '#cbd5e1',
+            color: '#0f172a',
             fontSize: '12px',
             fontWeight: 600,
             cursor: 'pointer',
             transition: 'all 0.18s ease',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(139, 92, 246, 0.25)';
-            e.currentTarget.style.color = '#ffffff';
+            e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.07)';
+            e.currentTarget.style.color = '#000000';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.backgroundColor = 'transparent';
-            e.currentTarget.style.color = '#cbd5e1';
+            e.currentTarget.style.color = '#0f172a';
           }}
         >
           <span>{item.icon}</span>

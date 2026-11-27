@@ -60,21 +60,21 @@ export const SettingsPanel: React.FC = () => {
           right: 24,
           zIndex: 50,
           backgroundColor: isOpen
-            ? 'rgba(139, 92, 246, 0.45)'
-            : 'rgba(15, 23, 42, 0.85)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          border: '1px solid rgba(139, 92, 246, 0.35)',
+            ? 'rgba(255, 255, 255, 0.90)'
+            : 'rgba(255, 255, 255, 0.65)',
+          backdropFilter: 'blur(24px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+          border: '1px solid rgba(255, 255, 255, 0.85)',
           boxShadow:
-            '0 8px 24px rgba(0, 0, 0, 0.45), 0 0 14px rgba(139, 92, 246, 0.2)',
-          borderRadius: '12px',
+            '0 8px 28px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
+          borderRadius: '14px',
           width: '42px',
           height: '42px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
-          color: '#f8fafc',
+          color: '#0f172a',
           transition: 'all 0.2s ease',
         }}
       >
@@ -111,15 +111,15 @@ export const SettingsPanel: React.FC = () => {
               right: 24,
               zIndex: 50,
               width: '240px',
-              backgroundColor: 'rgba(15, 23, 42, 0.92)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-              border: '1px solid rgba(139, 92, 246, 0.35)',
+              backgroundColor: 'rgba(255, 255, 255, 0.75)',
+              backdropFilter: 'blur(24px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+              border: '1px solid rgba(255, 255, 255, 0.85)',
               boxShadow:
-                '0 16px 40px rgba(0, 0, 0, 0.65), 0 0 20px rgba(139, 92, 246, 0.15)',
-              borderRadius: '16px',
+                '0 16px 40px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
+              borderRadius: '20px',
               padding: '16px',
-              color: '#f8fafc',
+              color: '#0f172a',
               userSelect: 'none',
             }}
           >
@@ -135,10 +135,10 @@ export const SettingsPanel: React.FC = () => {
               <span
                 style={{
                   fontSize: '13px',
-                  fontWeight: 700,
+                  fontWeight: 800,
                   textTransform: 'uppercase',
                   letterSpacing: '0.08em',
-                  color: '#e2e8f0',
+                  color: '#0f172a',
                 }}
               >
                 Environment
@@ -148,7 +148,7 @@ export const SettingsPanel: React.FC = () => {
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: '#94a3b8',
+                  color: '#475569',
                   cursor: 'pointer',
                   fontSize: '14px',
                   padding: '2px',
@@ -163,9 +163,9 @@ export const SettingsPanel: React.FC = () => {
               <div
                 style={{
                   fontSize: '11px',
-                  color: '#94a3b8',
+                  color: '#475569',
                   marginBottom: '8px',
-                  fontWeight: 600,
+                  fontWeight: 700,
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
                 }}
@@ -177,8 +177,8 @@ export const SettingsPanel: React.FC = () => {
                   display: 'grid',
                   gridTemplateColumns: 'repeat(4, 1fr)',
                   gap: '4px',
-                  backgroundColor: 'rgba(30, 41, 59, 0.7)',
-                  borderRadius: '10px',
+                  backgroundColor: 'rgba(0, 0, 0, 0.05)',
+                  borderRadius: '12px',
                   padding: '4px',
                 }}
               >
@@ -191,13 +191,14 @@ export const SettingsPanel: React.FC = () => {
                       style={{
                         padding: '6px 2px',
                         border: 'none',
-                        borderRadius: '7px',
+                        borderRadius: '8px',
                         fontSize: '11px',
                         fontWeight: active ? 700 : 500,
                         backgroundColor: active
-                          ? 'rgba(139, 92, 246, 0.9)'
+                          ? 'rgba(255, 255, 255, 0.95)'
                           : 'transparent',
-                        color: active ? '#ffffff' : '#94a3b8',
+                        boxShadow: active ? '0 2px 6px rgba(0, 0, 0, 0.08)' : 'none',
+                        color: active ? '#0f172a' : '#64748b',
                         cursor: 'pointer',
                         display: 'flex',
                         flexDirection: 'column',
@@ -258,13 +259,13 @@ export const SettingsPanel: React.FC = () => {
             )}
 
             {/* Audio & Sound Section */}
-            <div style={{ marginBottom: '14px', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '14px' }}>
+            <div style={{ marginBottom: '14px', borderBottom: '1px solid rgba(0, 0, 0, 0.06)', paddingBottom: '14px' }}>
               <div
                 style={{
                   fontSize: '11px',
-                  color: '#94a3b8',
+                  color: '#475569',
                   marginBottom: '10px',
-                  fontWeight: 600,
+                  fontWeight: 700,
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
                   display: 'flex',
@@ -279,10 +280,10 @@ export const SettingsPanel: React.FC = () => {
                     toggleMute();
                   }}
                   style={{
-                    backgroundColor: muted ? 'rgba(239, 68, 68, 0.25)' : 'rgba(16, 185, 129, 0.25)',
-                    border: `1px solid ${muted ? 'rgba(239, 68, 68, 0.4)' : 'rgba(16, 185, 129, 0.4)'}`,
-                    color: muted ? '#f87171' : '#34d399',
-                    borderRadius: '6px',
+                    backgroundColor: muted ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)',
+                    border: `1px solid ${muted ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)'}`,
+                    color: muted ? '#dc2626' : '#059669',
+                    borderRadius: '9999px',
                     padding: '2px 8px',
                     fontSize: '10px',
                     fontWeight: 700,
@@ -295,7 +296,7 @@ export const SettingsPanel: React.FC = () => {
 
               {/* Music On/Off Toggle */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                <span style={{ fontSize: '11px', color: '#cbd5e1' }}>Background Music</span>
+                <span style={{ fontSize: '11px', color: '#0f172a', fontWeight: 500 }}>Background Music</span>
                 <button
                   onClick={() => {
                     AudioManager.playSound('click');
@@ -303,12 +304,12 @@ export const SettingsPanel: React.FC = () => {
                     AudioManager.updateMusicPlayback();
                   }}
                   style={{
-                    backgroundColor: musicEnabled ? '#8b5cf6' : '#334155',
+                    backgroundColor: musicEnabled ? '#0f172a' : 'rgba(0, 0, 0, 0.08)',
                     border: 'none',
-                    borderRadius: '6px',
+                    borderRadius: '8px',
                     padding: '3px 10px',
                     fontSize: '11px',
-                    color: '#fff',
+                    color: musicEnabled ? '#ffffff' : '#64748b',
                     fontWeight: 600,
                     cursor: 'pointer',
                   }}
@@ -319,7 +320,7 @@ export const SettingsPanel: React.FC = () => {
 
               {/* Music Volume Slider */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <span style={{ fontSize: '10px', color: '#94a3b8', width: '42px' }}>Music</span>
+                <span style={{ fontSize: '10px', color: '#475569', width: '42px', fontWeight: 600 }}>Music</span>
                 <input
                   type="range"
                   min={0}
@@ -327,16 +328,16 @@ export const SettingsPanel: React.FC = () => {
                   step={0.05}
                   value={musicVolume}
                   onChange={(e) => setMusicVolume(parseFloat(e.target.value))}
-                  style={{ flex: 1 }}
+                  style={{ flex: 1, accentColor: '#0f172a' }}
                 />
-                <span style={{ fontSize: '10px', fontFamily: 'monospace', width: '28px', textAlign: 'right' }}>
+                <span style={{ fontSize: '10px', fontFamily: 'monospace', width: '28px', textAlign: 'right', color: '#0f172a', fontWeight: 600 }}>
                   {Math.round(musicVolume * 100)}%
                 </span>
               </div>
 
               {/* SFX Volume Slider */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '10px', color: '#94a3b8', width: '42px' }}>SFX</span>
+                <span style={{ fontSize: '10px', color: '#475569', width: '42px', fontWeight: 600 }}>SFX</span>
                 <input
                   type="range"
                   min={0}
@@ -344,9 +345,9 @@ export const SettingsPanel: React.FC = () => {
                   step={0.05}
                   value={effectsVolume}
                   onChange={(e) => setEffectsVolume(parseFloat(e.target.value))}
-                  style={{ flex: 1 }}
+                  style={{ flex: 1, accentColor: '#0f172a' }}
                 />
-                <span style={{ fontSize: '10px', fontFamily: 'monospace', width: '28px', textAlign: 'right' }}>
+                <span style={{ fontSize: '10px', fontFamily: 'monospace', width: '28px', textAlign: 'right', color: '#0f172a', fontWeight: 600 }}>
                   {Math.round(effectsVolume * 100)}%
                 </span>
               </div>

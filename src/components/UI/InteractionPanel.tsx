@@ -92,15 +92,15 @@ export const InteractionPanel: React.FC = () => {
             position: 'relative',
             width: '90%',
             maxWidth: '460px',
-            backgroundColor: 'rgba(15, 23, 42, 0.92)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            border: '1px solid rgba(139, 92, 246, 0.35)',
+            backgroundColor: 'rgba(255, 255, 255, 0.75)',
+            backdropFilter: 'blur(24px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 0.85)',
             boxShadow:
-              '0 24px 64px rgba(0, 0, 0, 0.7), 0 0 28px rgba(139, 92, 246, 0.2)',
-            borderRadius: '20px',
+              '0 24px 64px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
+            borderRadius: '24px',
             padding: '28px',
-            color: '#f8fafc',
+            color: '#0f172a',
             userSelect: 'none',
           }}
         >
@@ -119,8 +119,8 @@ export const InteractionPanel: React.FC = () => {
                   width: '8px',
                   height: '8px',
                   borderRadius: '50%',
-                  backgroundColor: '#38bdf8',
-                  boxShadow: '0 0 10px #38bdf8',
+                  backgroundColor: '#0284c7',
+                  boxShadow: '0 0 10px rgba(2, 132, 199, 0.4)',
                 }}
               />
               <span
@@ -129,7 +129,7 @@ export const InteractionPanel: React.FC = () => {
                   textTransform: 'uppercase',
                   letterSpacing: '0.08em',
                   fontWeight: 700,
-                  color: '#94a3b8',
+                  color: '#475569',
                 }}
               >
                 Interactive Station
@@ -139,9 +139,9 @@ export const InteractionPanel: React.FC = () => {
             <button
               onClick={closeInteraction}
               style={{
-                background: 'rgba(30, 41, 59, 0.6)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                color: '#94a3b8',
+                background: 'rgba(0, 0, 0, 0.05)',
+                border: '1px solid rgba(0, 0, 0, 0.08)',
+                color: '#475569',
                 width: '32px',
                 height: '32px',
                 borderRadius: '50%',
@@ -160,8 +160,8 @@ export const InteractionPanel: React.FC = () => {
           <h2
             style={{
               fontSize: '22px',
-              fontWeight: 700,
-              color: '#f8fafc',
+              fontWeight: 800,
+              color: '#0f172a',
               marginBottom: '10px',
               letterSpacing: '-0.01em',
             }}
@@ -173,7 +173,7 @@ export const InteractionPanel: React.FC = () => {
             style={{
               fontSize: '14px',
               lineHeight: 1.6,
-              color: '#94a3b8',
+              color: '#475569',
               marginBottom: '24px',
             }}
           >
@@ -185,25 +185,25 @@ export const InteractionPanel: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+              borderTop: '1px solid rgba(0, 0, 0, 0.06)',
               paddingTop: '16px',
             }}
           >
             <span style={{ fontSize: '12px', color: '#64748b' }}>
-              Press <kbd style={{ color: '#a78bfa' }}>Esc</kbd> or click Close
+              Press <kbd style={{ color: '#0f172a', fontWeight: 700 }}>Esc</kbd> or click Close
             </span>
             <button
               onClick={closeInteraction}
               style={{
-                background:
-                  'linear-gradient(135deg, rgba(139, 92, 246, 0.4) 0%, rgba(6, 182, 212, 0.4) 100%)',
-                border: '1px solid rgba(139, 92, 246, 0.6)',
+                background: '#0f172a',
+                border: 'none',
                 color: '#ffffff',
-                padding: '8px 18px',
-                borderRadius: '10px',
+                padding: '8px 20px',
+                borderRadius: '9999px',
                 cursor: 'pointer',
                 fontSize: '13px',
                 fontWeight: 600,
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
               }}
             >
               Close

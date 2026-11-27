@@ -43,8 +43,8 @@ export const MiniMap: React.FC = () => {
       const width = canvas.width;
       const height = canvas.height;
 
-      // 1. Clear background
-      ctx.fillStyle = '#0f172a';
+      // 1. Clear background (clean light frosted blueprint)
+      ctx.fillStyle = 'rgba(241, 245, 249, 0.95)';
       ctx.fillRect(0, 0, width, height);
 
       // Grid coordinate conversion: (worldX, worldZ) -> (canvasX, canvasY)
@@ -54,12 +54,12 @@ export const MiniMap: React.FC = () => {
       const toCanvasY = (wz: number) => ((wz + 2.6) / ROOM_LENGTH) * height;
 
       // 2. Room wall border outline with entrance door gap
-      ctx.strokeStyle = 'rgba(139, 92, 246, 0.4)';
+      ctx.strokeStyle = 'rgba(15, 23, 42, 0.25)';
       ctx.lineWidth = 2;
       ctx.strokeRect(3, 3, width - 6, height - 6);
 
       // Entrance Door indicator on South wall (bottom right)
-      ctx.strokeStyle = '#38bdf8';
+      ctx.strokeStyle = '#0284c7';
       ctx.lineWidth = 3;
       ctx.beginPath();
       ctx.moveTo(toCanvasX(1.30), height - 3);
@@ -67,7 +67,7 @@ export const MiniMap: React.FC = () => {
       ctx.stroke();
 
       // Window indicator on West wall (left wall)
-      ctx.strokeStyle = '#60a5fa';
+      ctx.strokeStyle = '#0ea5e9';
       ctx.lineWidth = 3;
       ctx.beginPath();
       ctx.moveTo(3, toCanvasY(-1.70));
@@ -75,7 +75,7 @@ export const MiniMap: React.FC = () => {
       ctx.stroke();
 
       // 2b. Stylized furniture layout silhouettes
-      ctx.fillStyle = 'rgba(30, 41, 59, 0.65)';
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.10)';
       // Desk
       ctx.fillRect(
         toCanvasX(-2.05),
@@ -91,14 +91,14 @@ export const MiniMap: React.FC = () => {
         toCanvasY(-0.30) - toCanvasY(-2.40)
       );
       // Bedside Table & Gramophone
-      ctx.fillStyle = 'rgba(234, 179, 8, 0.6)';
+      ctx.fillStyle = 'rgba(217, 119, 6, 0.25)';
       ctx.fillRect(
         toCanvasX(2.55),
         toCanvasY(-2.40),
         toCanvasX(3.05) - toCanvasX(2.55),
         toCanvasY(-1.90) - toCanvasY(-2.40)
       );
-      ctx.fillStyle = 'rgba(100, 116, 139, 0.5)';
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.08)';
       // Bookshelf
       ctx.fillRect(
         toCanvasX(-2.50),
@@ -114,7 +114,7 @@ export const MiniMap: React.FC = () => {
         toCanvasY(1.55) - toCanvasY(1.05)
       );
       // Minecraft Aquarium
-      ctx.fillStyle = 'rgba(56, 189, 248, 0.6)';
+      ctx.fillStyle = 'rgba(2, 132, 199, 0.20)';
       ctx.fillRect(
         toCanvasX(2.20),
         toCanvasY(2.14),
@@ -122,7 +122,7 @@ export const MiniMap: React.FC = () => {
         toCanvasY(2.58) - toCanvasY(2.14)
       );
       // Lounge Couch (Eli_ac Furniture Pack)
-      ctx.fillStyle = 'rgba(91, 152, 171, 0.4)';
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.08)';
       ctx.fillRect(
         toCanvasX(3.45),
         toCanvasY(-0.85),
@@ -130,7 +130,7 @@ export const MiniMap: React.FC = () => {
         toCanvasY(1.05) - toCanvasY(-0.85)
       );
       // Lounge Plants & Lamp
-      ctx.fillStyle = 'rgba(45, 106, 79, 0.5)';
+      ctx.fillStyle = 'rgba(5, 150, 105, 0.20)';
       ctx.fillRect(
         toCanvasX(3.70),
         toCanvasY(1.15),
@@ -138,7 +138,7 @@ export const MiniMap: React.FC = () => {
         toCanvasY(2.25) - toCanvasY(1.15)
       );
       // Air Conditioner on South Wall
-      ctx.fillStyle = 'rgba(56, 189, 248, 0.5)';
+      ctx.fillStyle = 'rgba(2, 132, 199, 0.20)';
       ctx.fillRect(
         toCanvasX(-0.62),
         toCanvasY(2.44),
@@ -147,7 +147,7 @@ export const MiniMap: React.FC = () => {
       );
 
       // 3. Subtle room inner grid lines
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.strokeStyle = 'rgba(15, 23, 42, 0.05)';
       ctx.lineWidth = 1;
       for (let i = 1; i < 4; i++) {
         ctx.beginPath();
@@ -170,13 +170,13 @@ export const MiniMap: React.FC = () => {
         if (isDiscovered) {
           ctx.beginPath();
           ctx.arc(cx, cy, 6, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(56, 189, 248, 0.25)';
+          ctx.fillStyle = 'rgba(2, 132, 199, 0.20)';
           ctx.fill();
         }
 
         ctx.beginPath();
         ctx.arc(cx, cy, 3.5, 0, Math.PI * 2);
-        ctx.fillStyle = isDiscovered ? '#38bdf8' : '#64748b';
+        ctx.fillStyle = isDiscovered ? '#0284c7' : 'rgba(15, 23, 42, 0.35)';
         ctx.fill();
       });
 
@@ -192,7 +192,7 @@ export const MiniMap: React.FC = () => {
       ctx.rotate(rotation);
 
       // Facing directional pointer triangle
-      ctx.fillStyle = '#4ade80';
+      ctx.fillStyle = '#059669';
       ctx.beginPath();
       ctx.moveTo(0, 7); // front tip
       ctx.lineTo(4, -4);
@@ -201,7 +201,7 @@ export const MiniMap: React.FC = () => {
       ctx.fill();
 
       // Center player dot
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = '#0f172a';
       ctx.beginPath();
       ctx.arc(0, 0, 2, 0, Math.PI * 2);
       ctx.fill();
@@ -221,12 +221,12 @@ export const MiniMap: React.FC = () => {
         top: 72,
         left: 24,
         zIndex: 45,
-        backgroundColor: 'rgba(15, 23, 42, 0.88)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        border: '1px solid rgba(139, 92, 246, 0.3)',
-        boxShadow: '0 12px 32px rgba(0, 0, 0, 0.5), 0 0 16px rgba(139, 92, 246, 0.15)',
-        borderRadius: '16px',
+        backgroundColor: 'rgba(255, 255, 255, 0.65)',
+        backdropFilter: 'blur(24px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+        border: '1px solid rgba(255, 255, 255, 0.85)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
+        borderRadius: '20px',
         padding: '10px',
         display: 'flex',
         flexDirection: 'column',
@@ -247,10 +247,10 @@ export const MiniMap: React.FC = () => {
       >
         <span
           style={{
-            fontSize: '10px',
+            fontSize: '11px',
             fontFamily: 'monospace',
-            fontWeight: 700,
-            color: '#a78bfa',
+            fontWeight: 800,
+            color: '#0f172a',
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
           }}
@@ -263,7 +263,7 @@ export const MiniMap: React.FC = () => {
           style={{
             background: 'none',
             border: 'none',
-            color: '#94a3b8',
+            color: '#475569',
             fontSize: '11px',
             cursor: 'pointer',
             padding: '2px 4px',
@@ -282,7 +282,8 @@ export const MiniMap: React.FC = () => {
           style={{
             width: '130px',
             height: '130px',
-            borderRadius: '10px',
+            borderRadius: '12px',
+            border: '1px solid rgba(15, 23, 42, 0.08)',
             display: 'block',
           }}
         />

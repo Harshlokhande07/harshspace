@@ -40,18 +40,18 @@ export const InteractionPrompt: React.FC = () => {
             left: '50%',
             transform: 'translateX(-50%)',
             zIndex: 40,
-            backgroundColor: 'rgba(15, 23, 42, 0.88)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            border: '1px solid rgba(139, 92, 246, 0.35)',
+            backgroundColor: 'rgba(255, 255, 255, 0.65)',
+            backdropFilter: 'blur(24px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 0.85)',
             boxShadow:
-              '0 12px 36px rgba(0, 0, 0, 0.55), 0 0 20px rgba(139, 92, 246, 0.2)',
+              '0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
             borderRadius: '9999px',
             padding: '10px 22px',
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
-            color: '#f8fafc',
+            color: '#0f172a',
             fontSize: '13px',
             fontWeight: 500,
             letterSpacing: '0.02em',
@@ -63,139 +63,133 @@ export const InteractionPrompt: React.FC = () => {
             <>
               <kbd
                 style={{
-                  backgroundColor: 'rgba(30, 41, 59, 0.9)',
-                  border: '1px solid rgba(56, 189, 248, 0.5)',
-                  boxShadow: '0 0 10px rgba(56, 189, 248, 0.25)',
-                  color: '#38bdf8',
+                  backgroundColor: 'rgba(0, 0, 0, 0.06)',
+                  border: '1px solid rgba(0, 0, 0, 0.12)',
+                  color: '#0f172a',
                   padding: '2px 8px',
                   borderRadius: '6px',
                   fontSize: '12px',
                   fontFamily: 'monospace',
-                  fontWeight: 700,
+                  fontWeight: 800,
                 }}
               >
                 {isTouch ? 'TAP' : 'E'}
               </kbd>
-              <span style={{ color: '#f8fafc', fontWeight: 600 }}>Use PC</span>
+              <span style={{ color: '#0f172a', fontWeight: 700 }}>Use PC</span>
 
-              <span style={{ color: '#64748b', margin: '0 2px' }}>•</span>
+              <span style={{ color: '#94a3b8', margin: '0 2px' }}>•</span>
 
-              <span style={{ color: '#94a3b8' }}>
-                <strong style={{ color: '#f8fafc' }}>{isTouch ? 'Tap Stand Up' : 'Esc or move'}</strong> to Stand Up
+              <span style={{ color: '#475569' }}>
+                <strong style={{ color: '#0f172a' }}>{isTouch ? 'Tap Stand Up' : 'Esc or move'}</strong> to Stand Up
               </span>
             </>
           ) : actionState === 'lying' ? (
             <>
-              <span style={{ color: '#94a3b8' }}>
-                <strong style={{ color: '#f8fafc' }}>{isTouch ? 'Tap Stand Up' : 'Esc or move'}</strong> to Get Up
+              <span style={{ color: '#475569' }}>
+                <strong style={{ color: '#0f172a' }}>{isTouch ? 'Tap Stand Up' : 'Esc or move'}</strong> to Get Up
               </span>
             </>
           ) : isAcSwitch ? (
             <>
-              <span style={{ color: '#94a3b8' }}>{isTouch ? 'Tap for' : 'Press'}</span>
+              <span style={{ color: '#475569' }}>{isTouch ? 'Tap for' : 'Press'}</span>
               <kbd
                 style={{
-                  backgroundColor: 'rgba(30, 41, 59, 0.9)',
-                  border: '1px solid rgba(56, 189, 248, 0.5)',
-                  boxShadow: '0 0 10px rgba(56, 189, 248, 0.25)',
-                  color: '#38bdf8',
+                  backgroundColor: 'rgba(0, 0, 0, 0.06)',
+                  border: '1px solid rgba(0, 0, 0, 0.12)',
+                  color: '#0f172a',
                   padding: '2px 8px',
                   borderRadius: '6px',
                   fontSize: '12px',
                   fontFamily: 'monospace',
-                  fontWeight: 700,
+                  fontWeight: 800,
                 }}
               >
                 {isTouch ? 'AC' : 'E'}
               </kbd>
               {!isTouch && (
-                <span style={{ color: '#f8fafc', fontWeight: 600 }}>
+                <span style={{ color: '#0f172a', fontWeight: 700 }}>
                   AC ({acOn ? 'ON' : 'OFF'})
                 </span>
               )}
 
-              <span style={{ color: '#64748b', margin: '0 2px' }}>•</span>
+              <span style={{ color: '#94a3b8', margin: '0 2px' }}>•</span>
 
               <kbd
                 style={{
-                  backgroundColor: 'rgba(30, 41, 59, 0.9)',
-                  border: '1px solid rgba(16, 185, 129, 0.5)',
-                  boxShadow: '0 0 10px rgba(16, 185, 129, 0.25)',
-                  color: '#10b981',
+                  backgroundColor: 'rgba(0, 0, 0, 0.06)',
+                  border: '1px solid rgba(0, 0, 0, 0.12)',
+                  color: '#059669',
                   padding: '2px 8px',
                   borderRadius: '6px',
                   fontSize: '12px',
                   fontFamily: 'monospace',
-                  fontWeight: 700,
+                  fontWeight: 800,
                 }}
               >
                 {isTouch ? 'Temp' : 'T'}
               </kbd>
               {!isTouch && (
-                <span style={{ color: '#10b981', fontWeight: 600 }}>
+                <span style={{ color: '#059669', fontWeight: 700 }}>
                   Temp {acTemp}°C (Room: {roomTemp}°C)
                 </span>
               )}
             </>
           ) : isSwitchboard ? (
             <>
-              <span style={{ color: '#94a3b8' }}>{isTouch ? 'Tap button for' : 'Press'}</span>
+              <span style={{ color: '#475569' }}>{isTouch ? 'Tap button for' : 'Press'}</span>
               <kbd
                 style={{
-                  backgroundColor: 'rgba(30, 41, 59, 0.9)',
-                  border: '1px solid rgba(56, 189, 248, 0.5)',
-                  boxShadow: '0 0 10px rgba(56, 189, 248, 0.25)',
-                  color: '#38bdf8',
+                  backgroundColor: 'rgba(0, 0, 0, 0.06)',
+                  border: '1px solid rgba(0, 0, 0, 0.12)',
+                  color: '#0f172a',
                   padding: '2px 8px',
                   borderRadius: '6px',
                   fontSize: '12px',
                   fontFamily: 'monospace',
-                  fontWeight: 700,
+                  fontWeight: 800,
                 }}
               >
                 {isTouch ? 'Lamp' : 'E'}
               </kbd>
-              {!isTouch && <span style={{ color: '#f8fafc', fontWeight: 600 }}>Lamp</span>}
+              {!isTouch && <span style={{ color: '#0f172a', fontWeight: 700 }}>Lamp</span>}
 
-              <span style={{ color: '#64748b', margin: '0 2px' }}>•</span>
+              <span style={{ color: '#94a3b8', margin: '0 2px' }}>•</span>
 
               <kbd
                 style={{
-                  backgroundColor: 'rgba(30, 41, 59, 0.9)',
-                  border: '1px solid rgba(16, 185, 129, 0.5)',
-                  boxShadow: '0 0 10px rgba(16, 185, 129, 0.25)',
-                  color: '#10b981',
+                  backgroundColor: 'rgba(0, 0, 0, 0.06)',
+                  border: '1px solid rgba(0, 0, 0, 0.12)',
+                  color: '#059669',
                   padding: '2px 8px',
                   borderRadius: '6px',
                   fontSize: '12px',
                   fontFamily: 'monospace',
-                  fontWeight: 700,
+                  fontWeight: 800,
                 }}
               >
                 {isTouch ? 'Fan' : 'F'}
               </kbd>
-              {!isTouch && <span style={{ color: '#f8fafc', fontWeight: 600 }}>Fan</span>}
+              {!isTouch && <span style={{ color: '#0f172a', fontWeight: 700 }}>Fan</span>}
             </>
           ) : interactable ? (
             <>
-              <span style={{ color: '#94a3b8' }}>{isTouch ? 'Tap' : 'Press'}</span>
+              <span style={{ color: '#475569' }}>{isTouch ? 'Tap' : 'Press'}</span>
               <kbd
                 style={{
-                  backgroundColor: 'rgba(30, 41, 59, 0.9)',
-                  border: '1px solid rgba(56, 189, 248, 0.5)',
-                  boxShadow: '0 0 10px rgba(56, 189, 248, 0.25)',
-                  color: '#38bdf8',
+                  backgroundColor: 'rgba(0, 0, 0, 0.06)',
+                  border: '1px solid rgba(0, 0, 0, 0.12)',
+                  color: '#0f172a',
                   padding: '2px 8px',
                   borderRadius: '6px',
                   fontSize: '12px',
                   fontFamily: 'monospace',
-                  fontWeight: 700,
+                  fontWeight: 800,
                 }}
               >
                 {isTouch ? 'Action' : 'E'}
               </kbd>
-              <span style={{ color: '#94a3b8' }}>to</span>
-              <span style={{ color: '#f8fafc', fontWeight: 600 }}>
+              <span style={{ color: '#475569' }}>to</span>
+              <span style={{ color: '#0f172a', fontWeight: 700 }}>
                 {interactable.promptText}
               </span>
             </>
