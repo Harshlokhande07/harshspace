@@ -106,6 +106,14 @@ export const MiniMap: React.FC = () => {
         toCanvasX(-1.20) - toCanvasX(-2.50),
         toCanvasY(2.53) - toCanvasY(2.17)
       );
+      // Artist Easel with Blank Painting (Sunlit Window Corner)
+      ctx.fillStyle = 'rgba(217, 119, 6, 0.25)';
+      ctx.fillRect(
+        toCanvasX(-2.30),
+        toCanvasY(0.50),
+        toCanvasX(-1.95) - toCanvasX(-2.30),
+        toCanvasY(0.85) - toCanvasY(0.50)
+      );
       // Contact Station
       ctx.fillRect(
         toCanvasX(1.50),

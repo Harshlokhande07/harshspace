@@ -34,6 +34,7 @@ import { MinecraftLogo } from '../Furniture/MinecraftLogo';
 import { MinecraftGirl } from '../Furniture/MinecraftGirl';
 import { MinecraftCamera } from '../Furniture/MinecraftCamera';
 import { Gramophone } from '../Furniture/Gramophone';
+import { Easel } from '../Furniture/Easel';
 
 /**
  * Photorealistic Extended Bedroom Shell
@@ -290,6 +291,8 @@ export const GamingRoomModel: React.FC = () => {
       <MinecraftGirl />
       {/* Oppenheimer Minecraft Camera on tripod in East-South corner */}
       <MinecraftCamera />
+      {/* Blockbench Minecraft Artist Easel with Blank Painting in sunlit artist corner */}
+      <Easel />
       <SecretCube />
       <Lamp />
       <Plant />
