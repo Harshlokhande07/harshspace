@@ -4,171 +4,355 @@ import * as THREE from 'three';
 import { useLivingRoomStore } from '../../store/useLivingRoomStore';
 import { getResolvedTimeMode } from '../Lighting/DayNightController';
 
-const _cSky = new THREE.Color();
-const _cWindowLit = new THREE.Color();
+const _cSkyTop = new THREE.Color();
+const _cSkyMid = new THREE.Color();
+const _cSkyHorizon = new THREE.Color();
+const _cCelestial = new THREE.Color();
 const _cMist = new THREE.Color();
-const _cBuilding = new THREE.Color();
+const _cMountainFar = new THREE.Color();
+const _cMountainMid = new THREE.Color();
+const _cHill = new THREE.Color();
+const _cSnow = new THREE.Color();
+const _cLake = new THREE.Color();
+const _cCloud = new THREE.Color();
 
-interface BuildingData {
-  pos: [number, number, number]; // [Z offset, Y height, X distance]
-  size: [number, number, number]; // [width, height, depth]
-  hasSpire?: boolean;
-  windowRows: number;
+interface PeakData {
+  z: number;
+  x: number;
+  radius: number;
+  height: number;
+  rotY: number;
+}
+
+interface PineTreeData {
+  x: number;
+  y: number;
+  z: number;
+  scale: number;
+}
+
+interface CloudData {
+  x: number;
+  y: number;
+  z: number;
+  scaleX: number;
+  scaleY: number;
+  speed: number;
 }
 
 /**
- * Photorealistic Rainy Modern Tokyo High-rise Exterior Environment (Phase 3 Polish)
- * Located beyond the West window (X < -2.8m).
+ * Scenic Alpine Mountain Vista Exterior Environment
+ * Located beyond the West picture window (X < -2.8m).
+ *
  * Features:
- * - Multi-tiered contemporary Tokyo skyscrapers, residential towers & spires
- * - Luminous window grids (warm interior lights, cool office cyan, amber suites)
- * - Pulsing rooftop aircraft beacon lights
- * - Exterior falling rain streak particle system outside window
- * - Distant rain mist planes & overcast Tokyo sky backdrop
- * - Reactive Day / Evening / Night atmospheric lighting
+ * - Dynamic sky gradient backdrop (crisp alpine daylight, golden-hour sunset, starry moonlit night)
+ * - Sun / Moon celestial orb with soft atmospheric glow halo
+ * - 3-tier parallax mountain ranges:
+ *   1. Far-ground jagged snow-capped alpine peaks
+ *   2. Mid-ground pine-forested & rocky ridges
+ *   3. Fore-ground rolling emerald foothills with 3D pine/evergreen trees
+ * - Tranquil reflective alpine valley lake
+ * - Drifting soft volumetric clouds & low valley mist
+ * - Gentle floating atmospheric breeze motes / evening fireflies
  */
 export const OutdoorBackdrop: React.FC = () => {
-  const skyMatRef = useRef<THREE.MeshBasicMaterial>(null);
-  const mistMatRef = useRef<THREE.MeshStandardMaterial>(null);
-  const litWindowMatRef = useRef<THREE.MeshStandardMaterial>(null);
-  const beaconRef = useRef<THREE.MeshBasicMaterial>(null);
-  const rainPointsRef = useRef<THREE.Points>(null);
+  const skyUniformsRef = useRef({
+    uTopColor: { value: new THREE.Color('#0284C7') },
+    uMidColor: { value: new THREE.Color('#7DD3FC') },
+    uHorizonColor: { value: new THREE.Color('#FEF3C7') },
+  });
 
-  // Shared material for high-rise buildings
-  const buildingMat = useMemo(
-    () =>
-      new THREE.MeshStandardMaterial({
+  const celestialMatRef = useRef<THREE.MeshBasicMaterial>(null);
+  const haloMatRef = useRef<THREE.MeshBasicMaterial>(null);
+  const starsMatRef = useRef<THREE.PointsMaterial>(null);
+  const lakeMatRef = useRef<THREE.MeshStandardMaterial>(null);
+  const mistMatRef = useRef<THREE.MeshStandardMaterial>(null);
+  const motesMatRef = useRef<THREE.PointsMaterial>(null);
+
+  const cloudGroupRefs = useRef<(THREE.Group | null)[]>([]);
+  const motesPointsRef = useRef<THREE.Points>(null);
+
+  // Shared reactive materials for multi-instance mountain tiers & clouds
+  const { farMountainMat, midMountainMat, hillMat, snowMat, cloudMat } = useMemo(
+    () => ({
+      farMountainMat: new THREE.MeshStandardMaterial({
         color: '#64748B',
-        roughness: 0.35,
-        metalness: 0.6,
+        roughness: 0.92,
+        flatShading: true,
+      }),
+      midMountainMat: new THREE.MeshStandardMaterial({
+        color: '#365E53',
+        roughness: 0.95,
+        flatShading: true,
+      }),
+      hillMat: new THREE.MeshStandardMaterial({
+        color: '#2F684E',
+        roughness: 0.95,
+        flatShading: true,
+      }),
+      snowMat: new THREE.MeshStandardMaterial({
+        color: '#F8FAFC',
+        roughness: 0.65,
+        flatShading: true,
+      }),
+      cloudMat: new THREE.MeshStandardMaterial({
+        color: '#FFFFFF',
+        transparent: true,
+        opacity: 0.85,
+        roughness: 1.0,
+      }),
+    }),
+    []
+  );
+
+  // Custom vertical gradient shader for realistic atmospheric sky
+  const skyShaderMaterial = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        uniforms: skyUniformsRef.current,
+        side: THREE.DoubleSide,
+        vertexShader: `
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform vec3 uTopColor;
+          uniform vec3 uMidColor;
+          uniform vec3 uHorizonColor;
+          varying vec2 vUv;
+          void main() {
+            float h = clamp(vUv.y, 0.0, 1.0);
+            vec3 col = mix(uHorizonColor, uMidColor, smoothstep(0.08, 0.48, h));
+            col = mix(col, uTopColor, smoothstep(0.45, 0.95, h));
+            gl_FragColor = vec4(col, 1.0);
+          }
+        `,
       }),
     []
   );
 
-  // Layered architectural high-rise data
-  const buildings: BuildingData[] = useMemo(
+  // Far-ground towering snow-capped alpine peaks (X = -15.5 to -13.2)
+  const farPeaks: PeakData[] = useMemo(
     () => [
-      // Fore-ground modern glass towers (X = -4.5 to -6.5)
-      { pos: [-1.2, 2.2, -4.5], size: [1.4, 5.2, 1.4], windowRows: 8 },
-      { pos: [0.3, 1.8, -5.2], size: [1.6, 4.4, 1.5], windowRows: 6 },
-      { pos: [1.8, 2.6, -4.8], size: [1.3, 6.0, 1.3], hasSpire: true, windowRows: 9 },
-
-      // Mid-ground major Tokyo corporate skyscrapers (X = -7.0 to -9.5)
-      { pos: [-2.6, 3.6, -7.2], size: [2.2, 8.0, 2.0], hasSpire: true, windowRows: 12 },
-      { pos: [-0.6, 4.4, -8.5], size: [2.5, 9.8, 2.2], windowRows: 14 },
-      { pos: [1.2, 3.8, -7.8], size: [2.0, 8.5, 1.8], windowRows: 11 },
-      { pos: [3.2, 3.0, -8.0], size: [1.8, 7.0, 1.8], windowRows: 10 },
-
-      // Far-ground Tokyo skyline silhouette & mega-towers (X = -11.0 to -14.0)
-      { pos: [-3.8, 5.2, -12.0], size: [3.0, 12.0, 2.8], windowRows: 16 },
-      { pos: [-1.8, 6.5, -13.5], size: [3.4, 15.0, 3.2], hasSpire: true, windowRows: 18 },
-      { pos: [0.8, 5.8, -12.5], size: [3.2, 13.5, 3.0], windowRows: 15 },
-      { pos: [3.0, 4.8, -11.5], size: [2.8, 11.0, 2.6], windowRows: 14 },
+      { z: -6.8, x: -14.8, radius: 3.4, height: 6.4, rotY: 0.4 },
+      { z: -3.6, x: -15.4, radius: 4.0, height: 7.8, rotY: 1.1 },
+      { z: -0.5, x: -14.5, radius: 3.6, height: 7.2, rotY: 2.2 }, // Center hero peak
+      { z: 2.4, x: -15.2, radius: 3.8, height: 6.9, rotY: 0.9 },
+      { z: 5.4, x: -14.4, radius: 3.3, height: 5.8, rotY: 1.7 },
     ],
     []
   );
 
-  // Exterior Tokyo rain streaks (lightweight, zero memory allocations in useFrame)
-  const { rainPositions, rainVelocities } = useMemo(() => {
-    const count = 280;
-    const positions = new Float32Array(count * 3);
-    const velocities = new Float32Array(count);
+  // Mid-ground rocky & forested ridges (X = -11.2 to -9.2)
+  const midPeaks: PeakData[] = useMemo(
+    () => [
+      { z: -5.4, x: -10.4, radius: 3.0, height: 4.1, rotY: 0.7 },
+      { z: -2.2, x: -11.0, radius: 3.1, height: 4.4, rotY: 1.9 },
+      { z: 0.8, x: -10.2, radius: 2.9, height: 3.9, rotY: 0.3 },
+      { z: 3.8, x: -10.8, radius: 3.2, height: 4.2, rotY: 2.5 },
+    ],
+    []
+  );
 
+  // Foreground rolling hills (X = -6.6 to -5.0)
+  const foreHills: PeakData[] = useMemo(
+    () => [
+      { z: -3.2, x: -5.8, radius: 2.6, height: 1.65, rotY: 0.2 },
+      { z: 1.9, x: -5.6, radius: 2.5, height: 1.55, rotY: 1.4 },
+      { z: -0.7, x: -6.8, radius: 2.8, height: 1.25, rotY: 0.8 },
+    ],
+    []
+  );
+
+  // Pine / Evergreen trees framing the valley view
+  const pineTrees: PineTreeData[] = useMemo(
+    () => [
+      { x: -4.4, y: 0.15, z: -2.5, scale: 1.05 },
+      { x: -4.9, y: 0.20, z: -2.0, scale: 0.85 },
+      { x: -5.2, y: 0.35, z: -3.0, scale: 1.15 },
+      { x: -4.6, y: 0.10, z: 1.2, scale: 0.95 },
+      { x: -5.1, y: 0.28, z: 1.7, scale: 1.1 },
+      { x: -4.3, y: 0.05, z: 0.65, scale: 0.75 },
+      { x: -5.5, y: 0.30, z: -1.4, scale: 0.8 },
+      { x: -5.9, y: 0.35, z: 0.2, scale: 0.9 },
+    ],
+    []
+  );
+
+  // Soft drifting alpine clouds
+  const clouds: CloudData[] = useMemo(
+    () => [
+      { x: -12.5, y: 5.2, z: -4.5, scaleX: 1.6, scaleY: 0.55, speed: 0.08 },
+      { x: -13.2, y: 4.7, z: 0.2, scaleX: 1.9, scaleY: 0.6, speed: 0.06 },
+      { x: -11.8, y: 5.6, z: 3.8, scaleX: 1.4, scaleY: 0.5, speed: 0.09 },
+    ],
+    []
+  );
+
+  // Starfield positions for night sky
+  const starPositions = useMemo(() => {
+    const count = 160;
+    const positions = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      // Window bounds: X from -3.0 to -4.2, Y from 0.4 to 3.2, Z from -2.0 to 0.8
-      positions[i * 3 + 0] = -3.0 - Math.random() * 1.4; // X outside window
-      positions[i * 3 + 1] = 0.4 + Math.random() * 2.8;  // Y height
-      positions[i * 3 + 2] = -2.0 + Math.random() * 2.8; // Z span
-      velocities[i] = 4.5 + Math.random() * 3.5;
+      positions[i * 3 + 0] = -17.2 + Math.random() * 0.4;
+      positions[i * 3 + 1] = 2.6 + Math.random() * 6.5;
+      positions[i * 3 + 2] = -9.5 + Math.random() * 18.0;
     }
-    return { rainPositions: positions, rainVelocities: velocities };
+    return positions;
+  }, []);
+
+  // Gentle floating breeze motes / evening fireflies outside window
+  const { motePositions, moteSpeeds } = useMemo(() => {
+    const count = 45;
+    const positions = new Float32Array(count * 3);
+    const speeds = new Float32Array(count);
+    for (let i = 0; i < count; i++) {
+      positions[i * 3 + 0] = -3.3 - Math.random() * 2.2;
+      positions[i * 3 + 1] = 0.5 + Math.random() * 2.2;
+      positions[i * 3 + 2] = -2.2 + Math.random() * 3.2;
+      speeds[i] = 0.2 + Math.random() * 0.4;
+    }
+    return { motePositions: positions, moteSpeeds: speeds };
   }, []);
 
   useFrame((state, delta) => {
     const dt = Math.min(delta, 0.1);
     const timeMode = useLivingRoomStore.getState().timeMode;
     const resolved = getResolvedTimeMode(timeMode);
-    const time = state.clock.getElapsedTime();
+    const t = state.clock.getElapsedTime();
 
-    // 1. Sky & Overcast Colors
-    const skyHex =
+    // 1. Sky Gradient Colors
+    const topHex =
       resolved === 'day'
-        ? '#E2E8F0' // Bright rainy overcast Tokyo daylight
+        ? '#0284C7' // Crisp alpine cobalt sky
         : resolved === 'evening'
-          ? '#451a03' // Rainy amber Tokyo twilight
-          : '#050814'; // Moody dark Tokyo night
+          ? '#312E81' // Deep twilight indigo
+          : '#020617'; // Deep starry night
 
-    if (skyMatRef.current) {
-      _cSky.set(skyHex);
-      skyMatRef.current.color.lerp(_cSky, dt * 2.5);
+    const midHex =
+      resolved === 'day'
+        ? '#7DD3FC' // Clear sky blue
+        : resolved === 'evening'
+          ? '#DB2777' // Rose-magenta sunset band
+          : '#0F172A'; // Midnight slate
+
+    const horizonHex =
+      resolved === 'day'
+        ? '#FEF3C7' // Warm sunlit alpine haze
+        : resolved === 'evening'
+          ? '#FB923C' // Glowing golden-orange sunset
+          : '#1E1B4B'; // Deep violet horizon
+
+    _cSkyTop.set(topHex);
+    _cSkyMid.set(midHex);
+    _cSkyHorizon.set(horizonHex);
+    skyUniformsRef.current.uTopColor.value.lerp(_cSkyTop, dt * 2.5);
+    skyUniformsRef.current.uMidColor.value.lerp(_cSkyMid, dt * 2.5);
+    skyUniformsRef.current.uHorizonColor.value.lerp(_cSkyHorizon, dt * 2.5);
+
+    // 2. Sun / Moon Color & Star Opacity
+    const celestialHex =
+      resolved === 'day'
+        ? '#FEF9C3'
+        : resolved === 'evening'
+          ? '#FDBA74'
+          : '#F8FAFC';
+
+    if (celestialMatRef.current) {
+      _cCelestial.set(celestialHex);
+      celestialMatRef.current.color.lerp(_cCelestial, dt * 2.5);
     }
-
-    // 1b. Skyscraper Facades Color
-    const bldgHex =
-      resolved === 'day'
-        ? '#64748B' // Sleek modern glass/steel towers in daylight
-        : resolved === 'evening'
-          ? '#3D2D24' // Twilight silhouette
-          : '#111625'; // Dark night skyscraper
-
-    _cBuilding.set(bldgHex);
-    buildingMat.color.lerp(_cBuilding, dt * 2.5);
-
-    // 2. High-Rise Window Lights
-    const windowColor =
-      resolved === 'day'
-        ? '#fef08a' // Subtle warm office interior lights
-        : resolved === 'evening'
-          ? '#fed7aa' // Amber evening glow
-          : '#fde047'; // Bright Tokyo high-rise windows
-
-    const windowIntensity =
-      resolved === 'day' ? 0.6 : resolved === 'evening' ? 1.4 : 2.2;
-
-    if (litWindowMatRef.current) {
-      _cWindowLit.set(windowColor);
-      litWindowMatRef.current.emissive.lerp(_cWindowLit, dt * 2.5);
-      litWindowMatRef.current.emissiveIntensity = THREE.MathUtils.damp(
-        litWindowMatRef.current.emissiveIntensity,
-        windowIntensity,
-        3.0,
+    if (haloMatRef.current) {
+      haloMatRef.current.color.lerp(_cCelestial, dt * 2.5);
+      haloMatRef.current.opacity = THREE.MathUtils.damp(
+        haloMatRef.current.opacity,
+        resolved === 'evening' ? 0.35 : resolved === 'day' ? 0.25 : 0.18,
+        2.5,
+        dt
+      );
+    }
+    if (starsMatRef.current) {
+      starsMatRef.current.opacity = THREE.MathUtils.damp(
+        starsMatRef.current.opacity,
+        resolved === 'night' ? 0.9 : resolved === 'evening' ? 0.25 : 0.0,
+        2.5,
         dt
       );
     }
 
-    // 3. Rooftop Aviation Beacon Blinking
-    if (beaconRef.current) {
-      const pulse = Math.sin(time * 3.5) > 0.4 ? 1.0 : 0.15;
-      beaconRef.current.color.setRGB(pulse, 0.08 * pulse, 0.08 * pulse);
-    }
+    // 3. Mountain, Hill, Snow & Lake Colors
+    _cMountainFar.set(
+      resolved === 'day' ? '#64748B' : resolved === 'evening' ? '#5B4563' : '#1E293B'
+    );
+    _cMountainMid.set(
+      resolved === 'day' ? '#365E53' : resolved === 'evening' ? '#3B2F4A' : '#111827'
+    );
+    _cHill.set(
+      resolved === 'day' ? '#2F684E' : resolved === 'evening' ? '#27403B' : '#0B1D19'
+    );
+    _cSnow.set(
+      resolved === 'day' ? '#F8FAFC' : resolved === 'evening' ? '#FED7AA' : '#94A3B8'
+    );
+    _cLake.set(
+      resolved === 'day' ? '#38BDF8' : resolved === 'evening' ? '#F472B6' : '#1E293B'
+    );
 
-    // 4. Rainy Mist Layer
+    farMountainMat.color.lerp(_cMountainFar, dt * 2.5);
+    midMountainMat.color.lerp(_cMountainMid, dt * 2.5);
+    hillMat.color.lerp(_cHill, dt * 2.5);
+    snowMat.color.lerp(_cSnow, dt * 2.5);
+    if (lakeMatRef.current) lakeMatRef.current.color.lerp(_cLake, dt * 2.5);
+
+    // 4. Valley Mist & Clouds
     if (mistMatRef.current) {
-      const mistColor =
-        resolved === 'day'
-          ? '#F1F5F9'
-          : resolved === 'evening'
-            ? '#7c2d12'
-            : '#0f172a';
-      _cMist.set(mistColor);
-      mistMatRef.current.color.lerp(_cMist, dt * 2.0);
+      _cMist.set(
+        resolved === 'day' ? '#F1F5F9' : resolved === 'evening' ? '#FDBA74' : '#334155'
+      );
+      mistMatRef.current.color.lerp(_cMist, dt * 2.5);
+    }
+    _cCloud.set(
+      resolved === 'day' ? '#FFFFFF' : resolved === 'evening' ? '#FBCFE8' : '#334155'
+    );
+    cloudMat.color.lerp(_cCloud, dt * 2.5);
+    cloudMat.opacity = THREE.MathUtils.damp(
+      cloudMat.opacity,
+      resolved === 'night' ? 0.35 : 0.85,
+      2.5,
+      dt
+    );
+
+    // Drift clouds gently along Z
+    for (let i = 0; i < clouds.length; i++) {
+      const grp = cloudGroupRefs.current[i];
+      if (grp) {
+        grp.position.z += clouds[i].speed * dt;
+        if (grp.position.z > 7.5) {
+          grp.position.z = -7.5;
+        }
+      }
     }
 
-    // 5. Falling rain streak animation outside window
-    if (rainPointsRef.current) {
-      const posAttr = rainPointsRef.current.geometry.attributes.position;
+    // 5. Gentle floating motes / fireflies
+    if (motesMatRef.current) {
+      motesMatRef.current.opacity = THREE.MathUtils.damp(
+        motesMatRef.current.opacity,
+        resolved === 'day' ? 0.35 : 0.75,
+        2.5,
+        dt
+      );
+    }
+    if (motesPointsRef.current) {
+      const posAttr = motesPointsRef.current.geometry.attributes.position;
       const arr = posAttr.array as Float32Array;
       const count = arr.length / 3;
-
       for (let i = 0; i < count; i++) {
-        arr[i * 3 + 1] -= rainVelocities[i] * dt;
-        // Wind slant in Z
-        arr[i * 3 + 2] -= 0.6 * dt;
-
-        // Reset if fallen below sill
-        if (arr[i * 3 + 1] < 0.4) {
-          arr[i * 3 + 1] = 3.2;
-          arr[i * 3 + 2] = -2.0 + Math.random() * 2.8;
+        arr[i * 3 + 1] += Math.sin(t * 1.2 + i) * 0.08 * dt;
+        arr[i * 3 + 2] += moteSpeeds[i] * dt * 0.3;
+        if (arr[i * 3 + 2] > 1.2) {
+          arr[i * 3 + 2] = -2.2;
         }
       }
       posAttr.needsUpdate = true;
@@ -177,144 +361,167 @@ export const OutdoorBackdrop: React.FC = () => {
 
   return (
     <group position={[0, 0, 0]}>
-      {/* 1. Distant Overcast Tokyo Sky Backdrop Cylinder (Radius 16m) */}
-      <mesh position={[-14.0, 4.0, -0.6]} rotation={[0, Math.PI / 2, 0]}>
-        <planeGeometry args={[26, 18]} />
-        <meshBasicMaterial ref={skyMatRef} color="#050814" side={THREE.DoubleSide} />
+      {/* 1. Dynamic Gradient Sky Backdrop */}
+      <mesh position={[-18.0, 4.2, -0.6]} rotation={[0, Math.PI / 2, 0]} material={skyShaderMaterial}>
+        <planeGeometry args={[28, 16]} />
       </mesh>
 
-      {/* 2. Rainy Tokyo Skyline Skyscrapers */}
-      {buildings.map((b, idx) => {
-        const [bz, by, bx] = b.pos;
-        const [w, h, d] = b.size;
-
-        return (
-          <group key={idx} position={[bx, by - h / 2 + 0.2, bz]}>
-            {/* Main Skyscraper Tower Body */}
-            <mesh
-              material={buildingMat}
-              castShadow
-              receiveShadow
-              position={[0, h / 2, 0]}
-            >
-              <boxGeometry args={[d, h, w]} />
-            </mesh>
-
-            {/* Lit Window Bands / Vertical Glass Curtain Strips */}
-            {Array.from({ length: Math.min(b.windowRows, 10) }).map((_, rIdx) => {
-              const yPos = 0.8 + (rIdx * (h - 1.2)) / b.windowRows;
-              return (
-                <mesh
-                  key={rIdx}
-                  position={[d / 2 + 0.01, yPos, 0]}
-                  rotation={[0, Math.PI / 2, 0]}
-                >
-                  <planeGeometry args={[w * 0.82, 0.12]} />
-                  <meshStandardMaterial
-                    ref={litWindowMatRef}
-                    color="#fde047"
-                    emissive="#fde047"
-                    emissiveIntensity={1.8}
-                    roughness={0.2}
-                  />
-                </mesh>
-              );
-            })}
-
-            {/* Rooftop Plant Mechanical Penthouse */}
-            <mesh position={[0, h + 0.2, 0]}>
-              <boxGeometry args={[d * 0.65, 0.4, w * 0.65]} />
-              <meshStandardMaterial color="#05070a" roughness={0.7} metalness={0.5} />
-            </mesh>
-
-            {/* Communications Spire / Antenna with Blinking Red Warning Beacon */}
-            {b.hasSpire && (
-              <group position={[0, h + 0.4, 0]}>
-                <mesh position={[0, 0.6, 0]}>
-                  <cylinderGeometry args={[0.02, 0.06, 1.2, 6]} />
-                  <meshStandardMaterial color="#475569" roughness={0.4} metalness={0.8} />
-                </mesh>
-                {/* Red Beacon */}
-                <mesh position={[0, 1.22, 0]}>
-                  <sphereGeometry args={[0.06, 8, 8]} />
-                  <meshBasicMaterial ref={beaconRef} color="#ef4444" />
-                </mesh>
-              </group>
-            )}
-          </group>
-        );
-      })}
-
-      {/* 3. Tokyo Tower / Communications Spire in Mid-Distance */}
-      <group position={[-9.2, 0, 1.6]}>
-        {/* Lattice Spire Pyramidal Base */}
-        <mesh position={[0, 3.5, 0]}>
-          <cylinderGeometry args={[0.2, 0.9, 7.0, 4]} />
-          <meshStandardMaterial
-            color="#dc2626" // Tokyo Tower vermilion red
-            roughness={0.4}
-            metalness={0.6}
-            wireframe={true}
-          />
-        </mesh>
-        {/* Observation Deck Pod */}
-        <mesh position={[0, 4.8, 0]}>
-          <cylinderGeometry args={[0.55, 0.55, 0.6, 12]} />
-          <meshStandardMaterial
-            color="#ffffff"
-            emissive="#ffffff"
-            emissiveIntensity={0.8}
-            roughness={0.3}
-          />
-        </mesh>
-        {/* Upper Needle */}
-        <mesh position={[0, 7.2, 0]}>
-          <cylinderGeometry args={[0.03, 0.15, 4.2, 6]} />
-          <meshStandardMaterial color="#dc2626" roughness={0.4} metalness={0.8} />
-        </mesh>
-        {/* Top Warning Light */}
-        <mesh position={[0, 9.35, 0]}>
-          <sphereGeometry args={[0.08, 8, 8]} />
-          <meshBasicMaterial color="#ef4444" />
-        </mesh>
-      </group>
-
-      {/* 4. Atmospheric Rainy Mist / Fog Depth Planes */}
-      <mesh position={[-5.8, 2.5, -0.6]} rotation={[0, Math.PI / 2, 0]}>
-        <planeGeometry args={[14, 8]} />
-        <meshStandardMaterial
-          ref={mistMatRef}
-          color="#0f172a"
-          transparent={true}
-          opacity={0.22}
-          roughness={1.0}
-        />
-      </mesh>
-      <mesh position={[-9.8, 3.5, -0.6]} rotation={[0, Math.PI / 2, 0]}>
-        <planeGeometry args={[20, 12]} />
-        <meshStandardMaterial
-          ref={mistMatRef}
-          color="#0f172a"
-          transparent={true}
-          opacity={0.3}
-          roughness={1.0}
-        />
-      </mesh>
-
-      {/* 5. Exterior Window Rain Streak Particles */}
-      <points ref={rainPointsRef}>
+      {/* 2. Starfield (visible at Evening/Night) */}
+      <points>
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            count={rainPositions.length / 3}
-            array={rainPositions}
+            count={starPositions.length / 3}
+            array={starPositions}
             itemSize={3}
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.035}
-          color="#cbd5e1"
-          transparent={true}
+          ref={starsMatRef}
+          size={0.08}
+          color="#F8FAFC"
+          transparent
+          opacity={0}
+          depthWrite={false}
+        />
+      </points>
+
+      {/* 3. Celestial Sun / Moon Orb & Halo */}
+      <group position={[-16.8, 4.3, -2.3]}>
+        <mesh>
+          <sphereGeometry args={[0.55, 24, 24]} />
+          <meshBasicMaterial ref={celestialMatRef} color="#FEF9C3" />
+        </mesh>
+        <mesh rotation={[0, Math.PI / 2, 0]}>
+          <circleGeometry args={[1.3, 32]} />
+          <meshBasicMaterial
+            ref={haloMatRef}
+            color="#FEF9C3"
+            transparent
+            opacity={0.25}
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
+          />
+        </mesh>
+      </group>
+
+      {/* 4. Far-Ground Majestic Snow-Capped Alpine Peaks */}
+      {farPeaks.map((peak, idx) => (
+        <group key={`far-${idx}`} position={[peak.x, -0.2, peak.z]} rotation={[0, peak.rotY, 0]}>
+          {/* Mountain Rocky Base */}
+          <mesh position={[0, peak.height / 2, 0]} material={farMountainMat}>
+            <coneGeometry args={[peak.radius, peak.height, 7]} />
+          </mesh>
+          {/* Crisp Snow Cap Peak (Upper 42%) */}
+          <mesh position={[0, peak.height * 0.79, 0]} material={snowMat}>
+            <coneGeometry args={[peak.radius * 0.425, peak.height * 0.425, 7]} />
+          </mesh>
+        </group>
+      ))}
+
+      {/* 5. Mid-Ground Forested & Rocky Ridges */}
+      {midPeaks.map((peak, idx) => (
+        <group key={`mid-${idx}`} position={[peak.x, -0.2, peak.z]} rotation={[0, peak.rotY, 0]}>
+          <mesh position={[0, peak.height / 2, 0]} material={midMountainMat}>
+            <coneGeometry args={[peak.radius, peak.height, 6]} />
+          </mesh>
+        </group>
+      ))}
+
+      {/* 6. Alpine Valley Floor & Tranquil Reflective Lake */}
+      <mesh position={[-8.0, 0.02, -0.6]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[12, 16]} />
+        <meshStandardMaterial
+          ref={lakeMatRef}
+          color="#38BDF8"
+          roughness={0.12}
+          metalness={0.45}
+        />
+      </mesh>
+
+      {/* 7. Foreground Rolling Emerald Foothills */}
+      {foreHills.map((hill, idx) => (
+        <group key={`hill-${idx}`} position={[hill.x, -0.2, hill.z]} rotation={[0, hill.rotY, 0]}>
+          <mesh position={[0, hill.height / 2, 0]} material={hillMat}>
+            <coneGeometry args={[hill.radius, hill.height, 8]} />
+          </mesh>
+        </group>
+      ))}
+
+      {/* 8. Foreground Alpine Pine / Evergreen Trees */}
+      {pineTrees.map((tree, idx) => (
+        <group key={`tree-${idx}`} position={[tree.x, tree.y, tree.z]} scale={tree.scale}>
+          {/* Trunk */}
+          <mesh position={[0, 0.2, 0]}>
+            <cylinderGeometry args={[0.04, 0.06, 0.4, 6]} />
+            <meshStandardMaterial color="#4A3525" roughness={0.9} />
+          </mesh>
+          {/* Tiered Pine Foliage */}
+          <mesh position={[0, 0.55, 0]}>
+            <coneGeometry args={[0.32, 0.55, 7]} />
+            <meshStandardMaterial color="#1B4332" roughness={0.9} flatShading />
+          </mesh>
+          <mesh position={[0, 0.85, 0]}>
+            <coneGeometry args={[0.24, 0.48, 7]} />
+            <meshStandardMaterial color="#2D6A4F" roughness={0.9} flatShading />
+          </mesh>
+          <mesh position={[0, 1.12, 0]}>
+            <coneGeometry args={[0.16, 0.38, 7]} />
+            <meshStandardMaterial color="#40916C" roughness={0.85} flatShading />
+          </mesh>
+        </group>
+      ))}
+
+      {/* 9. Drifting Soft Alpine Clouds */}
+      {clouds.map((cloud, idx) => (
+        <group
+          key={`cloud-${idx}`}
+          ref={(el) => {
+            cloudGroupRefs.current[idx] = el;
+          }}
+          position={[cloud.x, cloud.y, cloud.z]}
+          scale={[1, cloud.scaleY, cloud.scaleX]}
+        >
+          <mesh position={[0, 0, 0]} material={cloudMat}>
+            <sphereGeometry args={[0.7, 12, 10]} />
+          </mesh>
+          <mesh position={[0.1, -0.1, 0.65]} material={cloudMat}>
+            <sphereGeometry args={[0.52, 10, 8]} />
+          </mesh>
+          <mesh position={[-0.1, -0.1, -0.65]} material={cloudMat}>
+            <sphereGeometry args={[0.48, 10, 8]} />
+          </mesh>
+        </group>
+      ))}
+
+      {/* 10. Low Alpine Valley Mist Ribbon */}
+      <mesh position={[-12.2, 1.35, -0.6]} rotation={[0, Math.PI / 2, 0]}>
+        <planeGeometry args={[20, 2.2]} />
+        <meshStandardMaterial
+          ref={mistMatRef}
+          color="#F1F5F9"
+          transparent
+          opacity={0.22}
+          roughness={1.0}
+          depthWrite={false}
+        />
+      </mesh>
+
+      {/* 11. Gentle Atmospheric Breeze Motes / Fireflies */}
+      <points ref={motesPointsRef}>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={motePositions.length / 3}
+            array={motePositions}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <pointsMaterial
+          ref={motesMatRef}
+          size={0.04}
+          color="#FEF08A"
+          transparent
           opacity={0.45}
           blending={THREE.AdditiveBlending}
           depthWrite={false}

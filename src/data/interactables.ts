@@ -56,9 +56,9 @@ export const INTERACTABLES: InteractableObject[] = [
   },
   {
     id: 'window',
-    label: 'Tokyo Vista Window',
-    promptText: 'Look at Rainy Tokyo',
-    position: [-2.15, 0.02, -0.60], // Near window overlooking Tokyo high-rise skyline
+    label: 'Mountain Vista Window',
+    promptText: 'Enjoy the Mountain View',
+    position: [-2.15, 0.02, -0.60], // Near window overlooking scenic alpine mountains
     radius: 1.4,
     sectionId: 'vision',
     kind: 'panel',
