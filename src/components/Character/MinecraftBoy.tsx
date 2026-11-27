@@ -89,14 +89,78 @@ export const MinecraftBoy: React.FC<MinecraftBoyProps> = ({ speedRef }) => {
     return texture;
   }, []);
 
-  // Exact 1:1 Torso texture matching the Sketchfab model (Orange T-shirt with cream collar notch & black belt)
+  // Helper to draw pixel-perfect Minecraft font "HARSH"
+  const drawHarshText = (ctx: CanvasRenderingContext2D, startX: number, startY: number, pixelScale = 3) => {
+    const letters: Record<string, number[][]> = {
+      H: [
+        [1, 0, 0, 0, 1],
+        [1, 0, 0, 0, 1],
+        [1, 0, 0, 0, 1],
+        [1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 1],
+        [1, 0, 0, 0, 1],
+        [1, 0, 0, 0, 1],
+      ],
+      A: [
+        [0, 1, 1, 1, 0],
+        [1, 0, 0, 0, 1],
+        [1, 0, 0, 0, 1],
+        [1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 1],
+        [1, 0, 0, 0, 1],
+        [1, 0, 0, 0, 1],
+      ],
+      R: [
+        [1, 1, 1, 1, 0],
+        [1, 0, 0, 0, 1],
+        [1, 0, 0, 0, 1],
+        [1, 1, 1, 1, 0],
+        [1, 0, 0, 1, 0],
+        [1, 0, 0, 0, 1],
+        [1, 0, 0, 0, 1],
+      ],
+      S: [
+        [0, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0],
+        [0, 0, 0, 0, 1],
+        [0, 0, 0, 0, 1],
+        [1, 1, 1, 1, 0],
+      ],
+    };
+
+    const word = ['H', 'A', 'R', 'S', 'H'];
+    const letterW = 5 * pixelScale; // 15px
+    const spacing = 2 * pixelScale; // 6px
+    word.forEach((char, charIdx) => {
+      const grid = letters[char];
+      const charX = startX + charIdx * (letterW + spacing);
+      for (let row = 0; row < 7; row++) {
+        for (let col = 0; col < 5; col++) {
+          if (grid[row][col] === 1) {
+            const px = charX + col * pixelScale;
+            const py = startY + row * pixelScale;
+            // Black 3D drop shadow
+            ctx.fillStyle = '#0F172A';
+            ctx.fillRect(px + 2, py + 2, pixelScale, pixelScale);
+            // Crisp White letter pixel
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(px, py, pixelScale, pixelScale);
+          }
+        }
+      }
+    });
+  };
+
+  // Exact 1:1 Torso texture with custom "HARSH" lettering across the chest
   const torsoTexture = useMemo(() => {
     const canvas = document.createElement('canvas');
     canvas.width = 128;
     canvas.height = 128;
     const ctx = canvas.getContext('2d')!;
 
-    // Vibrant Orange T-shirt (#F97316 / #EA580C)
+    // Vibrant Orange T-shirt base (#EA580C)
     ctx.fillStyle = '#EA580C';
     ctx.fillRect(0, 0, 128, 128);
 
@@ -121,6 +185,50 @@ export const MinecraftBoy: React.FC<MinecraftBoyProps> = ({ speedRef }) => {
     ctx.fillRect(0, 116, 128, 12);
     ctx.fillStyle = '#27272A';
     ctx.fillRect(0, 116, 128, 3);
+
+    // Draw bold pixel-art "HARSH" across the front chest
+    drawHarshText(ctx, 14, 52, 3);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.magFilter = THREE.NearestFilter;
+    texture.minFilter = THREE.NearestFilter;
+    texture.colorSpace = THREE.SRGBColorSpace;
+    return texture;
+  }, []);
+
+  // Back Torso texture with "HARSH" jersey nameplate on back
+  const torsoBackTexture = useMemo(() => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d')!;
+
+    // Vibrant Orange T-shirt base (#EA580C)
+    ctx.fillStyle = '#EA580C';
+    ctx.fillRect(0, 0, 128, 128);
+
+    // Subtle orange pixel grid variations
+    ctx.fillStyle = '#F97316';
+    for (let x = 0; x < 128; x += 16) {
+      for (let y = 0; y < 112; y += 16) {
+        if ((x + y) % 32 === 0) {
+          ctx.fillRect(x, y, 16, 16);
+        }
+      }
+    }
+
+    // Back collar seam
+    ctx.fillStyle = '#C2410C';
+    ctx.fillRect(48, 0, 32, 8);
+
+    // Black Waist Belt at bottom
+    ctx.fillStyle = '#18181B';
+    ctx.fillRect(0, 116, 128, 12);
+    ctx.fillStyle = '#27272A';
+    ctx.fillRect(0, 116, 128, 3);
+
+    // Draw bold pixel-art "HARSH" across upper back
+    drawHarshText(ctx, 14, 44, 3);
 
     const texture = new THREE.CanvasTexture(canvas);
     texture.magFilter = THREE.NearestFilter;
@@ -335,7 +443,7 @@ export const MinecraftBoy: React.FC<MinecraftBoyProps> = ({ speedRef }) => {
           <meshStandardMaterial attach="material-2" color="#EA580C" roughness={0.7} /> {/* Shoulders */}
           <meshStandardMaterial attach="material-3" color="#18181B" roughness={0.8} /> {/* Waist belt base */}
           <meshStandardMaterial attach="material-4" map={torsoTexture} roughness={0.6} /> {/* Front */}
-          <meshStandardMaterial attach="material-5" color="#EA580C" roughness={0.7} /> {/* Back */}
+          <meshStandardMaterial attach="material-5" map={torsoBackTexture} roughness={0.6} /> {/* Back */}
         </mesh>
       </group>
 
