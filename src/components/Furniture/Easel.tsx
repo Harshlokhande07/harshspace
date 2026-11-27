@@ -250,10 +250,6 @@ export const Easel: React.FC<EaselProps> = ({
         <mesh position={[0, -0.80, 0]} material={oakWoodMat} castShadow receiveShadow>
           <boxGeometry args={[0.045, 1.64, 0.04]} />
         </mesh>
-        {/* Brass Hinge Bracket at top */}
-        <mesh position={[0, 0, 0]} material={brassHardwareMat}>
-          <boxGeometry args={[0.06, 0.03, 0.04]} />
-        </mesh>
       </group>
     </group>
   );
