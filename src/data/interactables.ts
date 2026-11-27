@@ -108,7 +108,7 @@ export const INTERACTABLES: InteractableObject[] = [
     id: 'switchboard',
     label: 'Switchboard',
     promptText: 'Use Switchboard',
-    position: [1.15, 0.02, 1.95], // Wall switch next to entrance
+    position: [0.90, 0.02, 1.95], // Wall switch next to entrance
     radius: 1.3,
     sectionId: 'switchboard',
     kind: 'action',

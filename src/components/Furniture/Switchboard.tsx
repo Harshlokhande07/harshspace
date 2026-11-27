@@ -5,7 +5,7 @@ import { useLivingRoomStore } from '../../store/useLivingRoomStore';
 
 /**
  * Modern dual-rocker wall switchboard.
- * Placed on the front wall (X = 1.8, Y = 1.35, Z = 5.88) near the entrance.
+ * Placed on the front wall (X = 0.90, Y = 1.25, Z = 2.585) near the entrance.
  * - Left Rocker: Desk Lamp (rotates based on lampOn, cyan/amber LED)
  * - Right Rocker: Ceiling Fan (rotates based on fanOn, emerald LED)
  * - Has subtle emissive indicator dots
@@ -64,7 +64,7 @@ export const Switchboard: React.FC = () => {
   });
 
   return (
-    <group position={[1.15, 1.25, 2.585]} rotation={[0, Math.PI, 0]}>
+    <group position={[0.90, 1.25, 2.585]} rotation={[0, Math.PI, 0]}>
       {/* 1. Base Wall Plate: Warm ivory neutral acrylic faceplate (#EAE3D8) */}
       <mesh receiveShadow>
         <boxGeometry args={[0.32, 0.22, 0.02]} />
