@@ -28,6 +28,6 @@ export const EASTER_EGGS: Record<string, EasterEggData> = {
     id: 'celebration-unlock',
     title: 'Master Explorer Unlocked!',
     subtitle: 'All 7 Portfolio Milestones Discovered',
-    content: '[SAMPLE - replace me: "Congratulations! You have thoroughly explored every corner of Harsh - The Digital World. Thank you for taking the time to discover my projects, skills, and story."]',
+    content: '[SAMPLE - replace me: "Congratulations! You have thoroughly explored every corner of Harsh Space - The Digital World. Thank you for taking the time to discover my projects, skills, and story."]',
   },
 };

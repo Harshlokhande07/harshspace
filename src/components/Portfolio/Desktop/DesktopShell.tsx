@@ -150,7 +150,7 @@ export const DesktopShell: React.FC = () => {
                 textTransform: 'uppercase',
               }}
             >
-              Harsh
+              Harsh Space
             </div>
             <div
               style={{

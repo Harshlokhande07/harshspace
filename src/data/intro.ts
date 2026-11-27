@@ -7,7 +7,7 @@ export interface IntroContent {
 }
 
 export const INTRO_CONTENT: IntroContent = {
-  title: 'HARSH - THE DIGITAL WORLD',
+  title: 'HARSH SPACE - THE DIGITAL WORLD',
   subtitle: 'A little world built from my ideas, projects and imagination.',
   enterButtonText: 'ENTER MY WORLD',
   welcomeMessage: 'Welcome to my world. Explore, interact and discover my journey.',

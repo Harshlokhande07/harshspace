@@ -55,7 +55,7 @@ export const WebGLFallback: FC = () => {
             marginBottom: '20px',
           }}
         >
-          <strong>Harsh - The Digital World</strong> is an interactive real-time 3D experience
+          <strong>Harsh Space - The Digital World</strong> is an interactive real-time 3D experience
           powered by Three.js and WebGL. It looks like 3D graphics acceleration is disabled or
           unsupported in your current browser.
         </p>

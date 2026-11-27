@@ -12,7 +12,7 @@ import * as THREE from 'three';
  * - Heavy vintage wooden surveyor/cine tripod with 3 splayed legs (#B08A5E / #8F6942) and aluminum extension collars
  * - Heavy cinema pan-tilt fluid head mounting base
  * - Heavy battery pack on floor with connecting power umbilical cable
- * - Positioned in the corner (East-South corner: X = 4.05, Z = 2.15, angled inward at -135°)
+ * - Positioned in the North-East corner: X = 4.05, Z = -2.15, angled inward at -45°
  */
 export const MinecraftCamera: React.FC = () => {
   const {
@@ -66,8 +66,8 @@ export const MinecraftCamera: React.FC = () => {
   }, []);
 
   return (
-    // Positioned in the East-South corner (X = 4.05, Z = 2.15), angled inward into room towards the lounge & desk
-    <group position={[4.05, 0, 2.15]} rotation={[0, -Math.PI * 0.75, 0]}>
+    // Positioned in the North-East corner (X = 4.05, Z = -2.15), angled inward into room towards the lounge & desk
+    <group position={[4.05, 0, -2.15]} rotation={[0, -Math.PI * 0.25, 0]}>
       {/* ============================================================== */}
       {/* 1. CINEMA SURVEYOR TRIPOD (3 splayed wooden legs with collars) */}
       {/* ============================================================== */}
