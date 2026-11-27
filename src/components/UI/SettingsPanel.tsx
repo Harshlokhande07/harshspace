@@ -59,14 +59,14 @@ export const SettingsPanel: React.FC = () => {
           top: 180,
           right: 24,
           zIndex: 50,
-          backgroundColor: isOpen
-            ? 'rgba(255, 255, 255, 0.90)'
-            : 'rgba(255, 255, 255, 0.65)',
-          backdropFilter: 'blur(24px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-          border: '1px solid rgba(255, 255, 255, 0.85)',
+          background: isOpen
+            ? 'rgba(255, 255, 255, 0.85)'
+            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.08) 100%)',
+          backdropFilter: 'blur(16px) saturate(160%)',
+          WebkitBackdropFilter: 'blur(16px) saturate(160%)',
+          border: '1px solid rgba(255, 255, 255, 0.45)',
           boxShadow:
-            '0 8px 28px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.9)',
+            '0 8px 32px 0 rgba(0, 0, 0, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.65), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.05)',
           borderRadius: '14px',
           width: '42px',
           height: '42px',
@@ -111,12 +111,12 @@ export const SettingsPanel: React.FC = () => {
               right: 24,
               zIndex: 50,
               width: '240px',
-              backgroundColor: 'rgba(255, 255, 255, 0.75)',
-              backdropFilter: 'blur(24px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-              border: '1px solid rgba(255, 255, 255, 0.85)',
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.12) 100%)',
+              backdropFilter: 'blur(20px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+              border: '1px solid rgba(255, 255, 255, 0.45)',
               boxShadow:
-                '0 16px 40px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
+                '0 16px 48px 0 rgba(0, 0, 0, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.70), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.05)',
               borderRadius: '20px',
               padding: '16px',
               color: '#0f172a',

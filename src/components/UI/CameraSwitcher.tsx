@@ -35,12 +35,12 @@ export const CameraSwitcher: React.FC = () => {
         top: 24,
         right: 24,
         zIndex: 50,
-        backgroundColor: 'rgba(255, 255, 255, 0.65)',
-        backdropFilter: 'blur(24px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-        border: '1px solid rgba(255, 255, 255, 0.85)',
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 100%)',
+        backdropFilter: 'blur(16px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(16px) saturate(160%)',
+        border: '1px solid rgba(255, 255, 255, 0.45)',
         boxShadow:
-          '0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
+          '0 8px 32px 0 rgba(0, 0, 0, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.65), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.05)',
         borderRadius: '20px',
         padding: '12px 14px',
         display: 'flex',
@@ -56,7 +56,7 @@ export const CameraSwitcher: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.25)',
           paddingBottom: '8px',
         }}
       >
@@ -79,13 +79,13 @@ export const CameraSwitcher: React.FC = () => {
             borderRadius: '9999px',
             backgroundColor:
               mode === 'first'
-                ? 'rgba(147, 51, 234, 0.12)'
-                : 'rgba(2, 132, 199, 0.12)',
+                ? 'rgba(147, 51, 234, 0.15)'
+                : 'rgba(2, 132, 199, 0.15)',
             color: mode === 'first' ? '#7e22ce' : '#0284c7',
             border: `1px solid ${
               mode === 'first'
-                ? 'rgba(147, 51, 234, 0.25)'
-                : 'rgba(2, 132, 199, 0.25)'
+                ? 'rgba(147, 51, 234, 0.3)'
+                : 'rgba(2, 132, 199, 0.3)'
             }`,
           }}
         >
@@ -100,17 +100,17 @@ export const CameraSwitcher: React.FC = () => {
           style={{
             background:
               mode === 'first'
-                ? 'rgba(255, 255, 255, 0.95)'
-                : 'rgba(0, 0, 0, 0.04)',
+                ? 'rgba(255, 255, 255, 0.90)'
+                : 'rgba(255, 255, 255, 0.12)',
             border:
               mode === 'first'
-                ? '1px solid rgba(0, 0, 0, 0.12)'
-                : '1px solid rgba(0, 0, 0, 0.06)',
+                ? '1px solid rgba(255, 255, 255, 0.65)'
+                : '1px solid rgba(255, 255, 255, 0.25)',
             boxShadow:
               mode === 'first'
-                ? '0 2px 8px rgba(0, 0, 0, 0.06)'
+                ? '0 2px 8px rgba(0, 0, 0, 0.08)'
                 : 'none',
-            color: mode === 'first' ? '#0f172a' : '#475569',
+            color: mode === 'first' ? '#0f172a' : '#334155',
             padding: '8px 12px',
             borderRadius: '12px',
             cursor: 'pointer',
@@ -141,17 +141,17 @@ export const CameraSwitcher: React.FC = () => {
           style={{
             background:
               mode === 'third'
-                ? 'rgba(255, 255, 255, 0.95)'
-                : 'rgba(0, 0, 0, 0.04)',
+                ? 'rgba(255, 255, 255, 0.90)'
+                : 'rgba(255, 255, 255, 0.12)',
             border:
               mode === 'third'
-                ? '1px solid rgba(0, 0, 0, 0.12)'
-                : '1px solid rgba(0, 0, 0, 0.06)',
+                ? '1px solid rgba(255, 255, 255, 0.65)'
+                : '1px solid rgba(255, 255, 255, 0.25)',
             boxShadow:
               mode === 'third'
-                ? '0 2px 8px rgba(0, 0, 0, 0.06)'
+                ? '0 2px 8px rgba(0, 0, 0, 0.08)'
                 : 'none',
-            color: mode === 'third' ? '#0f172a' : '#475569',
+            color: mode === 'third' ? '#0f172a' : '#334155',
             padding: '8px 12px',
             borderRadius: '12px',
             cursor: 'pointer',

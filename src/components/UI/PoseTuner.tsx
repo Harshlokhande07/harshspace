@@ -53,20 +53,20 @@ export const PoseTuner: React.FC = () => {
           bottom: 24,
           right: 24,
           zIndex: 60,
-          backgroundColor: isOpen
-            ? 'rgba(255, 255, 255, 0.90)'
-            : 'rgba(255, 255, 255, 0.65)',
-          backdropFilter: 'blur(24px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+          background: isOpen
+            ? 'rgba(255, 255, 255, 0.85)'
+            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.08) 100%)',
+          backdropFilter: 'blur(16px) saturate(160%)',
+          WebkitBackdropFilter: 'blur(16px) saturate(160%)',
           color: '#0f172a',
-          border: '1px solid rgba(255, 255, 255, 0.85)',
+          border: '1px solid rgba(255, 255, 255, 0.45)',
           borderRadius: '9999px',
           padding: '8px 16px',
           fontSize: '11px',
           fontFamily: 'monospace',
           fontWeight: 700,
           cursor: 'pointer',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.08), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
+          boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.65)',
         }}
       >
         🔧 Pose Tuner {isOpen ? '▲' : '▼'}
@@ -81,17 +81,18 @@ export const PoseTuner: React.FC = () => {
             width: '320px',
             maxHeight: '480px',
             overflowY: 'auto',
-            backgroundColor: 'rgba(255, 255, 255, 0.75)',
-            backdropFilter: 'blur(24px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-            border: '1px solid rgba(255, 255, 255, 0.85)',
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.12) 100%)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 0.45)',
             borderRadius: '20px',
             padding: '16px',
             color: '#0f172a',
             fontFamily: 'sans-serif',
             fontSize: '12px',
             zIndex: 60,
-            boxShadow: '0 16px 40px rgba(0,0,0,0.12), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
+            boxShadow:
+              '0 16px 48px 0 rgba(0, 0, 0, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.70), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.05)',
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>

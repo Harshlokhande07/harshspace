@@ -40,11 +40,12 @@ export const QuickNavigation: React.FC = () => {
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: 50,
-        backgroundColor: 'rgba(255, 255, 255, 0.65)',
-        backdropFilter: 'blur(24px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-        border: '1px solid rgba(255, 255, 255, 0.85)',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 100%)',
+        backdropFilter: 'blur(16px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(16px) saturate(160%)',
+        border: '1px solid rgba(255, 255, 255, 0.45)',
+        boxShadow:
+          '0 8px 32px 0 rgba(0, 0, 0, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.65), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.05)',
         borderRadius: '9999px',
         padding: '5px 8px',
         display: 'flex',
@@ -72,7 +73,7 @@ export const QuickNavigation: React.FC = () => {
             transition: 'all 0.18s ease',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.07)';
+            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.35)';
             e.currentTarget.style.color = '#000000';
           }}
           onMouseLeave={(e) => {

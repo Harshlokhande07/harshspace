@@ -43,8 +43,9 @@ export const MiniMap: React.FC = () => {
       const width = canvas.width;
       const height = canvas.height;
 
-      // 1. Clear background (clean light frosted blueprint)
-      ctx.fillStyle = 'rgba(241, 245, 249, 0.95)';
+      // 1. Clear background (transparent so 3D world shows through liquid glass)
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
       ctx.fillRect(0, 0, width, height);
 
       // Grid coordinate conversion: (worldX, worldZ) -> (canvasX, canvasY)
@@ -229,11 +230,12 @@ export const MiniMap: React.FC = () => {
         top: 72,
         left: 24,
         zIndex: 45,
-        backgroundColor: 'rgba(255, 255, 255, 0.65)',
-        backdropFilter: 'blur(24px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-        border: '1px solid rgba(255, 255, 255, 0.85)',
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.95)',
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 100%)',
+        backdropFilter: 'blur(16px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(16px) saturate(160%)',
+        border: '1px solid rgba(255, 255, 255, 0.45)',
+        boxShadow:
+          '0 8px 32px 0 rgba(0, 0, 0, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.65), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.05)',
         borderRadius: '20px',
         padding: '10px',
         display: 'flex',
@@ -291,7 +293,7 @@ export const MiniMap: React.FC = () => {
             width: '130px',
             height: '130px',
             borderRadius: '12px',
-            border: '1px solid rgba(15, 23, 42, 0.08)',
+            border: '1px solid rgba(255, 255, 255, 0.35)',
             display: 'block',
           }}
         />
